@@ -25,8 +25,12 @@
   ],
   "samples": [],
   "scripts": {
+    "release": "npm run release-it",
     "pre-release": "npx auto-changelog -p && mv -f CHANGELOG.md ../../docfx_project/documentation/CHANGELOG.md && docfx ../../docfx_project/docfx.json && echo Go create Unity .meta and the .unitypackage before releasing",
     "serve-docs": "docfx ../../docfx_project/docfx.json --serve",
     "build-docs": "docfx ../../docfx_project/docfx.json"
+  },
+  "devDependencies": {
+    "release-it": "^16.2.1"
   }
 }
