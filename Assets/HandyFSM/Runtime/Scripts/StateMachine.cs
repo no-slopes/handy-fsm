@@ -137,7 +137,14 @@ namespace HandyFSM
 
         protected virtual void Start()
         {
-            if (_defaultState != null && !_initalizationMode.Equals(InitializationMode.Automatic)) return;
+            if (!_initalizationMode.Equals(InitializationMode.Automatic)) return;
+
+            if (_defaultState == null)
+            {
+                Debug.LogError($"The machine {name} is marked to initialize automatically but was unable to resolve a default state.", this);
+                return;
+            }
+
             TurnOn(_defaultState);
         }
 
