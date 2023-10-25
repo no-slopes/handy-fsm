@@ -42,6 +42,7 @@ jobs:
       - name: Create upm git tag
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
+          echo Creating tag $TAG
           git tag $TAG upm
           git push origin --tags
         env:
