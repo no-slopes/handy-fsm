@@ -2,19 +2,19 @@ name: CR
 on:
   push:
     branches:
-      - main
+      - bolbas
 jobs:
   release:
-    name: release
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Semantic release
         id: semantic
-        uses: cycjimmy/semantic-release-action@v2
+        uses: cycjimmy/semantic-release-action@v3
         with:
           extra_plugins: |
             @semantic-release/changelog
@@ -42,6 +42,7 @@ jobs:
       - name: Create upm git tag
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
+          echo Creating tag $TAG
           git tag $TAG upm
           git push origin --tags
         env:
