@@ -29,6 +29,7 @@ jobs:
           git subtree split -P "$PKG_ROOT" -b upm
           git checkout upm
           if [[ -d "Samples" ]]; then
+            find Samples -name "*.meta" -type f -delete
             git mv Samples Samples~
             rm -f Samples.meta
             git config --global user.name 'github-bot'
