@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/no-slopes/handy-fsm/compare/v1.0.4...v1.0.5) (2023-10-26)
+
+
+### Bug Fixes
+
+* **cr:** broken upm branch ([3b54247](https://github.com/no-slopes/handy-fsm/commit/3b54247ad258b634c2bb343f7ac206a6d6ec8ad7))
+
 ## [1.0.4](https://github.com/no-slopes/handy-fsm/compare/v1.0.3...v1.0.4) (2023-10-26)
 
 
