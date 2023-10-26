@@ -2,7 +2,7 @@ name: CR
 on:
   push:
     branches:
-      - bolbas
+      - main
 jobs:
   release:
     name: Release
