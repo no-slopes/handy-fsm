@@ -1,5 +1,7 @@
-# Handy FSM
+# Sprite Animations
 
-A finite state machine solution for Unity.
+A smooth and intuitive way to work with spritesheets in Unity.
 
-This is a work in progress
+Please refer to https://no-slopes.github.io/handy-fsm for documentation and showcasing.
+
+Just a test doc so I can verify CR stuff
