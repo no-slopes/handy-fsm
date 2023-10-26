@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/no-slopes/handy-fsm/compare/v1.0.0...v1.0.1) (2023-10-26)
+
+
+### Bug Fixes
+
+* StateMachine was not initializing states ([9f84c3d](https://github.com/no-slopes/handy-fsm/commit/9f84c3d9e9b4f5f7ea9ea28e21cda469ded70d92))
+
 # 1.0.0 (2023-10-26)
 
 
