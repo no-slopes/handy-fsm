@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/no-slopes/handy-fsm/compare/v1.0.6...v1.0.7) (2023-10-26)
+
+
+### Bug Fixes
+
+* CR stuff ([dfc0f07](https://github.com/no-slopes/handy-fsm/commit/dfc0f07b26b112412254e486fc78107863035d9f))
+
 ## [1.0.6](https://github.com/no-slopes/handy-fsm/compare/v1.0.5...v1.0.6) (2023-10-26)
 
 
