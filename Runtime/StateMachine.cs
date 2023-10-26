@@ -533,16 +533,6 @@ namespace HandyFSM
         }
 
         #endregion
-
-        #region Enums
-
-        protected enum InitializationMode
-        {
-            Automatic,
-            Manual
-        }
-
-        #endregion
     }
 
 }
