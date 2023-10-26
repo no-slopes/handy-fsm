@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/no-slopes/handy-fsm/compare/v1.0.2...v1.0.3) (2023-10-26)
+
+
+### Bug Fixes
+
+* Readme file was for sprite animations ([037bddd](https://github.com/no-slopes/handy-fsm/commit/037bdddb97ec19d0db2f1842c491b3a5404cf9a2))
+
 ## [1.0.2](https://github.com/no-slopes/handy-fsm/compare/v1.0.1...v1.0.2) (2023-10-26)
 
 
