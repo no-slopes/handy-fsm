@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/no-slopes/handy-fsm/compare/v1.0.3...v1.0.4) (2023-10-26)
+
+
+### Bug Fixes
+
+* **assembly:** new meta file for HandyFSM assembly ([4cf6a23](https://github.com/no-slopes/handy-fsm/commit/4cf6a231f1d47c3eb4a6577c4cdbaba4956cbca1))
+* **assembly:** recreating ([0b0afdf](https://github.com/no-slopes/handy-fsm/commit/0b0afdf79fe268a70ebd5461e7807868802399fb))
+
 ## [1.0.3](https://github.com/no-slopes/handy-fsm/compare/v1.0.2...v1.0.3) (2023-10-26)
 
 
