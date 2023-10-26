@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/no-slopes/handy-fsm/compare/v1.0.5...v1.0.6) (2023-10-26)
+
+
+### Bug Fixes
+
+* **meta:** recreate the meta files for folder strucutrre ([f27317d](https://github.com/no-slopes/handy-fsm/commit/f27317d235d82ee6b44087ea4c7eca9611d151e1))
+
 ## [1.0.5](https://github.com/no-slopes/handy-fsm/compare/v1.0.4...v1.0.5) (2023-10-26)
 
 
