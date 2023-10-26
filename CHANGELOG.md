@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/no-slopes/handy-fsm/compare/v1.0.8...v1.0.9) (2023-10-26)
+
+
+### Bug Fixes
+
+* **StateMachine:** extracting the InitializationMode ([fd3d1ee](https://github.com/no-slopes/handy-fsm/commit/fd3d1eedb27f243753eb7b105eeb56971ef79b36))
+
 ## [1.0.8](https://github.com/no-slopes/handy-fsm/compare/v1.0.7...v1.0.8) (2023-10-26)
 
 
