@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/no-slopes/handy-fsm/compare/v1.0.1...v1.0.2) (2023-10-26)
+
+
+### Bug Fixes
+
+* package lock was all wrong ([68136be](https://github.com/no-slopes/handy-fsm/commit/68136bea962636fa3ac05b61c54129734958b2ca))
+
 ## [1.0.1](https://github.com/no-slopes/handy-fsm/compare/v1.0.0...v1.0.1) (2023-10-26)
 
 
