@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/no-slopes/handy-fsm/compare/v1.0.7...v1.0.8) (2023-10-26)
+
+
+### Bug Fixes
+
+* meta files conflict with sprite animations ([714d471](https://github.com/no-slopes/handy-fsm/commit/714d471c2eb8e8b58888664d8a4445d9b93646d1))
+
 ## [1.0.7](https://github.com/no-slopes/handy-fsm/compare/v1.0.6...v1.0.7) (2023-10-26)
 
 
