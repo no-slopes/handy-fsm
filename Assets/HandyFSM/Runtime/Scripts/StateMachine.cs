@@ -12,7 +12,10 @@ namespace HandyFSM
     [DefaultExecutionOrder(100)]
     public class StateMachine : MonoBehaviour
     {
-        #region Fields
+        #region Inspector
+
+        [SerializeField]
+        private MachineConfig _config;
 
         /// <summary>
         /// The current machine's status of the MachineStatus enum type. 
