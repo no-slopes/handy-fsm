@@ -3,7 +3,7 @@
   "version": "1.0.9",
   "displayName": "Handy FSM",
   "description": "A solution for working with Finite State Machines in Unity.",
-  "unity": "2019.3",
+  "unity": "2022.3",
   "unityRelease": "0f1",
   "documentationUrl": "https://no-slopes.github.io/handy-fsm",
   "changelogUrl": "https://no-slopes.github.io/handy-fsm/documentation/CHANGELOG.html",
