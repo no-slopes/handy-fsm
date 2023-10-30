@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/no-slopes/handy-fsm/compare/v1.0.9...v1.1.0) (2023-10-30)
+
+
+### Features
+
+* organized the inspector ([161dc9e](https://github.com/no-slopes/handy-fsm/commit/161dc9e3f591cf278c37fbb37d2e364786013977))
+* **PropertyDrawer:** created the property drawer for ([6fc8d73](https://github.com/no-slopes/handy-fsm/commit/6fc8d731404b05cc7bf18b5dab8ec845855f0aa5))
+
 ## [1.0.9](https://github.com/no-slopes/handy-fsm/compare/v1.0.8...v1.0.9) (2023-10-26)
 
 
