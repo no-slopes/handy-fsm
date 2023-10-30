@@ -9,42 +9,15 @@ namespace HandyFSM
     /// <summary>
     /// The state machine
     /// </summary>
-    [DefaultExecutionOrder(100)]
     public class StateMachine : MonoBehaviour
     {
-        #region Fields
-
-        /// <summary>
-        /// The current machine's status of the MachineStatus enum type. 
-        /// </summary>
-        [Tooltip("The current machine's status. Should be On, Off or Paused")]
-        [SerializeField]
-        protected MachineStatus _status = MachineStatus.Off;
-
-        /// <summary>
-        /// The current state name
-        /// </summary>
-        [Tooltip("The machine's current state name")]
-        [SerializeField]
-        protected string _currentStateName;
+        #region Inspector
 
         [SerializeField]
-        protected InitializationMode _initalizationMode = InitializationMode.Automatic;
+        private RuntimeInfo _info;
 
         [SerializeField]
-        protected List<ScriptableState> _scriptableStates;
-
-        [SerializeField]
-        protected ScriptableState _defaultScriptableState;
-
-        [SerializeField]
-        protected UnityEvent<MachineStatus> _statusChanged;
-
-        [SerializeField]
-        protected UnityEvent<IState> _stateChanged;
-
-        [SerializeField]
-        protected StateAnnouncer _stateAnnouncer;
+        private Configuration _config;
 
         #endregion
 
@@ -67,17 +40,17 @@ namespace HandyFSM
         /// <summary>
         /// If the machine is on
         /// </summary>
-        public bool IsOn => _status.Equals(MachineStatus.On);
+        public bool IsOn => _info.Status.Equals(MachineStatus.On);
 
         /// <summary>
         /// If the machine is paused
         /// </summary>
-        public bool IsPaused => _status.Equals(MachineStatus.Paused);
+        public bool IsPaused => _info.Status.Equals(MachineStatus.Paused);
 
         /// <summary>
         /// If the machine is off
         /// </summary>
-        public bool IsOff => _status.Equals(MachineStatus.Off);
+        public bool IsOff => _info.Status.Equals(MachineStatus.Off);
 
         /// <summary>
         /// If the machine is working. Either On or Paused
@@ -87,7 +60,7 @@ namespace HandyFSM
         /// <summary>
         /// A getter for the machine's Status
         /// </summary>
-        public MachineStatus Status => _status;
+        public MachineStatus Status => _info.Status;
 
         /// <summary>
         /// This is the current active state for the this State Machine
@@ -114,12 +87,12 @@ namespace HandyFSM
         /// <summary>
         /// Whenever the machine status changes
         /// </summary>
-        public UnityEvent<MachineStatus> StatusChanged => _statusChanged;
+        public UnityEvent<MachineStatus> StatusChanged => _config.StatusChanged;
 
         /// <summary>
         /// Whenever the current state changes
         /// </summary>
-        public UnityEvent<IState> StateChanged => _stateChanged;
+        public UnityEvent<IState> StateChanged => _config.StateChanged;
 
         #endregion
 
@@ -127,7 +100,7 @@ namespace HandyFSM
 
         protected virtual void Awake()
         {
-            _status = MachineStatus.Off;
+            _info.Status = MachineStatus.Off;
 
             _machineType = GetType();
             _stateProvider = new StateProvider(this);
@@ -137,7 +110,7 @@ namespace HandyFSM
 
         protected virtual void Start()
         {
-            if (!_initalizationMode.Equals(InitializationMode.Automatic)) return;
+            if (!_config.InitalizationMode.Equals(InitializationMode.Automatic)) return;
 
             if (_defaultState == null)
             {
@@ -150,7 +123,7 @@ namespace HandyFSM
 
         protected virtual void Update()
         {
-            if (!_status.Equals(MachineStatus.On)) return;
+            if (!_info.Status.Equals(MachineStatus.On)) return;
 
             EvaluateTransition();
             _currentState?.Tick();
@@ -158,7 +131,7 @@ namespace HandyFSM
 
         protected virtual void LateUpdate()
         {
-            if (!_status.Equals(MachineStatus.On)) return;
+            if (!_info.Status.Equals(MachineStatus.On)) return;
 
             EvaluateTransition();
             _currentState?.LateTick();
@@ -166,7 +139,7 @@ namespace HandyFSM
 
         protected virtual void FixedUpdate()
         {
-            if (!_status.Equals(MachineStatus.On)) return;
+            if (!_info.Status.Equals(MachineStatus.On)) return;
 
             EvaluateTransition();
             _currentState?.FixedTick();
@@ -186,7 +159,7 @@ namespace HandyFSM
         /// </summary>
         protected void RecognizeAndInitializeStates()
         {
-            _stateProvider.LoadStatesFromScriptablesList(_scriptableStates, false);
+            _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
 
             // Get the PropertyInfo for the LoadableStateType property of the machine type
             // for the case of this class being inherited.
@@ -198,10 +171,10 @@ namespace HandyFSM
                 _stateProvider.LoadStatesFromBaseType(baseStateType, false);
             }
 
-            if (_defaultScriptableState != null)
+            if (_config.DefaultScriptableState != null)
             {
                 // If a default scriptable state is set, get the state from the state provider
-                _defaultState = _stateProvider.Get(_defaultScriptableState.GetType());
+                _defaultState = _stateProvider.Get(_config.DefaultScriptableState.GetType());
             }
             else
             {
@@ -295,8 +268,13 @@ namespace HandyFSM
         /// <param name="status"></param>
         public virtual void ChangeStatus(MachineStatus status)
         {
-            _status = status;
-            _statusChanged?.Invoke(_status);
+            _info.Status = status;
+            _config.StatusChanged?.Invoke(_info.Status);
+
+            if (status.Equals(MachineStatus.Off))
+            {
+                _info.CurrentStateName = "None";
+            }
         }
 
         #endregion
@@ -324,7 +302,7 @@ namespace HandyFSM
         /// <param name="forceInterruption"> If an uninterruptible state should be interrupted </param>
         public virtual void RequestStateChange(IState state, StateChangeMode mode = StateChangeMode.Respectfully)
         {
-            if (_status != MachineStatus.On || state == null) return;
+            if (_info.Status != MachineStatus.On || state == null) return;
 
             if (_currentState != null && !_currentState.Interruptible && mode.Equals(StateChangeMode.Respectfully)) return; // State cannot be interrupted, but will if forced.
 
@@ -354,7 +332,7 @@ namespace HandyFSM
         public virtual void EndState(IState target = null)
         {
             // Check if the machine is turned on
-            if (_status != MachineStatus.On)
+            if (_info.Status != MachineStatus.On)
             {
                 Debug.LogError($"Trying to end state on a machine that is not turned on. ", this);
                 return;
@@ -414,13 +392,13 @@ namespace HandyFSM
             _currentState = state;
 
             // Announce the new state
-            _stateChanged.Invoke(_currentState);
+            _config.StateChanged.Invoke(_currentState);
 
             // Invoke the enter action of the new state
             _currentState.OnEnter();
 
             // Update the current state name
-            _currentStateName = CurrentState.Name;
+            _info.CurrentStateName = CurrentState.Name;
         }
 
         /// <summary>
