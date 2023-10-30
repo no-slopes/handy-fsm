@@ -8,14 +8,21 @@ namespace HandyFSM
     /// <summary>
     /// Represents a State controlled by the StateMachine class.
     /// </summary>
-    [DefaultExecutionOrder(200)]
+    [Serializable]
     public abstract class State : IState
     {
         #region Fields
 
+        [SerializeField]
         private string _name;
+
+        [SerializeField]
         private bool _interruptible;
+
+        [SerializeField]
         private StateMachine _machine;
+
+        [SerializeField]
         private List<StateTransition> _transitions = new();
 
         #endregion
