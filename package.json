@@ -23,13 +23,7 @@
     "finite",
     "finite state machine"
   ],
-  "samples": [
-    {
-      "displayName": "Testing samples",
-      "description": "Just a sample testy test!",
-      "path": "Samples~/Test"
-    }
-  ],
+  "samples": [],
   "scripts": {
     "release": "npm run release-it",
     "pre-release": "npx auto-changelog -p && mv -f CHANGELOG.md ../../docfx_project/documentation/CHANGELOG.md && docfx ../../docfx_project/docfx.json && echo Go create Unity .meta and the .unitypackage before releasing",
