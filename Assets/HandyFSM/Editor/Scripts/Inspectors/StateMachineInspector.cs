@@ -1,4 +1,4 @@
-using UnityEngine;
+
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -37,17 +37,6 @@ namespace HandyFSM.Editor
                 while (property.NextVisible(false));
             }
 
-            return container;
-        }
-    }
-
-    [CustomPropertyDrawer(typeof(MachineConfig), true)]
-    public class MachineConfigDrawer : PropertyDrawer
-    {
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
-        {
-            VisualTreeAsset treeAsset = Resources.Load<VisualTreeAsset>("UI Documents/StateMachineInspectorUI");
-            TemplateContainer container = treeAsset.Instantiate();
             return container;
         }
     }

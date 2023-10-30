@@ -371,18 +371,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a100ec448d9a7a49b83f49895c74d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _status: 2
-  _currentStateName: 
-  _initalizationMode: 0
-  _scriptableStates: []
-  _defaultScriptableState: {fileID: 0}
-  _statusChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  _stateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  _stateAnnouncer: {fileID: 0}
+  _info:
+    _status: 2
+    _currentStateName: None
+  _config:
+    _initalizationMode: 1
+    _scriptableStates: []
+    _defaultScriptableState: {fileID: 0}
+    _statusChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    _stateChanged:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!4 &1527480403
 Transform:
   m_ObjectHideFlags: 0
@@ -427,18 +428,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6b7d35bb6f26d47b2e8e68381062b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _status: 2
-  _currentStateName: 
-  _initalizationMode: 0
-  _scriptableStates: []
-  _defaultScriptableState: {fileID: 0}
-  _statusChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  _stateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  _stateAnnouncer: {fileID: 0}
+  _info:
+    _status: 2
+    _currentStateName: None
+  _config:
+    _initalizationMode: 0
+    _scriptableStates: []
+    _defaultScriptableState: {fileID: 0}
+    _statusChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    _stateChanged:
+      m_PersistentCalls:
+        m_Calls: []
   _testFloat: 0
 --- !u!4 &1914156254
 Transform:
