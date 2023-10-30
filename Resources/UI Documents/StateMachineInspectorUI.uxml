@@ -1,8 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/HandyFSM/Resources/Styles/handy-fsm-styles.uss?fileID=7433441132597879392&amp;guid=c8210e453a717ae4483df14a5730d992&amp;type=3#handy-fsm-styles" />
-    <ui:VisualElement name="container" style="align-items: center; height: 100%;">
-        <ui:VisualElement name="float-field-row" class="row field-row" style="width: 100%; flex-direction: column; height: 40px;">
-            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" />
-        </ui:VisualElement>
-    </ui:VisualElement>
-</ui:UXML>
