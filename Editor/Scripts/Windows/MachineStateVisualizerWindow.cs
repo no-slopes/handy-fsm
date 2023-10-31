@@ -1,3 +1,4 @@
+using HandyFSM.Registering;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -77,7 +78,7 @@ namespace HandyFSM.Editor
             _machineSelectorField.RegisterValueChangedCallback((e) =>
             {
                 StateMachine machine = e.newValue as StateMachine;
-                EvaluateMachine(machine);
+                SetMachine(machine);
             });
 
             _fromSelectionButton = _root.Q<Button>("from-selection-button");
@@ -88,89 +89,71 @@ namespace HandyFSM.Editor
                 StateMachine machine = selectedObject.GetComponent<StateMachine>();
                 if (machine == null) return;
                 _machineSelectorField.value = machine;
-                EvaluateMachine(machine);
+                SetMachine(machine);
             };
 
-            EditorApplication.playModeStateChanged += OnPlayModeChange;
-
             LoadMachineFromData();
+            LoadSession();
+
+            EditorApplication.playModeStateChanged += OnEditorModeChanged;
 
             rootVisualElement.Add(_root);
         }
 
         private void OnDisable()
         {
-            EditorApplication.playModeStateChanged -= OnPlayModeChange;
+            EditorApplication.playModeStateChanged -= OnEditorModeChanged;
+            Data.Machine?.StatusChanged.RemoveListener(OnStatusChanged);
+            Data.Machine?.StateChanged.RemoveListener(OnStateChanged);
         }
 
         private void OnDestroy()
         {
-            Data.Machine = null;
+            SetMachine(null);
+            Data.SetSession(null);
         }
 
-        private void OnPlayModeChange(PlayModeStateChange playModeStateChange)
+        private void OnEditorModeChanged(PlayModeStateChange mode)
         {
-            if (playModeStateChange.Equals(PlayModeStateChange.EnteredPlayMode))
-            {
-                Initialize();
-                EvaluateDisplay();
-            }
-            else if (playModeStateChange.Equals(PlayModeStateChange.EnteredEditMode))
-            {
-                LoadMachineFromData();
-                Dismiss();
-            }
+            if (!mode.Equals(PlayModeStateChange.EnteredEditMode)) return;
+            LoadMachineFromData();
+            LoadSession();
         }
 
         #endregion
 
         #region Flow
 
-        private void Initialize()
+        private void InitializeSession()
         {
-            if (Data.Machine == null) return;
+            if (Data.Machine == null)
+            {
+                Data.SetSession(null);
+                return;
+            }
 
-            _stateVisualizer.Initialize(Data.Machine.GetAllStates());
+            Data.SetSession(new Session(Data.Machine, 100));
+            _stateVisualizer.LoadSession(Data.Session);
+
             if (Data.Machine.CurrentState != null)
             {
-                BuildStateView(Data.Machine.CurrentState, Data.Machine.PreviousState);
+                SetState(Data.Machine.CurrentState, Data.Machine.PreviousState);
             }
 
             Data.Machine.StateChanged.AddListener(OnStateChanged);
         }
 
-        private void Dismiss()
-        {
-            _stateVisualizer.Dismiss();
-
-            if (Data.Machine != null)
-            {
-                Data.Machine.StateChanged.RemoveListener(OnStateChanged);
-            }
-        }
-
         private void EvaluateDisplay()
         {
-            if (Data.Machine != null && EditorApplication.isPlaying)
+            if (Data.Machine == null)
             {
-                _enterPlayModeContainer.style.display = DisplayStyle.None;
-                _selectStateMachineContainer.style.display = DisplayStyle.None;
-                _stateVisualizerRoot.style.display = DisplayStyle.Flex;
-                return;
-            }
-            else if (Data.Machine != null && !EditorApplication.isPlaying)
-            {
-                _enterPlayModeContainer.style.display = DisplayStyle.Flex;
-                _selectStateMachineContainer.style.display = DisplayStyle.None;
-                _stateVisualizerRoot.style.display = DisplayStyle.None;
-                return;
-            }
-            else if (Data.Machine == null)
-            {
-                _enterPlayModeContainer.style.display = DisplayStyle.None;
                 _selectStateMachineContainer.style.display = DisplayStyle.Flex;
                 _stateVisualizerRoot.style.display = DisplayStyle.None;
-                return;
+            }
+            else
+            {
+                _selectStateMachineContainer.style.display = DisplayStyle.None;
+                _stateVisualizerRoot.style.display = DisplayStyle.Flex;
             }
         }
 
@@ -178,46 +161,76 @@ namespace HandyFSM.Editor
 
         #region Machine
 
-        public void EvaluateMachine(StateMachine machine)
+        public void SetMachine(StateMachine machine)
         {
-            Data.Machine = machine;
+            Data.Machine?.StatusChanged.RemoveListener(OnStatusChanged);
+
+            Data.SetMachine(machine);
+
+            if (Data.Machine != null)
+            {
+                Data.Machine.StatusChanged.AddListener(OnStatusChanged);
+            }
+
             EvaluateDisplay();
         }
 
         private void LoadMachineFromData()
         {
-            if (Data.Machine == null)
+            if (Data.Machine != null)
             {
-                if (Data.MachineObj != null)
-                {
-                    StateMachine machine = Data.MachineObj.GetComponent<StateMachine>();
-                    Data.Machine = machine.gameObject.GetComponent<StateMachine>();
-                    _machineSelectorField.value = null;
-                    _machineSelectorField.value = machine;
-                }
-            }
-            else
-            {
-                StateMachine machine = Data.Machine;
                 _machineSelectorField.value = null;
-                _machineSelectorField.value = machine;
+                _machineSelectorField.value = Data.Machine;
+                EvaluateDisplay();
+                return;
             }
 
-            EvaluateDisplay();
+            if (Data.MachineObj == null)
+            {
+                _machineSelectorField.value = null;
+                EvaluateDisplay(); return;
+            }
+
+            if (!Data.MachineObj.TryGetComponent<StateMachine>(out var machine))
+            {
+                _machineSelectorField.value = null;
+                EvaluateDisplay();
+                return;
+            }
+
+            _machineSelectorField.value = null;
+            _machineSelectorField.value = machine;
+            SetMachine(machine);
+        }
+
+        private void LoadSession()
+        {
+            if (Data.Machine == null || Data.Session == null) return;
+            _stateVisualizer.LoadSession(Data.Session);
+        }
+
+        private void OnStatusChanged(MachineStatus status)
+        {
+            switch (status)
+            {
+                case MachineStatus.On:
+                    InitializeSession();
+                    break;
+            }
         }
 
         #endregion
 
         #region States
 
-        private void BuildStateView(IState state, IState previous)
+        private void SetState(IState state, IState previous)
         {
-            _stateVisualizer.BuildView(state, previous);
+            _stateVisualizer.RegisterState(state);
         }
 
         private void OnStateChanged(IState state, IState previous)
         {
-            BuildStateView(state, previous);
+            SetState(state, previous);
         }
 
         #endregion
