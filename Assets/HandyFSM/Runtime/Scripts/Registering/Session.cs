@@ -74,18 +74,19 @@ namespace HandyFSM.Registering
 
         #region Registering
 
-        public void Register(IState state)
+        public Record Register(IState state)
         {
             IState previousState = _currentState;
             _currentState = state;
-            Record newRecord = new(previousState, state);
+            Record record = new(previousState, state);
 
             if (_records.Count >= _size)
             {
                 _records.RemoveAt(0);
             }
 
-            _records.Add(newRecord);
+            _records.Add(record);
+            return record;
         }
 
         #endregion

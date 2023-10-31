@@ -1,3 +1,4 @@
+using HandyFSM.Registering;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,26 +11,33 @@ namespace HandyFSM.Editor
         private StateMachine _machine;
 
         [SerializeField]
-        GameObject _machineObj;
+        private GameObject _machineObj;
 
-        public StateMachine Machine
+        [SerializeField]
+        private Session _session;
+
+        public StateMachine Machine => _machine;
+        public GameObject MachineObj => _machineObj;
+        public Session Session => _session;
+
+
+        public void SetMachine(StateMachine machine)
         {
-            get => _machine;
-            set
+            _machine = machine;
+            if (_machine != null)
             {
-                _machine = value;
-                if (_machine != null)
-                {
-                    _machineObj = _machine.gameObject;
-                }
-                else
-                {
-                    _machineObj = null;
-                }
+                _machineObj = _machine.gameObject;
+            }
+            else
+            {
+                _machineObj = null;
             }
         }
 
-        public GameObject MachineObj => _machineObj;
+        public void SetSession(Session session)
+        {
+            _session = session;
+        }
 
     }
 }
