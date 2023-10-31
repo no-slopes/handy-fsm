@@ -19,12 +19,15 @@ namespace HandyFSM
         [ContextMenu("Open Visualizer")]
         void DoSomething()
         {
-            var window = MachineStateVisualizerWindow.OpenEditorWindow(this);
-            window.SetMachine(this);
+            var window = MachineStateVisualizerWindow.OpenEditorWindow();
+            window.MachineSelectorField.value = this;
         }
 #endif
 
         #region Inspector
+
+        // [SerializeField]
+        // private float _bla;
 
         [SerializeField]
         private RuntimeInfo _info;
