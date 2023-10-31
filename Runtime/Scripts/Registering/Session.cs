@@ -59,10 +59,6 @@ namespace HandyFSM.Registering
             DateTime currentDateTime = DateTime.Now;
             _date = currentDateTime.ToShortDateString();
             _time = currentDateTime.ToShortTimeString();
-
-            Debug.Log("Session created!");
-            Debug.Log($"Date: {_date}");
-            Debug.Log($"Time: {_time}");
         }
 
         #endregion
