@@ -44,7 +44,7 @@ namespace HandyFSM.Registering
 
         #region Consctructors
 
-        public Record(IState from, IState state, float at)
+        public Record(IState from, IState state)
         {
             if (from is State)
             {

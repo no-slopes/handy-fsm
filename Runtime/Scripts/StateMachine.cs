@@ -4,6 +4,10 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
+using HandyFSM.Editor;
+#endif
+
 namespace HandyFSM
 {
     /// <summary>
@@ -11,6 +15,15 @@ namespace HandyFSM
     /// </summary>
     public class StateMachine : MonoBehaviour
     {
+#if UNITY_EDITOR
+        [ContextMenu("Open Visualizer")]
+        void DoSomething()
+        {
+            var window = MachineStateVisualizerWindow.OpenEditorWindow(this);
+            window.SetMachine(this);
+        }
+#endif
+
         #region Inspector
 
         [SerializeField]
@@ -31,11 +44,17 @@ namespace HandyFSM
         protected IState _currentState;
         protected IState _previousState;
 
+        protected bool _isInitialized;
         protected StateProvider _stateProvider;
 
         #endregion
 
         #region Getters
+
+        /// <summary>
+        /// If the machine is already
+        /// </summary>
+        public bool IsInitialized => _isInitialized;
 
         /// <summary>
         /// If the machine is on
@@ -92,7 +111,7 @@ namespace HandyFSM
         /// <summary>
         /// Whenever the current state changes
         /// </summary>
-        public UnityEvent<IState> StateChanged => _config.StateChanged;
+        public UnityEvent<IState, IState> StateChanged => _config.StateChanged;
 
         #endregion
 
@@ -106,6 +125,7 @@ namespace HandyFSM
             _stateProvider = new StateProvider(this);
 
             RecognizeAndInitializeStates();
+            _isInitialized = true;
         }
 
         protected virtual void Start()
@@ -147,7 +167,7 @@ namespace HandyFSM
 
         protected virtual void OnDisable()
         {
-            _currentState?.OnExit(); // Exiting current state
+            Stop();
         }
 
         #endregion
@@ -392,7 +412,7 @@ namespace HandyFSM
             _currentState = state;
 
             // Announce the new state
-            _config.StateChanged.Invoke(_currentState);
+            _config.StateChanged.Invoke(_currentState, _previousState);
 
             // Invoke the enter action of the new state
             _currentState.OnEnter();
@@ -508,6 +528,18 @@ namespace HandyFSM
         public bool TryGetState<T>(out IState state) where T : IState
         {
             return _stateProvider.TryGet<T>(out state);
+        }
+
+        /// <summary>
+        /// Gets all states loaded into this machine. 
+        /// This can have an expensive performance since
+        /// it iterates all states in the state provider in order to 
+        /// form a list. Never use this method in a loop.
+        /// </summary>
+        /// <returns>A list of IState objects.</returns>
+        public List<IState> GetAllStates()
+        {
+            return _stateProvider.GetAllStates();
         }
 
         #endregion

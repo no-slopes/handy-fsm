@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,16 @@ namespace HandyFSM.Registering
         #region Inspector
 
         [SerializeField]
+        private string _date;
+
+        [SerializeField]
+        private string _time;
+
+        [SerializeField]
         private StateMachine _machine;
+
+        [SerializeField]
+        private List<IState> _states;
 
         [SerializeField]
         private List<Record> _records;
@@ -28,6 +38,9 @@ namespace HandyFSM.Registering
 
         #region Getters
 
+        public string Date => _date;
+        public string Time => _time;
+
         public StateMachine Machine => _machine;
         public List<Record> Records => _records;
         public float Duration => _duration;
@@ -41,6 +54,15 @@ namespace HandyFSM.Registering
             _machine = machine;
             _records = new List<Record>();
             _size = size;
+            _states = machine.GetAllStates();
+
+            DateTime currentDateTime = DateTime.Now;
+            _date = currentDateTime.ToShortDateString();
+            _time = currentDateTime.ToShortTimeString();
+
+            Debug.Log("Session created!");
+            Debug.Log($"Date: {_date}");
+            Debug.Log($"Time: {_time}");
         }
 
         #endregion
@@ -60,7 +82,7 @@ namespace HandyFSM.Registering
         {
             IState previousState = _currentState;
             _currentState = state;
-            Record newRecord = new(previousState, state, Time.time);
+            Record newRecord = new(previousState, state);
 
             if (_records.Count >= _size)
             {

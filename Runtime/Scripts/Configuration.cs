@@ -22,7 +22,7 @@ namespace HandyFSM
         private UnityEvent<MachineStatus> _statusChanged;
 
         [SerializeField]
-        private UnityEvent<IState> _stateChanged;
+        private UnityEvent<IState, IState> _stateChanged;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace HandyFSM
         public List<ScriptableState> ScriptableStates { get => _scriptableStates; set => _scriptableStates = value; }
         public ScriptableState DefaultScriptableState { get => _defaultScriptableState; set => _defaultScriptableState = value; }
         public UnityEvent<MachineStatus> StatusChanged { get => _statusChanged; set => _statusChanged = value; }
-        public UnityEvent<IState> StateChanged { get => _stateChanged; set => _stateChanged = value; }
+        public UnityEvent<IState, IState> StateChanged { get => _stateChanged; set => _stateChanged = value; }
 
         #endregion
     }

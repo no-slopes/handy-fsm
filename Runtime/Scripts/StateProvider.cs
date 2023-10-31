@@ -180,6 +180,11 @@ namespace HandyFSM
             return _states.TryGetValue(typeof(T), out state);
         }
 
+        public List<IState> GetAllStates()
+        {
+            return _states.Values.ToList();
+        }
+
         #endregion
     }
 }
