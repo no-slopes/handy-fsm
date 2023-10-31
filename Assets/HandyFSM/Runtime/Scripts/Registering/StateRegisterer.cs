@@ -53,7 +53,7 @@ namespace HandyFSM.Registering
 
         #region Callbacks
 
-        private void OnStateChanged(IState newState)
+        private void OnStateChanged(IState newState, IState previous)
         {
             _registry.Register(newState);
         }

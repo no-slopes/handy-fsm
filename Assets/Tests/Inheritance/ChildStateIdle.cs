@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildStateIdle : ChildState
+public class ChildStateIdle : ChildStateGrounded
 {
     protected override void OnInit()
     {
@@ -21,7 +21,6 @@ public class ChildStateIdle : ChildState
     public override void OnExit()
     {
         base.OnExit();
-        Debug.Log($"Leaving Idle state");
     }
 
     private IEnumerator WaitAndRun()

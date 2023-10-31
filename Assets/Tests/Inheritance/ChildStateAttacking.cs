@@ -21,7 +21,6 @@ public class ChildStateAttacking : ChildState
     public override void OnExit()
     {
         base.OnExit();
-        Debug.Log($"Leaving Attack state");
     }
 
     private IEnumerator WaitAndIdle()

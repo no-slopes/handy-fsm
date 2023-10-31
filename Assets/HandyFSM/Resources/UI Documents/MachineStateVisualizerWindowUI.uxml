@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/HandyFSM/Resources/Styles/handy-fsm-registry-styles.uss?fileID=7433441132597879392&amp;guid=e0b8191b3304b3644996951f0b098788&amp;type=3#handy-fsm-registry-styles" />
+    <Style src="project://database/Assets/HandyFSM/Resources/Styles/handy-fsm-state-visualizer-styles.uss?fileID=7433441132597879392&amp;guid=c0cba953c30d3874e94d876d78642302&amp;type=3#handy-fsm-state-visualizer-styles" />
+    <ui:VisualElement name="header" style="flex-grow: 0; height: 40px;" />
+    <ui:VisualElement name="select-a-machine-container" style="flex-grow: 1;" />
+</ui:UXML>

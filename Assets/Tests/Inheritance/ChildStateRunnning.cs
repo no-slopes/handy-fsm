@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildStateRunnning : ChildState
+public class ChildStateRunnning : ChildStateGrounded
 {
     protected override void OnInit()
     {
@@ -21,7 +21,6 @@ public class ChildStateRunnning : ChildState
     public override void OnExit()
     {
         base.OnExit();
-        Debug.Log($"Leaving Running state");
     }
 
     private IEnumerator WaitAndAttack()
