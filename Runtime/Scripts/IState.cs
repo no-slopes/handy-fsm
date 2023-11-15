@@ -12,8 +12,8 @@ namespace HandyFSM
 
         void Initialize(StateMachine machine);
 
-        void OnEnter();
-        void OnExit();
+        void Enter();
+        void Exit();
         void Tick();
         void FixedTick();
         void LateTick();

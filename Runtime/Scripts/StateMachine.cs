@@ -279,7 +279,7 @@ namespace HandyFSM
         {
             if (!IsWorking) return;
 
-            _currentState?.OnExit();
+            _currentState?.Exit();
             _currentState = null;
 
             ChangeStatus(MachineStatus.Off);
@@ -376,7 +376,7 @@ namespace HandyFSM
             }
 
             // Invoke the exit action of the current state
-            _currentState?.OnExit();
+            _currentState?.Exit();
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace HandyFSM
             _previousState = _currentState;
 
             // Invoke the exit action of the current state
-            _currentState?.OnExit();
+            _currentState?.Exit();
 
             // Change the current state
             _currentState = state;
@@ -418,7 +418,7 @@ namespace HandyFSM
             _config.StateChanged.Invoke(_currentState, _previousState);
 
             // Invoke the enter action of the new state
-            _currentState.OnEnter();
+            _currentState.Enter();
 
             // Update the current state name
             _info.CurrentStateName = CurrentState.Name;
