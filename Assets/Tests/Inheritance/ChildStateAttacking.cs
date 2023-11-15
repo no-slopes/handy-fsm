@@ -4,23 +4,19 @@ using UnityEngine;
 
 public class ChildStateAttacking : ChildState
 {
-    protected override void OnInit()
+    protected void OnInit()
     {
-        base.OnInit();
         SetInterruptible(true);
         SetName("Attacking");
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
-        base.OnEnter();
-
         Machine.StartCoroutine(WaitAndIdle());
     }
 
-    public override void OnExit()
+    public void OnExit()
     {
-        base.OnExit();
     }
 
     private IEnumerator WaitAndIdle()

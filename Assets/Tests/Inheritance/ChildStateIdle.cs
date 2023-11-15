@@ -4,23 +4,32 @@ using UnityEngine;
 
 public class ChildStateIdle : ChildStateGrounded
 {
-    protected override void OnInit()
+    protected void OnInit()
     {
-        base.OnInit();
         SetInterruptible(true);
         SetName("Idle");
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
-        base.OnEnter();
-
         Machine.StartCoroutine(WaitAndRun());
     }
 
-    public override void OnExit()
+    public void OnExit()
     {
-        base.OnExit();
+
+    }
+
+    public void OnTick()
+    {
+    }
+
+    public void OnFixedTick()
+    {
+    }
+
+    public void OnLateTick()
+    {
     }
 
     private IEnumerator WaitAndRun()
