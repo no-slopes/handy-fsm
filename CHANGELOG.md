@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/no-slopes/handy-fsm/compare/v1.3.0...v1.4.0) (2023-11-15)
+
+
+### Features
+
+* GenericMachineBehaviour ([8c91102](https://github.com/no-slopes/handy-fsm/commit/8c9110263e23c4e5fa7e3a7483e150ec88407714))
+
 # [1.3.0](https://github.com/no-slopes/handy-fsm/compare/v1.2.0...v1.3.0) (2023-11-15)
 
 
