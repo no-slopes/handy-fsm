@@ -6,11 +6,11 @@ namespace HandyFSM
     {
         bool Interruptible { get; }
         string Name { get; }
-        StateMachine Machine { get; }
+        StateMachineBehaviour Machine { get; }
 
         bool ShouldTransition(out IState target);
 
-        void Initialize(StateMachine machine);
+        void Initialize(StateMachineBehaviour machine);
 
         void Enter();
         void Exit();

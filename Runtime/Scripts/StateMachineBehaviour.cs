@@ -11,36 +11,31 @@ using HandyFSM.Editor;
 namespace HandyFSM
 {
     /// <summary>
-    /// The state machine
+    /// The state machine base class
     /// </summary>
-    public class StateMachine : MonoBehaviour
+    [AddComponentMenu("HandyFSM/State Machine")]
+    public class StateMachineBehaviour : MonoBehaviour
     {
 #if UNITY_EDITOR
-        [ContextMenu("Open Visualizer")]
-        void DoSomething()
-        {
-            var window = MachineStateVisualizerWindow.OpenEditorWindow();
-            window.MachineSelectorField.value = this;
-        }
+        // [ContextMenu("Open Visualizer")]
+        // void DoSomething()
+        // {
+        //     var window = MachineStateVisualizerWindow.OpenEditorWindow();
+        //     window.MachineSelectorField.value = this;
+        // }
 #endif
 
         #region Inspector
 
-        // [SerializeField]
-        // private float _bla;
+        [SerializeField]
+        protected RuntimeInfo _info;
 
         [SerializeField]
-        private RuntimeInfo _info;
-
-        [SerializeField]
-        private Configuration _config;
+        protected Configuration _config;
 
         #endregion
 
         #region Fields        
-
-        protected Type _machineType;
-        protected Type _defaultStateType;
 
         protected IState _defaultState;
 
@@ -53,6 +48,12 @@ namespace HandyFSM
         #endregion
 
         #region Getters
+
+        /// <summary>
+        /// The state machine Owner trandform. If not defined on inspector it will be the Transform
+        /// of the GameObject in which the script is attached
+        /// </summary>
+        public Transform Owner => _config.Owner != null ? _config.Owner : transform;
 
         /// <summary>
         /// If the machine is already
@@ -124,11 +125,19 @@ namespace HandyFSM
         {
             _info.Status = MachineStatus.Off;
 
-            _machineType = GetType();
             _stateProvider = new StateProvider(this);
+            _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
 
-            RecognizeAndInitializeStates();
+            Type machineType = GetType();
+
+            MethodInfo beforeInitializeMethod = machineType.GetMethod("BeforeInitialized", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            beforeInitializeMethod?.Invoke(this, null);
+
+            _stateProvider.InitializeAllStates();
             _isInitialized = true;
+
+            MethodInfo afterInitializedMethod = machineType.GetMethod("AfterInitialized", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            afterInitializedMethod?.Invoke(this, null);
         }
 
         protected virtual void Start()
@@ -176,46 +185,6 @@ namespace HandyFSM
         #endregion
 
         #region Machine Engine
-
-        /// <summary>
-        /// This method recognizes and initializes the states for the machine.
-        /// </summary>
-        protected void RecognizeAndInitializeStates()
-        {
-            _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
-
-            // Get the PropertyInfo for the LoadableStateType property of the machine type
-            // for the case of this class being inherited.
-            PropertyInfo loadableStateInfo = _machineType.GetProperty("LoadableStateType");
-            if (loadableStateInfo != null)
-            {
-                // Get the loadable state type and load states from that base type
-                Type baseStateType = (Type)loadableStateInfo.GetValue(this);
-                _stateProvider.LoadStatesFromBaseType(baseStateType, false);
-            }
-
-            if (_config.DefaultScriptableState != null)
-            {
-                // If a default scriptable state is set, get the state from the state provider
-                _defaultState = _stateProvider.Get(_config.DefaultScriptableState.GetType());
-            }
-            else
-            {
-                // Get the PropertyInfo for the DefaultStateType property of the machine type
-                PropertyInfo defaultStateInfo = _machineType.GetProperty("DefaultStateType");
-                if (defaultStateInfo != null)
-                {
-                    // Get the default state type and get the state from the state provider
-                    _defaultStateType = (Type)defaultStateInfo.GetValue(this);
-                    _defaultState = _stateProvider.Get(_defaultStateType);
-                }
-            }
-
-            // Initialize all the states
-            // This should occur after the states have been loaded so they can recognize each other
-            // when using Machine.GetState<>();
-            _stateProvider.InitializeAllStates();
-        }
 
         /// <summary>
         /// Turns the machine on and enters the given state
@@ -309,7 +278,7 @@ namespace HandyFSM
         /// </summary>
         /// <typeparam name="T">The type to cast to.</typeparam>
         /// <returns>The instance casted to the specified type.</returns>
-        public T As<T>() where T : StateMachine
+        public T As<T>() where T : StateMachineBehaviour
         {
             return this as T;
         }
