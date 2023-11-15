@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/no-slopes/handy-fsm/compare/v1.1.0...v1.2.0) (2023-10-31)
+
+
+### Features
+
+* stateregisterer now working ([072b444](https://github.com/no-slopes/handy-fsm/commit/072b44402099d1c151f0a99c4a9a4c488a79a399))
+
 # [1.1.0](https://github.com/no-slopes/handy-fsm/compare/v1.0.9...v1.1.0) (2023-10-30)
 
 
