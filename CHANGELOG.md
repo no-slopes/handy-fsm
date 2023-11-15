@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/no-slopes/handy-fsm/compare/v1.2.0...v1.3.0) (2023-11-15)
+
+
+### Features
+
+* Cycle methods are now reflection ([b67bfef](https://github.com/no-slopes/handy-fsm/commit/b67bfef40b57ddd9f3cefede60ea20c668a80545))
+
 # [1.2.0](https://github.com/no-slopes/handy-fsm/compare/v1.1.0...v1.2.0) (2023-10-31)
 
 
