@@ -3,12 +3,9 @@ using HandyFSM;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class Child : StateMachine
+public class Child : GenericMachineBehaviour<ChildState, ChildStateIdle>
 {
     [BoxGroup("Test")]
     [SerializeField]
     private float _testFloat;
-
-    public Type LoadableStateType => typeof(ChildState);
-    public Type DefaultStateType => typeof(ChildStateIdle);
 }

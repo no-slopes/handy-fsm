@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using System;
 
 namespace HandyFSM.Editor
 {
@@ -12,6 +13,12 @@ namespace HandyFSM.Editor
         {
             VisualTreeAsset treeAsset = Resources.Load<VisualTreeAsset>("UI Documents/ConfigurationUI");
             TemplateContainer container = treeAsset.Instantiate();
+
+            VisualElement separator = container.Q<VisualElement>("separator");
+            Type targetType = property.serializedObject.targetObject.GetType();
+            if (targetType == typeof(StateMachineBehaviour))
+                separator.style.display = DisplayStyle.None;
+
             return container;
         }
     }
