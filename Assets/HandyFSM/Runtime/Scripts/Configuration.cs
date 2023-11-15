@@ -10,6 +10,9 @@ namespace HandyFSM
         #region Inspector
 
         [SerializeField]
+        private Transform _owner;
+
+        [SerializeField]
         private InitializationMode _initalizationMode = InitializationMode.Automatic;
 
         [SerializeField]
@@ -28,6 +31,7 @@ namespace HandyFSM
 
         #region Properties
 
+        public Transform Owner => _owner;
         public InitializationMode InitalizationMode { get => _initalizationMode; set => _initalizationMode = value; }
         public List<ScriptableState> ScriptableStates { get => _scriptableStates; set => _scriptableStates = value; }
         public ScriptableState DefaultScriptableState { get => _defaultScriptableState; set => _defaultScriptableState = value; }

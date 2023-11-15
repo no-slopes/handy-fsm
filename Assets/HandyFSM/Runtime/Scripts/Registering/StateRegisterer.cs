@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace HandyFSM.Registering
 {
-    [RequireComponent(typeof(StateMachine))]
+    [RequireComponent(typeof(StateMachineBehaviour))]
     public class StateRegisterer : MonoBehaviour
     {
         #region Inspector
@@ -14,7 +14,7 @@ namespace HandyFSM.Registering
 
         #region Fields
 
-        private StateMachine _machine;
+        private StateMachineBehaviour _machine;
         private float _sessionDuration;
 
         #endregion
@@ -23,7 +23,7 @@ namespace HandyFSM.Registering
 
         private void Awake()
         {
-            _machine = GetComponent<StateMachine>();
+            _machine = GetComponent<StateMachineBehaviour>();
         }
 
         private void Start()

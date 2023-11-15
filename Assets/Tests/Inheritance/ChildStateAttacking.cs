@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using HandyFSM;
 using UnityEngine;
 
-public class ChildStateAttacking : ChildState
+[CreateAssetMenu(fileName = "Attacking State", menuName = "FSM/Attacking State")]
+public class ChildStateAttacking : ScriptableState
 {
-    protected void OnInit()
-    {
-        SetInterruptible(true);
-        SetName("Attacking");
-    }
 
     public void OnEnter()
     {
