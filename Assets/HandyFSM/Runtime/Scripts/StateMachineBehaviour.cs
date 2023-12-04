@@ -4,10 +4,6 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 
-#if UNITY_EDITOR
-using HandyFSM.Editor;
-#endif
-
 namespace HandyFSM
 {
     /// <summary>
