@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/no-slopes/handy-fsm/compare/v1.4.2...v1.4.3) (2023-12-04)
+
+
+### Bug Fixes
+
+* Machine must change status to on before changing ([e52de1b](https://github.com/no-slopes/handy-fsm/commit/e52de1b51ed86f0d71726c6d84a0b4a363a48ed5))
+
 ## [1.4.2](https://github.com/no-slopes/handy-fsm/compare/v1.4.1...v1.4.2) (2023-12-04)
 
 
