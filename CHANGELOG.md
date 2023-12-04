@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/no-slopes/handy-fsm/compare/v1.4.0...v1.4.1) (2023-12-04)
+
+
+### Bug Fixes
+
+* building problem ([b3626e1](https://github.com/no-slopes/handy-fsm/commit/b3626e125a17d939e5fc357135baf0b64050f8d4))
+
 # [1.4.0](https://github.com/no-slopes/handy-fsm/compare/v1.3.0...v1.4.0) (2023-11-15)
 
 
