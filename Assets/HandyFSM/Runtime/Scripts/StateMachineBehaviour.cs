@@ -215,8 +215,8 @@ namespace HandyFSM
                 return;
             }
 
-            ChangeState(state);
             ChangeStatus(MachineStatus.On);
+            ChangeState(state);
         }
 
         /// <summary>
