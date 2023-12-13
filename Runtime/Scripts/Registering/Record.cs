@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace HandyFSM.Registering
@@ -23,7 +22,6 @@ namespace HandyFSM.Registering
         [SerializeField]
         private ScriptableState _scriptableState;
 
-        [Button()]
         public void DisplayStateName()
         {
             Debug.Log($"{_state.Name}");
