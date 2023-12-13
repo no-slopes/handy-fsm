@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/no-slopes/handy-fsm/compare/v1.4.3...v1.4.4) (2023-12-13)
+
+
+### Bug Fixes
+
+* Removing odin dependencies ([03c0606](https://github.com/no-slopes/handy-fsm/commit/03c060671371f3d970448e6bec80c5d69c317238))
+
 ## [1.4.3](https://github.com/no-slopes/handy-fsm/compare/v1.4.2...v1.4.3) (2023-12-04)
 
 
