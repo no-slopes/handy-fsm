@@ -132,7 +132,6 @@ namespace HandyFSM
             beforeInitializeMethod?.Invoke(this, null);
 
             _stateProvider.InitializeAllStates();
-
             _isInitialized = true;
 
             MethodInfo afterInitializedMethod = machineType.GetMethod("AfterInitialized", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
