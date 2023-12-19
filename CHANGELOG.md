@@ -1,3 +1,10 @@
+## [1.4.7](https://github.com/no-slopes/handy-fsm/compare/v1.4.6...v1.4.7) (2023-12-19)
+
+
+### Bug Fixes
+
+* StateMachineBehaviour not able to get state by type ([6fd5242](https://github.com/no-slopes/handy-fsm/commit/6fd52428e58efc640626305a9954c99dc28d2dbd))
+
 ## [1.4.6](https://github.com/no-slopes/handy-fsm/compare/v1.4.5...v1.4.6) (2023-12-19)
 
 
