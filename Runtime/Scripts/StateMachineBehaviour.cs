@@ -126,12 +126,15 @@ namespace HandyFSM
 
             Type machineType = GetType();
 
-            _defaultState = _config.DefaultScriptableState;
 
             MethodInfo beforeInitializeMethod = machineType.GetMethod("BeforeInitialized", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             beforeInitializeMethod?.Invoke(this, null);
 
             _stateProvider.InitializeAllStates();
+
+            if (_config.DefaultScriptableState != null)
+                _defaultState = _stateProvider.Get(_config.DefaultScriptableState.GetType());
+
             _isInitialized = true;
 
             MethodInfo afterInitializedMethod = machineType.GetMethod("AfterInitialized", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
