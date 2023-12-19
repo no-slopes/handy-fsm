@@ -1,3 +1,10 @@
+## [1.4.6](https://github.com/no-slopes/handy-fsm/compare/v1.4.5...v1.4.6) (2023-12-19)
+
+
+### Bug Fixes
+
+* StateMachineBehaviour not loading the default scriptable state ([5c4eb08](https://github.com/no-slopes/handy-fsm/commit/5c4eb084c2e1b48605e5a1a9359a99234151f3ec))
+
 ## [1.4.5](https://github.com/no-slopes/handy-fsm/compare/v1.4.4...v1.4.5) (2023-12-19)
 
 
