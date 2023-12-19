@@ -482,6 +482,28 @@ namespace HandyFSM
         }
 
         /// <summary>
+        /// Retrieves the state of the specified type.
+        /// </summary>
+        /// <param name="stateType">The type of the state to retrieve.</param>
+        /// <returns>The state of the specified type.</returns>
+        public IState GetState(Type stateType)
+        {
+            // Use the _stateProvider to get the state of the specified type.
+            return _stateProvider.Get(stateType);
+        }
+
+        /// <summary>
+        /// Tries to get the state of the specified type.
+        /// </summary>
+        /// <param name="stateType">The type of the state to get.</param>
+        /// <param name="state">When this method returns, contains the state associated with the specified type, if found; otherwise, null.</param>
+        /// <returns><c>true</c> if the state of the specified type was found; otherwise, <c>false</c>.</returns>
+        public bool TryGetState(Type stateType, out IState state)
+        {
+            return _stateProvider.TryGet(stateType, out state);
+        }
+
+        /// <summary>
         /// Retrieves the state of type T loaded into this machine.
         /// </summary>
         /// <typeparam name="T">The type of state to retrieve.</typeparam>
