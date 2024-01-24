@@ -410,40 +410,6 @@ namespace HandyFSM
 
         #endregion
 
-        #region Collisions
-
-        protected virtual void OnCollisionEnter2D(Collision2D collision)
-        {
-            _currentState?.OnCollisionEnter2D(collision);
-        }
-
-        protected virtual void OnCollisionStay2D(Collision2D collision)
-        {
-            _currentState?.OnCollisionStay2D(collision);
-        }
-
-        protected virtual void OnCollisionExit2D(Collision2D collision)
-        {
-            _currentState?.OnCollisionExit2D(collision);
-        }
-
-        protected virtual void OnTriggerEnter2D(Collider2D other)
-        {
-            _currentState?.OnTriggerEnter2D(other);
-        }
-
-        protected virtual void OnTriggerStay2D(Collider2D other)
-        {
-            _currentState?.OnTriggerStay2D(other);
-        }
-
-        protected virtual void OnTriggerExit2D(Collider2D other)
-        {
-            _currentState?.OnTriggerExit2D(other);
-        }
-
-        #endregion
-
         #region Providing States
 
         /// <summary>
