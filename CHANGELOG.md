@@ -1,3 +1,10 @@
+## [1.4.8](https://github.com/no-slopes/handy-fsm/compare/v1.4.7...v1.4.8) (2024-01-24)
+
+
+### Bug Fixes
+
+* **State:** removed all collisions callbacks ([c75ed67](https://github.com/no-slopes/handy-fsm/commit/c75ed6721f08fff98f49ca547933bc9d8c78350e))
+
 ## [1.4.7](https://github.com/no-slopes/handy-fsm/compare/v1.4.6...v1.4.7) (2023-12-19)
 
 
