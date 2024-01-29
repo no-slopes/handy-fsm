@@ -1,3 +1,10 @@
+## [1.4.9](https://github.com/no-slopes/handy-fsm/compare/v1.4.8...v1.4.9) (2024-01-29)
+
+
+### Bug Fixes
+
+* Removing collision stuff from scriptable states ([235f47a](https://github.com/no-slopes/handy-fsm/commit/235f47a25b763439bdd8d470f4478ba21e100245))
+
 ## [1.4.8](https://github.com/no-slopes/handy-fsm/compare/v1.4.7...v1.4.8) (2024-01-24)
 
 
