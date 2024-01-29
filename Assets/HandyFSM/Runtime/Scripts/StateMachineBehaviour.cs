@@ -126,7 +126,6 @@ namespace HandyFSM
 
             Type machineType = GetType();
 
-
             MethodInfo beforeInitializeMethod = machineType.GetMethod("BeforeInitialized", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             beforeInitializeMethod?.Invoke(this, null);
 

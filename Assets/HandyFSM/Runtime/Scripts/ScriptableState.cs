@@ -50,13 +50,6 @@ namespace HandyFSM
         public void FixedTick() { OnFixedTickAction?.Invoke(); }
         public void LateTick() { OnLateTickAction?.Invoke(); }
 
-        public void OnCollisionEnter2D(Collision2D collision) { OnCollisionEnter2DAction?.Invoke(collision); }
-        public void OnCollisionStay2D(Collision2D collision) { OnCollisionStay2DAction?.Invoke(collision); }
-        public void OnCollisionExit2D(Collision2D collision) { OnCollisionExit2DAction?.Invoke(collision); }
-        public void OnTriggerEnter2D(Collider2D other) { OnTriggerEnter2DAction?.Invoke(other); }
-        public void OnTriggerStay2D(Collider2D other) { OnTriggerStay2DAction?.Invoke(other); }
-        public void OnTriggerExit2D(Collider2D other) { OnTriggerExit2DAction?.Invoke(other); }
-
         protected UnityAction OnInitAction { get; private set; }
         protected UnityAction OnEnterAction { get; private set; }
         protected UnityAction OnExitAction { get; private set; }
@@ -64,12 +57,6 @@ namespace HandyFSM
         protected UnityAction OnTickAction { get; private set; }
         protected UnityAction OnLateTickAction { get; private set; }
         protected UnityAction OnFixedTickAction { get; private set; }
-        protected UnityAction<Collision2D> OnCollisionEnter2DAction { get; private set; }
-        protected UnityAction<Collision2D> OnCollisionStay2DAction { get; private set; }
-        protected UnityAction<Collision2D> OnCollisionExit2DAction { get; private set; }
-        protected UnityAction<Collider2D> OnTriggerEnter2DAction { get; private set; }
-        protected UnityAction<Collider2D> OnTriggerStay2DAction { get; private set; }
-        protected UnityAction<Collider2D> OnTriggerExit2DAction { get; private set; }
 
         #endregion
 
@@ -147,12 +134,6 @@ namespace HandyFSM
             OnTickAction = GetDelegate<UnityAction>(stateType, "OnTick");
             OnLateTickAction = GetDelegate<UnityAction>(stateType, "OnLateTick");
             OnFixedTickAction = GetDelegate<UnityAction>(stateType, "OnFixedTick");
-            OnCollisionEnter2DAction = GetDelegate<UnityAction<Collision2D>>(stateType, "OnCollisionEnter2D");
-            OnCollisionStay2DAction = GetDelegate<UnityAction<Collision2D>>(stateType, "OnCollisionStay2D");
-            OnCollisionExit2DAction = GetDelegate<UnityAction<Collision2D>>(stateType, "OnCollisionExit2D");
-            OnTriggerEnter2DAction = GetDelegate<UnityAction<Collider2D>>(stateType, "OnTriggerEnter2D");
-            OnTriggerStay2DAction = GetDelegate<UnityAction<Collider2D>>(stateType, "OnTriggerStay2D");
-            OnTriggerExit2DAction = GetDelegate<UnityAction<Collider2D>>(stateType, "OnTriggerExit2D");
         }
 
         private TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
