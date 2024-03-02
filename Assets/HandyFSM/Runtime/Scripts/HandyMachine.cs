@@ -10,7 +10,7 @@ namespace HandyFSM
     /// The state machine base class
     /// </summary>
     [AddComponentMenu("HandyFSM/State Machine")]
-    public class StateMachineBehaviour : MonoBehaviour
+    public class HandyMachine : MonoBehaviour
     {
 #if UNITY_EDITOR
         // [ContextMenu("Open Visualizer")]
@@ -40,6 +40,8 @@ namespace HandyFSM
 
         protected bool _isInitialized;
         protected StateProvider _stateProvider;
+
+        protected Dictionary<string, UnityEvent> _triggers;
 
         #endregion
 
@@ -101,6 +103,9 @@ namespace HandyFSM
         /// </summary>
         protected bool ShowCurrentState => !Status.Equals(MachineStatus.Off);
 
+        // Triggers
+        public Dictionary<string, UnityEvent> Triggers => _triggers;
+
         // Events
 
         /// <summary>
@@ -123,6 +128,9 @@ namespace HandyFSM
 
             _stateProvider = new StateProvider(this);
             _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
+
+            _triggers = new Dictionary<string, UnityEvent>();
+            _config.TriggerItems.ForEach(x => _triggers.Add(x.Key, x.Trigger));
 
             Type machineType = GetType();
 
@@ -278,7 +286,7 @@ namespace HandyFSM
         /// </summary>
         /// <typeparam name="T">The type to cast to.</typeparam>
         /// <returns>The instance casted to the specified type.</returns>
-        public T As<T>() where T : StateMachineBehaviour
+        public T As<T>() where T : HandyMachine
         {
             return this as T;
         }
@@ -500,6 +508,38 @@ namespace HandyFSM
         public List<IState> GetAllStates()
         {
             return _stateProvider.GetAllStates();
+        }
+
+        #endregion
+
+        #region Triggers
+
+        public void SqueezeTrigger(string key)
+        {
+            if (!_triggers.ContainsKey(key)) return;
+            _triggers[key].Invoke();
+        }
+
+        public void RegisterOnTrigger(string key, UnityAction action)
+        {
+            if (!_triggers.ContainsKey(key))
+            {
+                Debug.LogError($"Trigger '{key}' does not exist. For StateMachine {gameObject.name}");
+                return;
+            }
+
+            _triggers[key].AddListener(action);
+        }
+
+        public void UnregisterOnTrigger(string key, UnityAction action)
+        {
+            if (!_triggers.ContainsKey(key))
+            {
+                Debug.LogError($"Trigger '{key}' does not exist. For StateMachine {gameObject.name}");
+                return;
+            }
+
+            _triggers[key].RemoveListener(action);
         }
 
         #endregion

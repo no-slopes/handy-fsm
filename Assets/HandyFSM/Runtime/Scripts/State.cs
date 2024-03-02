@@ -22,7 +22,7 @@ namespace HandyFSM
         private bool _interruptible;
 
         [SerializeField]
-        private StateMachineBehaviour _machine;
+        private HandyMachine _machine;
 
         [SerializeField]
         private List<StateTransition> _transitions = new();
@@ -41,7 +41,7 @@ namespace HandyFSM
         /// </summary>
         public bool Interruptible => _interruptible;
 
-        public StateMachineBehaviour Machine => _machine;
+        public HandyMachine Machine => _machine;
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace HandyFSM
         /// <summary>
         /// This will be called before the  method.
         /// </summary>
-        public virtual void Initialize(StateMachineBehaviour machine)
+        public virtual void Initialize(HandyMachine machine)
         {
             _machine = machine;
             _name = GetType().Name;

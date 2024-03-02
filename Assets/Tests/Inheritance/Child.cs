@@ -3,7 +3,7 @@ using HandyFSM;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class Child : GenericMachineBehaviour<ChildState, ChildStateIdle>
+public class Child : GenericHandyMachine<ChildState, ChildStateIdle>
 {
     [BoxGroup("Test")]
     [SerializeField]
