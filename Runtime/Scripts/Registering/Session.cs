@@ -16,7 +16,7 @@ namespace HandyFSM.Registering
         private string _time;
 
         [SerializeField]
-        private StateMachineBehaviour _machine;
+        private HandyMachine _machine;
 
         [SerializeField]
         private List<IState> _states;
@@ -41,7 +41,7 @@ namespace HandyFSM.Registering
         public string Date => _date;
         public string Time => _time;
 
-        public StateMachineBehaviour Machine => _machine;
+        public HandyMachine Machine => _machine;
         public List<Record> Records => _records;
         public float Duration => _duration;
 
@@ -49,7 +49,7 @@ namespace HandyFSM.Registering
 
         #region Constructors
 
-        public Session(StateMachineBehaviour machine, int size)
+        public Session(HandyMachine machine, int size)
         {
             _machine = machine;
             _records = new List<Record>();

@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace HandyFSM.Editor
 {
-    [CustomEditor(typeof(StateMachineBehaviour), true)]
+    [CustomEditor(typeof(HandyMachine), true)]
     public class StateMachineInspector : UnityEditor.Editor
     {
         public override VisualElement CreateInspectorGUI()

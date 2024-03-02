@@ -24,7 +24,7 @@ namespace HandyFSM.Editor
         #region Fields
 
         private MachineStateVisualizerWindowData _data;
-        private StateMachineBehaviour _machine;
+        private HandyMachine _machine;
         private StateVisualizer _stateVisualizer;
         private VisualElement _stateVisualizerRoot;
 
@@ -77,7 +77,7 @@ namespace HandyFSM.Editor
 
             _machineSelectorField.RegisterValueChangedCallback((e) =>
             {
-                StateMachineBehaviour machine = e.newValue as StateMachineBehaviour;
+                HandyMachine machine = e.newValue as HandyMachine;
                 SetMachine(machine);
             });
 
@@ -86,7 +86,7 @@ namespace HandyFSM.Editor
             {
                 GameObject selectedObject = Selection.activeObject as GameObject;
                 if (selectedObject == null) return;
-                StateMachineBehaviour machine = selectedObject.GetComponent<StateMachineBehaviour>();
+                HandyMachine machine = selectedObject.GetComponent<HandyMachine>();
                 if (machine == null) return;
                 _machineSelectorField.value = machine;
                 SetMachine(machine);
@@ -161,7 +161,7 @@ namespace HandyFSM.Editor
 
         #region Machine
 
-        public void SetMachine(StateMachineBehaviour machine)
+        public void SetMachine(HandyMachine machine)
         {
             Data.Machine?.StatusChanged.RemoveListener(OnStatusChanged);
 
@@ -191,7 +191,7 @@ namespace HandyFSM.Editor
                 EvaluateDisplay(); return;
             }
 
-            if (!Data.MachineObj.TryGetComponent<StateMachineBehaviour>(out var machine))
+            if (!Data.MachineObj.TryGetComponent<HandyMachine>(out var machine))
             {
                 _machineSelectorField.value = null;
                 EvaluateDisplay();
