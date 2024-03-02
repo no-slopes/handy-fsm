@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/no-slopes/handy-fsm/compare/v1.4.9...v1.5.0) (2024-03-02)
+
+
+### Features
+
+* Triggers ([8b15816](https://github.com/no-slopes/handy-fsm/commit/8b15816e1bc49844a1bf532dcbfaa0cd4c088215))
+
 ## [1.4.9](https://github.com/no-slopes/handy-fsm/compare/v1.4.8...v1.4.9) (2024-01-29)
 
 
