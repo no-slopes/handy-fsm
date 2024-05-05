@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 1621254721}
-  _fsm: {fileID: 1527480404}
+  _brain: {fileID: 0}
 --- !u!1 &1633123426
 GameObject:
   m_ObjectHideFlags: 0
