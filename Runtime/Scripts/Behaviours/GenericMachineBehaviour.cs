@@ -3,7 +3,7 @@ namespace HandyFSM
     /// <summary>
     /// The state machine
     /// </summary>
-    public abstract class GenericHandyMachine<TBaseState, TDefaultState> : HandyMachine
+    public abstract class GenericHandyFSMBrain<TBaseState, TDefaultState> : HandyFSMBrain
     {
         #region Machine Engine
 
@@ -22,7 +22,7 @@ namespace HandyFSM
     /// <summary>
     /// The state machine
     /// </summary>
-    public abstract class GenericHandyMachine<TBaseState> : HandyMachine
+    public abstract class GenericHandyFSMBrain<TBaseState> : HandyFSMBrain
     {
         #region Machine Engine
 

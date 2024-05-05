@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HandyFSM
 {
-    public interface IStateMachine
+    public interface IStateMachineBrain
     {
         void Resume();
         void Pause();
@@ -18,6 +18,6 @@ namespace HandyFSM
         T GetState<T>() where T : State;
         bool TryGetState<T>(out State state) where T : State;
 
-        T As<T>() where T : MonoBehaviour, IStateMachine;
+        T As<T>() where T : MonoBehaviour, IStateMachineBrain;
     }
 }
