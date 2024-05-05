@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class ChildState : State
 {
-    protected Child ChildMachine => Machine.As<Child>();
+    protected Child ChildMachine => Brain.As<Child>();
 }

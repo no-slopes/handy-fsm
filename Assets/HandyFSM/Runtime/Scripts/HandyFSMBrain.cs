@@ -9,8 +9,8 @@ namespace HandyFSM
     /// <summary>
     /// The state machine base class
     /// </summary>
-    [AddComponentMenu("HandyFSM/State Machine")]
-    public class HandyMachine : MonoBehaviour
+    [AddComponentMenu("HandyFSM/Brain")]
+    public class HandyFSMBrain : MonoBehaviour
     {
 #if UNITY_EDITOR
         // [ContextMenu("Open Visualizer")]
@@ -286,7 +286,7 @@ namespace HandyFSM
         /// </summary>
         /// <typeparam name="T">The type to cast to.</typeparam>
         /// <returns>The instance casted to the specified type.</returns>
-        public T As<T>() where T : HandyMachine
+        public T As<T>() where T : HandyFSMBrain
         {
             return this as T;
         }

@@ -16,7 +16,7 @@ namespace HandyFSM.Editor
 
             VisualElement separator = container.Q<VisualElement>("separator");
             Type targetType = property.serializedObject.targetObject.GetType();
-            if (targetType == typeof(HandyMachine))
+            if (targetType == typeof(HandyFSMBrain))
                 separator.style.display = DisplayStyle.None;
 
             return container;

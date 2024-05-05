@@ -10,13 +10,13 @@ namespace HandyFSM
         #region Fields
 
         protected Dictionary<Type, IState> _states;
-        protected HandyMachine _machine;
+        protected HandyFSMBrain _machine;
 
         #endregion
 
         #region Constructors
 
-        public StateProvider(HandyMachine machine)
+        public StateProvider(HandyFSMBrain machine)
         {
             _machine = machine;
             _states = new Dictionary<Type, IState>();

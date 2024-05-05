@@ -9,7 +9,7 @@ public class ChildStateAttacking : ScriptableState
 
     public void OnEnter()
     {
-        Machine.StartCoroutine(WaitAndIdle());
+        Brain.StartCoroutine(WaitAndIdle());
     }
 
     public void OnExit()
@@ -19,6 +19,6 @@ public class ChildStateAttacking : ScriptableState
     private IEnumerator WaitAndIdle()
     {
         yield return new WaitForSeconds(0.25f);
-        Machine.EndState(Machine.GetState<ChildStateIdle>());
+        Brain.EndState(Brain.GetState<ChildStateIdle>());
     }
 }

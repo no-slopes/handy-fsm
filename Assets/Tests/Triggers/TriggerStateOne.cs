@@ -14,17 +14,17 @@ public class TriggerStateOne : ScriptableState
 
     public void OnEnter()
     {
-        Machine.RegisterOnTrigger("tap", GoToTwo);
+        Brain.RegisterOnTrigger("tap", GoToTwo);
     }
 
     public void OnExit()
     {
-        Machine.UnregisterOnTrigger("tap", GoToTwo);
+        Brain.UnregisterOnTrigger("tap", GoToTwo);
     }
 
     private void GoToTwo()
     {
         Debug.Log($"GoToTwo - {Random.Range(0, 100)}");
-        Machine.EndState(Machine.GetState<TriggerStateTwo>());
+        Brain.EndState(Brain.GetState<TriggerStateTwo>());
     }
 }
