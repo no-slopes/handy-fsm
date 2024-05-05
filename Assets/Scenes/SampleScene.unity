@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
-  m_DragThreshold: 10
+  m_DragThreshold: 9
 --- !u!4 &340509937
 Transform:
   m_ObjectHideFlags: 0
@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 1621254721}
-  _fsm: {fileID: 1527480404}
+  _brain: {fileID: 0}
 --- !u!1 &1633123426
 GameObject:
   m_ObjectHideFlags: 0
