@@ -12,7 +12,7 @@ public class ChildStateRunnning : ChildStateGrounded
 
     public void OnEnter()
     {
-        Machine.StartCoroutine(WaitAndAttack());
+        Brain.StartCoroutine(WaitAndAttack());
     }
 
     public void OnExit()
@@ -22,6 +22,6 @@ public class ChildStateRunnning : ChildStateGrounded
     private IEnumerator WaitAndAttack()
     {
         yield return new WaitForSeconds(0.25f);
-        Machine.EndState(Machine.GetState<ChildStateAttacking>());
+        Brain.EndState(Brain.GetState<ChildStateAttacking>());
     }
 }

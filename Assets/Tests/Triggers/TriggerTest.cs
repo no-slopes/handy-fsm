@@ -10,7 +10,7 @@ public class TriggerTest : MonoBehaviour
     private Button _button;
 
     [SerializeField]
-    private HandyMachine _fsm;
+    private HandyFSMBrain _brain;
 
     #endregion
 
@@ -30,7 +30,7 @@ public class TriggerTest : MonoBehaviour
 
     private void OnButtonClick()
     {
-        _fsm.SqueezeTrigger("tap");
+        _brain.SqueezeTrigger("tap");
     }
 
 }
