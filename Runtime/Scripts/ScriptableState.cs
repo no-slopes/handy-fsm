@@ -21,7 +21,7 @@ namespace HandyFSM
 
         #region Fields
 
-        protected HandyMachine _machine;
+        protected HandyFSMBrain _machine;
         protected List<StateTransition> _transitions = new();
 
         #endregion
@@ -30,13 +30,13 @@ namespace HandyFSM
 
         public bool Interruptible => _interruptible;
         public string Name => string.IsNullOrEmpty(_name) ? name : _name;
-        public HandyMachine Machine => _machine;
+        public HandyFSMBrain Brain => _machine;
 
         #endregion
 
         #region Cycle Methods
 
-        public void Initialize(HandyMachine machine)
+        public void Initialize(HandyFSMBrain machine)
         {
             _machine = machine;
             SortTransitions();

@@ -35,7 +35,7 @@ namespace HandyFSM.Registering
 
         #region Sessions
 
-        public void OpenSession(HandyMachine machine)
+        public void OpenSession(HandyFSMBrain machine)
         {
             if (_sessions.Count >= _numberOfSessions)
             {
