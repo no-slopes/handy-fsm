@@ -22,7 +22,7 @@ namespace HandyFSM
         private ScriptableState _defaultScriptableState;
 
         [SerializeField]
-        private List<TriggerListItem> _triggerItems;
+        private List<string> _triggers;
 
         [SerializeField]
         private UnityEvent<MachineStatus> _statusChanged;
@@ -38,7 +38,7 @@ namespace HandyFSM
         public InitializationMode InitalizationMode { get => _initalizationMode; set => _initalizationMode = value; }
         public List<ScriptableState> ScriptableStates { get => _scriptableStates; set => _scriptableStates = value; }
         public ScriptableState DefaultScriptableState { get => _defaultScriptableState; set => _defaultScriptableState = value; }
-        public List<TriggerListItem> TriggerItems { get => _triggerItems; set => _triggerItems = value; }
+        public List<string> Triggers { get => _triggers; set => _triggers = value; }
         public UnityEvent<MachineStatus> StatusChanged { get => _statusChanged; set => _statusChanged = value; }
         public UnityEvent<IState, IState> StateChanged { get => _stateChanged; set => _stateChanged = value; }
 

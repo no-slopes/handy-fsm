@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using HandyFSM;
 using UnityEngine;
-using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "TriggerStateTwo", menuName = "FSM/Triggers/StateTwo")]
 public class TriggerStateTwo : ScriptableState
@@ -19,12 +16,15 @@ public class TriggerStateTwo : ScriptableState
 
     public void OnExit()
     {
-        Brain.UnregisterOnTrigger("tap", GoToOne);
+        Brain.UnregisterFromTrigger("tap", GoToOne);
     }
 
-    private void GoToOne()
+    private void GoToOne(TriggerData data)
     {
-        Debug.Log($"GoToOne - {Random.Range(0, 100)}");
+        if (data is FloatTriggerData floatData)
+        {
+            Debug.Log($"GoToOne - {floatData.Value}");
+        }
         Brain.EndState(Brain.GetState<TriggerStateOne>());
     }
 }

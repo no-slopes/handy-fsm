@@ -382,11 +382,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: eb5d0a98c7d419d45902eacf2c29f872, type: 2}
     - {fileID: 11400000, guid: 514fa6f0b28fd1647875e806f67bd251, type: 2}
     _defaultScriptableState: {fileID: 11400000, guid: eb5d0a98c7d419d45902eacf2c29f872, type: 2}
-    _triggerItems:
-    - _key: tap
-      _trigger:
-        m_PersistentCalls:
-          m_Calls: []
+    _triggers:
+    - tap
     _statusChanged:
       m_PersistentCalls:
         m_Calls: []
@@ -662,7 +659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 1621254721}
-  _brain: {fileID: 0}
+  _brain: {fileID: 1527480404}
 --- !u!1 &1633123426
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +801,8 @@ MonoBehaviour:
     _scriptableStates:
     - {fileID: 11400000, guid: c243853eddb579441a32368a83e0f8db, type: 2}
     _defaultScriptableState: {fileID: 0}
-    _triggerItems: []
+    _triggers:
+    - tap
     _statusChanged:
       m_PersistentCalls:
         m_Calls: []

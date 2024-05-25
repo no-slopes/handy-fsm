@@ -19,12 +19,15 @@ public class TriggerStateOne : ScriptableState
 
     public void OnExit()
     {
-        Brain.UnregisterOnTrigger("tap", GoToTwo);
+        Brain.UnregisterFromTrigger("tap", GoToTwo);
     }
 
-    private void GoToTwo()
+    private void GoToTwo(TriggerData data)
     {
-        Debug.Log($"GoToTwo - {Random.Range(0, 100)}");
+        if (data is FloatTriggerData floatData)
+        {
+            Debug.Log($"GoToTwo - {floatData.Value}");
+        }
         Brain.EndState(Brain.GetState<TriggerStateTwo>());
     }
 }
