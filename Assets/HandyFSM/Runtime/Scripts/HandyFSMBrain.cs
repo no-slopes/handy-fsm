@@ -41,6 +41,7 @@ namespace HandyFSM
         protected bool _isInitialized;
         protected StateProvider _stateProvider;
 
+        protected Dictionary<string, Signal> _signals;
         protected Dictionary<string, UnityEvent<TriggerData>> _triggers;
 
         #endregion
@@ -128,6 +129,9 @@ namespace HandyFSM
 
             _stateProvider = new StateProvider(this);
             _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
+
+            _signals = new Dictionary<string, Signal>();
+            _config.Signals.ForEach(signal => _signals.Add(signal.Key, signal));
 
             _triggers = new Dictionary<string, UnityEvent<TriggerData>>();
             _config.Triggers.ForEach(triggerName => _triggers.Add(triggerName, new UnityEvent<TriggerData>()));
@@ -508,6 +512,82 @@ namespace HandyFSM
         public List<IState> GetAllStates()
         {
             return _stateProvider.GetAllStates();
+        }
+
+        #endregion
+
+        #region Signals
+
+        public void SetSignal(string key, bool value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                return;
+            }
+
+            _signals[key].SetBool(value);
+        }
+
+        public void SetSignal(string key, int value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                return;
+            }
+
+            _signals[key].SetInt(value);
+        }
+
+        public void SetSignal(string key, float value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                return;
+            }
+
+            _signals[key].SetFloat(value);
+        }
+
+        public bool GetSignalBool(string key, out bool value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                value = false;
+                return false;
+            }
+
+            value = _signals[key].BoolValue;
+            return true;
+        }
+
+        public bool GetSignalInt(string key, out int value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                value = 0;
+                return false;
+            }
+
+            value = _signals[key].IntValue;
+            return true;
+        }
+
+        public bool GetSignalFloat(string key, out float value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                value = 0f;
+                return false;
+            }
+
+            value = _signals[key].FloatValue;
+            return true;
         }
 
         #endregion

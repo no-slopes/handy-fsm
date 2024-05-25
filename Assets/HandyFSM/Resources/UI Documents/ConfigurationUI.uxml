@@ -1,11 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/HandyFSM/Editor/Resources/Styles/handy-fsm-inspector-styles.uss?fileID=7433441132597879392&amp;guid=c8210e453a717ae4483df14a5730d992&amp;type=3#handy-fsm-inspector-styles" />
+    <Style src="project://database/Assets/HandyFSM/Resources/Styles/handy-fsm-inspector-styles.uss?fileID=7433441132597879392&amp;guid=c8210e453a717ae4483df14a5730d992&amp;type=3#handy-fsm-inspector-styles" />
     <ui:VisualElement name="container-main" style="flex-grow: 1;">
         <uie:PropertyField name="owner-field" binding-path="_owner" label="Owner" tooltip="If left blank, the owner will be considered the transform of this GameObject" class="field" />
         <uie:PropertyField name="initalization-mode-field" binding-path="_initalizationMode" label="Initialization" tooltip="How should the machine be initialized?" class="field" />
         <uie:PropertyField name="default-scriptable-state-field" binding-path="_defaultScriptableState" label="Default Scriptable State" tooltip="The default Scriptable State. Leave blank if you need to manually load the default state" class="field" />
         <uie:PropertyField name="scriptable-states-field" binding-path="_scriptableStates" label="Scriptable States" tooltip="The scriptable states to be loaded into the machine" />
-        <ui:ListView focusable="true" name="list-triggers" reorderable="true" header-title="Triggers" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" binding-path="_triggers" />
+        <ui:ListView focusable="true" name="list-signals" reorderable="true" header-title="Signals" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" binding-path="_signals" selection-type="None" show-border="true" />
+        <ui:ListView focusable="true" name="list-triggers" reorderable="true" header-title="Triggers" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" binding-path="_triggers" selection-type="None" show-border="true" />
         <ui:Foldout text="Events" name="foldout-events" value="false">
             <uie:PropertyField name="status-changed-field" binding-path="_statusChanged" label="Status Changed" tooltip="Fired when the machine state changes" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
             <uie:PropertyField name="state-changed-field" binding-path="_stateChanged" label="State Changed" tooltip="Fired every time the current state changes" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
