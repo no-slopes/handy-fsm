@@ -41,7 +41,7 @@ namespace HandyFSM
         protected bool _isInitialized;
         protected StateProvider _stateProvider;
 
-        protected Dictionary<string, UnityEvent> _triggers;
+        protected Dictionary<string, UnityEvent<TriggerData>> _triggers;
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace HandyFSM
         protected bool ShowCurrentState => !Status.Equals(MachineStatus.Off);
 
         // Triggers
-        public Dictionary<string, UnityEvent> Triggers => _triggers;
+        public Dictionary<string, UnityEvent<TriggerData>> Triggers => _triggers;
 
         // Events
 
@@ -129,8 +129,8 @@ namespace HandyFSM
             _stateProvider = new StateProvider(this);
             _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
 
-            _triggers = new Dictionary<string, UnityEvent>();
-            _config.TriggerItems.ForEach(x => _triggers.Add(x.Key, x.Trigger));
+            _triggers = new Dictionary<string, UnityEvent<TriggerData>>();
+            _config.Triggers.ForEach(triggerName => _triggers.Add(triggerName, new UnityEvent<TriggerData>()));
 
             Type machineType = GetType();
 
@@ -514,13 +514,13 @@ namespace HandyFSM
 
         #region Triggers
 
-        public void SqueezeTrigger(string key)
+        public void SqueezeTrigger(string key, TriggerData data = null)
         {
             if (!_triggers.ContainsKey(key)) return;
-            _triggers[key].Invoke();
+            _triggers[key].Invoke(data);
         }
 
-        public void RegisterOnTrigger(string key, UnityAction action)
+        public void RegisterOnTrigger(string key, UnityAction<TriggerData> action)
         {
             if (!_triggers.ContainsKey(key))
             {
@@ -531,7 +531,7 @@ namespace HandyFSM
             _triggers[key].AddListener(action);
         }
 
-        public void UnregisterOnTrigger(string key, UnityAction action)
+        public void UnregisterFromTrigger(string key, UnityAction<TriggerData> action)
         {
             if (!_triggers.ContainsKey(key))
             {
