@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/no-slopes/handy-fsm/compare/v1.6.0...v1.7.0) (2024-05-25)
+
+
+### Features
+
+* Gave name to triggers and better organized inspector ([7af3aab](https://github.com/no-slopes/handy-fsm/commit/7af3aabc0643a7ff7a5e5e0f3bd1a7c544839d2c))
+
 # [1.6.0](https://github.com/no-slopes/handy-fsm/compare/v1.5.0...v1.6.0) (2024-05-05)
 
 
