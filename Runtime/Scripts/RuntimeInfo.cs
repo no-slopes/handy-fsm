@@ -2,8 +2,7 @@ using UnityEngine;
 
 namespace HandyFSM
 {
-    [System.Serializable]
-    public class RuntimeInfo
+    public class RuntimeInfo : ScriptableObject
     {
         #region Inspector
 

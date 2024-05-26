@@ -5,10 +5,12 @@ using UnityEngine.UIElements;
 
 namespace HandyFSM.Editor
 {
-    [CustomPropertyDrawer(typeof(RuntimeInfo), true)]
-    public class RuntimeInfoDrawer : PropertyDrawer
+    public class RuntimeInfoElement : VisualElement
     {
         #region Fields
+
+        private RuntimeInfo _runtimeInfo;
+        private SerializedObject _serializedObject;
 
         private VisualElement _infoContainer;
         private Label _statusText;
@@ -18,10 +20,14 @@ namespace HandyFSM.Editor
 
         #region GUI
 
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        public RuntimeInfoElement(RuntimeInfo runtimeInfo)
         {
+            _runtimeInfo = runtimeInfo;
+            _serializedObject = new SerializedObject(_runtimeInfo);
+
             VisualTreeAsset treeAsset = Resources.Load<VisualTreeAsset>("UI Documents/StateMachineRuntimeInfoUI");
             TemplateContainer container = treeAsset.Instantiate();
+            container.Bind(_serializedObject);
 
             _infoContainer = container.Q<VisualElement>("runtime-info-container");
 
@@ -29,13 +35,13 @@ namespace HandyFSM.Editor
             _statusField.RegisterValueChangedCallback(OnStatusChanged);
 
             _statusText = container.Q<Label>("status-text");
-            MachineStatus currentStatus = (MachineStatus)property.FindPropertyRelative("_status").enumValueIndex;
+            MachineStatus currentStatus = _runtimeInfo.Status;
             SetStatusText(currentStatus);
 
             // EvaluateVisibility();
             // EditorApplication.playModeStateChanged += PlayModeStateChange => EvaluateVisibility();
 
-            return container;
+            Add(container);
         }
 
         #endregion
