@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/no-slopes/handy-fsm/compare/v1.8.0...v1.9.0) (2024-05-26)
+
+
+### Features
+
+* Signals and Triggers providers ([76b6f73](https://github.com/no-slopes/handy-fsm/commit/76b6f73ad68804bd5d3d7c954322971c9383e40f))
+
 # [1.8.0](https://github.com/no-slopes/handy-fsm/compare/v1.7.0...v1.8.0) (2024-05-26)
 
 
