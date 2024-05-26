@@ -21,10 +21,10 @@ namespace HandyFSM
         private List<ScriptableState> _scriptableStates;
 
         [SerializeField]
-        private List<Signal> _signals;
+        private List<Signal> _signals = new();
 
         [SerializeField]
-        private List<string> _triggers;
+        private List<string> _triggers = new();
 
         [SerializeField]
         private UnityEvent<MachineStatus> _statusChanged;
