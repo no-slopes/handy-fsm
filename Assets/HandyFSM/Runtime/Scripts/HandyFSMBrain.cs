@@ -9,7 +9,7 @@ namespace HandyFSM
     /// <summary>
     /// The state machine base class
     /// </summary>
-    [AddComponentMenu("HandyFSM/Brain")]
+    [AddComponentMenu("HandyFSM/FSMBrain")]
     public class HandyFSMBrain : MonoBehaviour
     {
 #if UNITY_EDITOR
@@ -41,11 +41,15 @@ namespace HandyFSM
         protected bool _isInitialized;
         protected StateProvider _stateProvider;
 
+        protected Dictionary<string, Signal> _signals;
         protected Dictionary<string, UnityEvent<TriggerData>> _triggers;
 
         #endregion
 
         #region Getters
+
+        public RuntimeInfo Info { get => _info; set => _info = value; }
+        public Configuration Config { get => _config; set => _config = value; }
 
         /// <summary>
         /// The state machine Owner trandform. If not defined on inspector it will be the Transform
@@ -129,6 +133,9 @@ namespace HandyFSM
             _stateProvider = new StateProvider(this);
             _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
 
+            _signals = new Dictionary<string, Signal>();
+            _config.Signals.ForEach(signal => _signals.Add(signal.Key, signal));
+
             _triggers = new Dictionary<string, UnityEvent<TriggerData>>();
             _config.Triggers.ForEach(triggerName => _triggers.Add(triggerName, new UnityEvent<TriggerData>()));
 
@@ -150,7 +157,7 @@ namespace HandyFSM
 
         protected virtual void Start()
         {
-            if (!_config.InitalizationMode.Equals(InitializationMode.Automatic)) return;
+            if (!_config.InitializationMode.Equals(InitializationMode.Automatic)) return;
 
             if (_defaultState == null)
             {
@@ -508,6 +515,82 @@ namespace HandyFSM
         public List<IState> GetAllStates()
         {
             return _stateProvider.GetAllStates();
+        }
+
+        #endregion
+
+        #region Signals
+
+        public void SetSignal(string key, bool value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                return;
+            }
+
+            _signals[key].SetBool(value);
+        }
+
+        public void SetSignal(string key, int value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                return;
+            }
+
+            _signals[key].SetInt(value);
+        }
+
+        public void SetSignal(string key, float value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                return;
+            }
+
+            _signals[key].SetFloat(value);
+        }
+
+        public bool ReadSignalBool(string key, out bool value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                value = false;
+                return false;
+            }
+
+            value = _signals[key].BoolValue;
+            return true;
+        }
+
+        public bool ReadSignalInt(string key, out int value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                value = 0;
+                return false;
+            }
+
+            value = _signals[key].IntValue;
+            return true;
+        }
+
+        public bool ReadSignalFloat(string key, out float value)
+        {
+            if (!_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
+                value = 0f;
+                return false;
+            }
+
+            value = _signals[key].FloatValue;
+            return true;
         }
 
         #endregion
