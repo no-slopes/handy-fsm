@@ -9,7 +9,7 @@ namespace HandyFSM
     /// <summary>
     /// The state machine base class
     /// </summary>
-    [AddComponentMenu("HandyFSM/Brain")]
+    [AddComponentMenu("HandyFSM/FSMBrain")]
     public class HandyFSMBrain : MonoBehaviour
     {
 #if UNITY_EDITOR
@@ -47,6 +47,9 @@ namespace HandyFSM
         #endregion
 
         #region Getters
+
+        public RuntimeInfo Info { get => _info; set => _info = value; }
+        public Configuration Config { get => _config; set => _config = value; }
 
         /// <summary>
         /// The state machine Owner trandform. If not defined on inspector it will be the Transform
@@ -154,7 +157,7 @@ namespace HandyFSM
 
         protected virtual void Start()
         {
-            if (!_config.InitalizationMode.Equals(InitializationMode.Automatic)) return;
+            if (!_config.InitializationMode.Equals(InitializationMode.Automatic)) return;
 
             if (_defaultState == null)
             {
@@ -551,7 +554,7 @@ namespace HandyFSM
             _signals[key].SetFloat(value);
         }
 
-        public bool GetSignalBool(string key, out bool value)
+        public bool ReadSignalBool(string key, out bool value)
         {
             if (!_signals.ContainsKey(key))
             {
@@ -564,7 +567,7 @@ namespace HandyFSM
             return true;
         }
 
-        public bool GetSignalInt(string key, out int value)
+        public bool ReadSignalInt(string key, out int value)
         {
             if (!_signals.ContainsKey(key))
             {
@@ -577,7 +580,7 @@ namespace HandyFSM
             return true;
         }
 
-        public bool GetSignalFloat(string key, out float value)
+        public bool ReadSignalFloat(string key, out float value)
         {
             if (!_signals.ContainsKey(key))
             {
