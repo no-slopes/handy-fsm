@@ -30,7 +30,6 @@ namespace HandyFSM.Editor
         {
             if (_signal != null && _fieldSignalType != null)
             {
-                Debug.Log($"Unregistering {_signal.Key}");
                 _fieldSignalType.UnregisterValueChangedCallback(OnTypeChanged);
             }
 

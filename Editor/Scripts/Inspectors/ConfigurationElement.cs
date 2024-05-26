@@ -16,8 +16,6 @@ namespace HandyFSM.Editor
         private VisualElement _containerMain;
 
         private ObjectField _fieldOwner;
-        private EnumField _fieldInitializationMode;
-        private ObjectField _fieldDefaultScriptableState;
         private ListView _listSignals;
 
         public ConfigurationElement(Configuration configuration, BrainInspector brainInspector)
@@ -25,6 +23,7 @@ namespace HandyFSM.Editor
             _configuration = configuration;
             _serializedObject = new SerializedObject(_configuration);
             _brainInspector = brainInspector;
+
             _containerMain = Resources.Load<VisualTreeAsset>($"UI Documents/{DocumentName}").Instantiate();
             _containerMain.Bind(_serializedObject);
 
