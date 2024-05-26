@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/no-slopes/handy-fsm/compare/v1.7.0...v1.8.0) (2024-05-26)
+
+
+### Features
+
+* Signals are ready. ([deb1984](https://github.com/no-slopes/handy-fsm/commit/deb19845cd5d2c4ba7a724a4fedb0b31feba7bf9))
+
 # [1.7.0](https://github.com/no-slopes/handy-fsm/compare/v1.6.0...v1.7.0) (2024-05-25)
 
 
