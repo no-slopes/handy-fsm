@@ -30,7 +30,7 @@ public class TriggerTest : MonoBehaviour
 
     private void OnButtonClick()
     {
-        _brain.SqueezeTrigger("tap", new FloatTriggerData(Random.Range(0, 100)));
+        _brain.Triggers.Squeeze("tap", new FloatTriggerData(Random.Range(0, 100)));
     }
 
 }

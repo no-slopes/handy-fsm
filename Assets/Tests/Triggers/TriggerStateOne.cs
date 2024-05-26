@@ -14,14 +14,14 @@ public class TriggerStateOne : ScriptableState
 
     public void OnEnter()
     {
-        Brain.RegisterOnTrigger("tap", GoToTwo);
-        Brain.SetSignal("test", true);
-        Brain.SetSignal("testInt", Random.Range(0, 100));
+        Brain.Triggers.RegisterCallback("tap", GoToTwo);
+        Brain.Signals.Set("test", true);
+        Brain.Signals.Set("testInt", Random.Range(0, 100));
     }
 
     public void OnExit()
     {
-        Brain.UnregisterFromTrigger("tap", GoToTwo);
+        Brain.Triggers.UnregisterCallback("tap", GoToTwo);
     }
 
     private void GoToTwo(TriggerData data)
