@@ -3,10 +3,10 @@
     <ui:VisualElement name="container-row" style="flex-grow: 1; flex-direction: row; padding-right: 5px; padding-left: 5px;">
         <ui:TextField picking-mode="Ignore" name="field-key" binding-path="_key" style="flex-grow: 0; flex-shrink: 0; width: 50%; max-width: 150px;" />
         <ui:EnumField type="HandyFSM.SignalType, HandyFSM.Runtime" name="field-type" binding-path="_type" style="flex-grow: 0; flex-shrink: 1; padding-right: 5px; padding-left: 5px; width: auto; min-width: 50px;" />
-        <ui:VisualElement name="container-value" style="flex-grow: 0; flex-shrink: 1; flex-direction: row; padding-right: 5px; padding-left: 5px; width: 35%; min-width: 50px;">
+        <ui:VisualElement name="container-value" style="flex-grow: 1; flex-shrink: 1; flex-direction: row; padding-right: 5px; padding-left: 5px; width: 35%; min-width: 50px;">
             <ui:Toggle name="field-bool-value" binding-path="_boolValue" style="flex-grow: 0;" />
-            <ui:FloatField value="0" name="field-float-value" binding-path="_floatValue" style="flex-grow: 1;" />
-            <ui:IntegerField value="0" name="field-int-value" focusable="true" binding-path="_intValue" style="flex-grow: 1;" />
+            <ui:FloatField value="0" name="field-float-value" binding-path="_floatValue" style="flex-grow: 1; flex-shrink: 1;" />
+            <ui:IntegerField value="0" name="field-int-value" focusable="true" binding-path="_intValue" style="flex-grow: 1; flex-shrink: 1;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

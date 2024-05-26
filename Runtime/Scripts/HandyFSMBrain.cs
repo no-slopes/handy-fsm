@@ -40,9 +40,8 @@ namespace HandyFSM
 
         protected bool _isInitialized;
         protected StateProvider _stateProvider;
-
-        protected Dictionary<string, Signal> _signals;
-        protected Dictionary<string, UnityEvent<TriggerData>> _triggers;
+        protected SignalsProvider _signalsProvider;
+        protected TriggersProvider _triggersProvider;
 
         #endregion
 
@@ -103,12 +102,19 @@ namespace HandyFSM
         public IState DefaultState => _defaultState;
 
         /// <summary>
+        /// The signals registered in this machine brain
+        /// </summary>
+        public SignalsProvider Signals => _signalsProvider;
+
+        /// <summary>
+        /// The triggers registered in this machine brain
+        /// </summary>
+        public TriggersProvider Triggers => _triggersProvider;
+
+        /// <summary>
         /// If CurrentStateName should be shown in the inspector
         /// </summary>
         protected bool ShowCurrentState => !Status.Equals(MachineStatus.Off);
-
-        // Triggers
-        public Dictionary<string, UnityEvent<TriggerData>> Triggers => _triggers;
 
         // Events
 
@@ -133,11 +139,8 @@ namespace HandyFSM
             _stateProvider = new StateProvider(this);
             _stateProvider.LoadStatesFromScriptablesList(_config.ScriptableStates, false);
 
-            _signals = new Dictionary<string, Signal>();
-            _config.Signals.ForEach(signal => _signals.Add(signal.Key, signal));
-
-            _triggers = new Dictionary<string, UnityEvent<TriggerData>>();
-            _config.Triggers.ForEach(triggerName => _triggers.Add(triggerName, new UnityEvent<TriggerData>()));
+            _signalsProvider = new SignalsProvider(this, _config.Signals);
+            _triggersProvider = new TriggersProvider(this, _config.Triggers);
 
             Type machineType = GetType();
 
@@ -515,114 +518,6 @@ namespace HandyFSM
         public List<IState> GetAllStates()
         {
             return _stateProvider.GetAllStates();
-        }
-
-        #endregion
-
-        #region Signals
-
-        public void SetSignal(string key, bool value)
-        {
-            if (!_signals.ContainsKey(key))
-            {
-                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
-                return;
-            }
-
-            _signals[key].SetBool(value);
-        }
-
-        public void SetSignal(string key, int value)
-        {
-            if (!_signals.ContainsKey(key))
-            {
-                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
-                return;
-            }
-
-            _signals[key].SetInt(value);
-        }
-
-        public void SetSignal(string key, float value)
-        {
-            if (!_signals.ContainsKey(key))
-            {
-                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
-                return;
-            }
-
-            _signals[key].SetFloat(value);
-        }
-
-        public bool ReadSignalBool(string key, out bool value)
-        {
-            if (!_signals.ContainsKey(key))
-            {
-                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
-                value = false;
-                return false;
-            }
-
-            value = _signals[key].BoolValue;
-            return true;
-        }
-
-        public bool ReadSignalInt(string key, out int value)
-        {
-            if (!_signals.ContainsKey(key))
-            {
-                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
-                value = 0;
-                return false;
-            }
-
-            value = _signals[key].IntValue;
-            return true;
-        }
-
-        public bool ReadSignalFloat(string key, out float value)
-        {
-            if (!_signals.ContainsKey(key))
-            {
-                Debug.LogError($"Signal '{key}' does not exist for StateMachine {gameObject.name}", this);
-                value = 0f;
-                return false;
-            }
-
-            value = _signals[key].FloatValue;
-            return true;
-        }
-
-        #endregion
-
-        #region Triggers
-
-        public void SqueezeTrigger(string key, TriggerData data = null)
-        {
-            if (!_triggers.ContainsKey(key)) return;
-            _triggers[key].Invoke(data);
-        }
-
-        public void RegisterOnTrigger(string key, UnityAction<TriggerData> action)
-        {
-            if (!_triggers.ContainsKey(key))
-            {
-                Debug.LogError($"Trigger '{key}' does not exist. For StateMachine {gameObject.name}");
-                return;
-            }
-
-            _triggers[key].AddListener(action);
-        }
-
-        public void UnregisterFromTrigger(string key, UnityAction<TriggerData> action)
-        {
-            if (!_triggers.ContainsKey(key))
-            {
-                Debug.LogError($"Trigger '{key}' does not exist. For StateMachine {gameObject.name}");
-                return;
-            }
-
-            _triggers[key].RemoveListener(action);
         }
 
         #endregion
