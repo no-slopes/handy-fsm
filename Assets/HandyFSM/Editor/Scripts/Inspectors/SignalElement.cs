@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using System;
 
 namespace HandyFSM.Editor
 {
-    [CustomPropertyDrawer(typeof(Signal), true)]
-    public class SignalDrawer : PropertyDrawer
+    public class SignalElement : VisualElement
     {
         private static readonly string DocumentName = "SignalUI";
+
+        private Signal _signal;
+        private SerializedObject _serializedObject;
 
         private TemplateContainer _containerMain;
         private EnumField _fieldSignalType;
@@ -17,27 +19,38 @@ namespace HandyFSM.Editor
         private IntegerField _fieldIntValue;
         private FloatField _fieldFloatValue;
 
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        public SignalElement()
         {
-
             _containerMain = Resources.Load<VisualTreeAsset>($"UI Documents/{DocumentName}").Instantiate();
 
-            _fieldSignalType = _containerMain.Q<EnumField>("field-type");
+            Add(_containerMain);
+        }
 
+        public void SetSignal(Signal signal)
+        {
+            if (_signal != null && _fieldSignalType != null)
+            {
+                Debug.Log($"Unregistering {_signal.Key}");
+                _fieldSignalType.UnregisterValueChangedCallback(OnTypeChanged);
+            }
+
+            _signal = signal;
+            _serializedObject = new SerializedObject(_signal);
+            _containerMain.Bind(_serializedObject);
+
+            _fieldSignalType = _containerMain.Q<EnumField>("field-type");
             _fieldBoolValue = _containerMain.Q<Toggle>("field-bool-value");
             _fieldIntValue = _containerMain.Q<IntegerField>("field-int-value");
             _fieldFloatValue = _containerMain.Q<FloatField>("field-float-value");
 
-            _fieldSignalType.RegisterValueChangedCallback((e) =>
-            {
-                EvaluateValueDisplay((SignalType)e.newValue);
-            });
-            // EditorApplication.delayCall += () =>
-            // {
-            // };
-
+            _fieldSignalType.RegisterValueChangedCallback(OnTypeChanged);
             EvaluateValueDisplay((SignalType)_fieldSignalType.value);
-            return _containerMain;
+        }
+
+        private void OnTypeChanged(ChangeEvent<Enum> e)
+        {
+            if (e.newValue == null) return;
+            EvaluateValueDisplay((SignalType)e.newValue);
         }
 
         private void EvaluateValueDisplay(SignalType signalType)

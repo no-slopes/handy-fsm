@@ -12,6 +12,8 @@ public class TriggerStateTwo : ScriptableState
     public void OnEnter()
     {
         Brain.RegisterOnTrigger("tap", GoToOne);
+        Brain.SetSignal("test", false);
+        Brain.SetSignal("testInt", Random.Range(0, 100));
     }
 
     public void OnExit()
@@ -23,7 +25,7 @@ public class TriggerStateTwo : ScriptableState
     {
         if (data is FloatTriggerData floatData)
         {
-            Debug.Log($"GoToOne - {floatData.Value}");
+            // Debug.Log($"GoToOne - {floatData.Value}");
         }
         Brain.EndState(Brain.GetState<TriggerStateOne>());
     }

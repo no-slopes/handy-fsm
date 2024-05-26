@@ -51,3 +51,10 @@
     -unity-font-style: bold;
     font-size: 14px;
 }
+
+.no-label-list .unity-base-field .unity-base-field__label {
+    display: none;
+}
+
+.no-label-list {
+}
