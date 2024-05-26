@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/no-slopes/handy-fsm/compare/v1.9.0...v1.9.1) (2024-05-26)
+
+
+### Bug Fixes
+
+* null signals ([952e417](https://github.com/no-slopes/handy-fsm/commit/952e417b400dc2bccb959dda2e5c73931ccdd3ce))
+
 # [1.9.0](https://github.com/no-slopes/handy-fsm/compare/v1.8.0...v1.9.0) (2024-05-26)
 
 
