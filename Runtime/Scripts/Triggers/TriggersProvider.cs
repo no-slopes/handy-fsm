@@ -6,10 +6,10 @@ namespace HandyFSM
 {
     public class TriggersProvider
     {
-        protected HandyFSMBrain _brain;
+        protected FSMBrain _brain;
         protected Dictionary<string, UnityEvent<TriggerData>> _triggers = new();
 
-        public TriggersProvider(HandyFSMBrain brain, List<string> triggersKeys)
+        public TriggersProvider(FSMBrain brain, List<string> triggersKeys)
         {
             _brain = brain;
             triggersKeys.ForEach(triggerKey => _triggers.Add(triggerKey, new UnityEvent<TriggerData>()));
