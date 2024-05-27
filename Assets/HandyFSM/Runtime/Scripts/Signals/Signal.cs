@@ -15,6 +15,7 @@ namespace HandyFSM
         [SerializeField]
         private bool _boolValue = false;
 
+
         [SerializeField]
         private int _intValue = 0;
 
