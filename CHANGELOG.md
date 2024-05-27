@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/no-slopes/handy-fsm/compare/v1.9.3...v1.10.0) (2024-05-27)
+
+
+### Features
+
+* HandyFSMBrain -> FSMBrain ([ad275f4](https://github.com/no-slopes/handy-fsm/commit/ad275f44afae313f540718858d6283b221b977be))
+
 ## [1.9.3](https://github.com/no-slopes/handy-fsm/compare/v1.9.2...v1.9.3) (2024-05-27)
 
 
