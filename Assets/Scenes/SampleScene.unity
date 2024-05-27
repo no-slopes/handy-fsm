@@ -751,23 +751,7 @@ MonoBehaviour:
   _initializationMode: 0
   _defaultScriptableState: {fileID: 0}
   _scriptableStates: []
-  _signals:
-  - _key: dasdasda
-    _type: 0
-    _boolValue: 1
-    _intValue: 0
-    _floatValue: 0
-    _valueChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  - _key: dasdas
-    _type: 1
-    _boolValue: 0
-    _intValue: 0
-    _floatValue: 0
-    _valueChanged:
-      m_PersistentCalls:
-        m_Calls: []
+  _signals: []
   _triggers: []
   _statusChanged:
     m_PersistentCalls:
