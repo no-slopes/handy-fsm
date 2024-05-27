@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/no-slopes/handy-fsm/compare/v1.9.1...v1.9.2) (2024-05-27)
+
+
+### Bug Fixes
+
+* prefabs got to work ([c1b0027](https://github.com/no-slopes/handy-fsm/commit/c1b0027f297b65c5fc3e160e4c2dec01e11f65e8))
+
 ## [1.9.1](https://github.com/no-slopes/handy-fsm/compare/v1.9.0...v1.9.1) (2024-05-26)
 
 
