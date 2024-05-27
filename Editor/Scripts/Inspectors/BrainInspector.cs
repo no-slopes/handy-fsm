@@ -16,8 +16,10 @@ namespace HandyFSM.Editor
 
         private HandyFSMBrain _brain;
         private VisualElement _containerMain;
-        private RuntimeInfoElement _containerRuntimeInfo;
-        private ConfigurationElement _containerConfiguration;
+        private Label _statusText;
+        private EnumField _statusField;
+        private ObjectField _fieldOwner;
+        private ListView _listSignals;
 
         public HandyFSMBrain Brain => _brain;
 
@@ -31,24 +33,34 @@ namespace HandyFSM.Editor
             scriptField.SetEnabled(false);
             scriptField.value = MonoScript.FromMonoBehaviour(target as MonoBehaviour);
 
-            if (_brain.Info == null)
+            _statusField = _containerMain.Q<EnumField>("status-field");
+            _statusField.RegisterValueChangedCallback(OnStatusChanged);
+
+            _statusText = _containerMain.Q<Label>("status-text");
+            SetStatusText(_brain.Status);
+
+
+            _fieldOwner = _containerMain.Q<ObjectField>("field-owner");
+            _fieldOwner.objectType = typeof(Transform);
+
+
+            _listSignals = _containerMain.Q<ListView>("list-signals");
+            _listSignals.makeItem = () =>
             {
-                _brain.Info = CreateInstance<RuntimeInfo>();
-                MarkAsDirty(true);
-            }
+                SignalElement element = new();
+                return element;
+            };
 
-            _containerRuntimeInfo = new RuntimeInfoElement(_brain.Info);
-            _containerMain.Add(_containerRuntimeInfo);
-
-            if (_brain.Config == null)
+            _listSignals.bindItem = (element, i) =>
             {
-                _brain.Config = CreateInstance<Configuration>();
-                MarkAsDirty(true);
-            }
-
-            _containerConfiguration = new ConfigurationElement(_brain.Config, this);
-            _containerMain.Add(_containerConfiguration);
-
+                SignalElement signalElement = element as SignalElement;
+                if (_brain.SignalsList[i] == null)
+                {
+                    _brain.SignalsList[i] = new();
+                }
+                signalElement.SetSignal(_brain.SignalsList[i]);
+            };
+            _listSignals.itemsSource = _brain.SignalsList;
 
             return _containerMain;
         }
@@ -60,5 +72,40 @@ namespace HandyFSM.Editor
             if (persist)
                 AssetDatabase.SaveAssetIfDirty(_brain);
         }
+
+        #region Status
+
+        private void SetStatusText(MachineStatus status)
+        {
+            _statusText.text = status.ToString().ToUpper();
+
+            _statusText.RemoveFromClassList("off");
+            _statusText.RemoveFromClassList("on");
+            _statusText.RemoveFromClassList("paused");
+
+            switch (status)
+            {
+                case MachineStatus.On:
+                    _statusText.AddToClassList("on");
+                    break;
+                case MachineStatus.Paused:
+                    _statusText.AddToClassList("paused");
+                    break;
+                case MachineStatus.Off:
+                    _statusText.AddToClassList("off");
+                    break;
+                default:
+                    _statusText.AddToClassList("off");
+                    break;
+            }
+        }
+
+        private void OnStatusChanged(ChangeEvent<System.Enum> evt)
+        {
+            if (evt == null) return;
+            SetStatusText((MachineStatus)evt.newValue);
+        }
+
+        #endregion
     }
 }
