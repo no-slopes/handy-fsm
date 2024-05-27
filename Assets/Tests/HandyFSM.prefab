@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1180365716688412791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7318509194739001182}
+  - component: {fileID: 8765729806482405131}
+  m_Layer: 0
+  m_Name: HandyFSM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7318509194739001182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180365716688412791}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8765729806482405131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180365716688412791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcce1a81492c3842961e44814341af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _status: 2
+  _currentStateName: None
+  _owner: {fileID: 7318509194739001182}
+  _initializationMode: 0
+  _defaultScriptableState: {fileID: 11400000, guid: eb5d0a98c7d419d45902eacf2c29f872, type: 2}
+  _scriptableStates:
+  - {fileID: 11400000, guid: eb5d0a98c7d419d45902eacf2c29f872, type: 2}
+  - {fileID: 11400000, guid: 514fa6f0b28fd1647875e806f67bd251, type: 2}
+  _signals:
+  - _key: test
+    _type: 0
+    _boolValue: 0
+    _intValue: 0
+    _floatValue: 0
+    _valueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - _key: testInt
+    _type: 1
+    _boolValue: 0
+    _intValue: 44
+    _floatValue: 0
+    _valueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  _triggers:
+  - tap
+  _statusChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _stateChanged:
+    m_PersistentCalls:
+      m_Calls: []

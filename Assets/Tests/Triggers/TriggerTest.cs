@@ -28,8 +28,14 @@ public class TriggerTest : MonoBehaviour
 
     #endregion
 
+    public void SetBrain(HandyFSMBrain brain)
+    {
+        _brain = brain;
+    }
+
     private void OnButtonClick()
     {
+        if (_brain == null) return;
         _brain.Triggers.Squeeze("tap", new FloatTriggerData(Random.Range(0, 100)));
     }
 
