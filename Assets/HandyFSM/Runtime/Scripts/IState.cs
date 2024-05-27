@@ -6,11 +6,11 @@ namespace HandyFSM
     {
         bool Interruptible { get; }
         string Name { get; }
-        HandyFSMBrain Brain { get; }
+        FSMBrain Brain { get; }
 
         bool ShouldTransition(out IState target);
 
-        void Initialize(HandyFSMBrain machine);
+        void Initialize(FSMBrain machine);
 
         void Enter();
         void Exit();

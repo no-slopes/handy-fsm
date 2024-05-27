@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace HandyFSM.Editor
 {
-    [CustomEditor(typeof(HandyFSMBrain), true)]
+    [CustomEditor(typeof(FSMBrain), true)]
     public class BrainInspector : UnityEditor.Editor
     {
 
@@ -14,18 +14,18 @@ namespace HandyFSM.Editor
         [SerializeField]
         private MonoScript _scriptAsset;
 
-        private HandyFSMBrain _brain;
+        private FSMBrain _brain;
         private VisualElement _containerMain;
         private Label _statusText;
         private EnumField _statusField;
         private ObjectField _fieldOwner;
         private ListView _listSignals;
 
-        public HandyFSMBrain Brain => _brain;
+        public FSMBrain Brain => _brain;
 
         public override VisualElement CreateInspectorGUI()
         {
-            _brain = target as HandyFSMBrain;
+            _brain = target as FSMBrain;
 
             _containerMain = Resources.Load<VisualTreeAsset>($"UI Documents/{DocumentName}").Instantiate();
 

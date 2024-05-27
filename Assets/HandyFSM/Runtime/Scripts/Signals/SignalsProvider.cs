@@ -6,10 +6,10 @@ namespace HandyFSM
 {
     public class SignalsProvider
     {
-        protected HandyFSMBrain _brain;
+        protected FSMBrain _brain;
         protected Dictionary<string, Signal> _signals = new();
 
-        public SignalsProvider(HandyFSMBrain brain, List<Signal> signals)
+        public SignalsProvider(FSMBrain brain, List<Signal> signals)
         {
             _brain = brain;
             signals.ForEach(signal => _signals.Add(signal.Key, signal));

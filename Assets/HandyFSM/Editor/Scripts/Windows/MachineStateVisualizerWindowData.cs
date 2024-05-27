@@ -8,7 +8,7 @@ namespace HandyFSM.Editor
     public class MachineStateVisualizerWindowData : ScriptableSingleton<MachineStateVisualizerWindowData>
     {
         [SerializeField]
-        private HandyFSMBrain _machine;
+        private FSMBrain _machine;
 
         [SerializeField]
         private GameObject _machineObj;
@@ -16,12 +16,12 @@ namespace HandyFSM.Editor
         [SerializeField]
         private Session _session;
 
-        public HandyFSMBrain Machine => _machine;
+        public FSMBrain Machine => _machine;
         public GameObject MachineObj => _machineObj;
         public Session Session => _session;
 
 
-        public void SetMachine(HandyFSMBrain machine)
+        public void SetMachine(FSMBrain machine)
         {
             _machine = machine;
             if (_machine != null)

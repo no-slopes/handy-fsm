@@ -10,7 +10,7 @@ public class TriggerTest : MonoBehaviour
     private Button _button;
 
     [SerializeField]
-    private HandyFSMBrain _brain;
+    private FSMBrain _brain;
 
     #endregion
 
@@ -28,7 +28,7 @@ public class TriggerTest : MonoBehaviour
 
     #endregion
 
-    public void SetBrain(HandyFSMBrain brain)
+    public void SetBrain(FSMBrain brain)
     {
         _brain = brain;
     }

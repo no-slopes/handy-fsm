@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public HandyFSMBrain prefab;
+    public FSMBrain prefab;
     public TriggerTest test;
 
     // Start is called before the first frame update
