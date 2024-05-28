@@ -93,6 +93,11 @@ fmod_editor.log
 /node_modules.meta
 .release-it.json
 
+# Third Party
+
+/[Aa]ssets/Plugins/Sirenix
+
+
 
 
 
