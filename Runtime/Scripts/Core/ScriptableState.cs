@@ -21,7 +21,7 @@ namespace IndieGabo.HandyFSM
 
         #region Fields
 
-        protected FSMBrain _machine;
+        protected FSMBrain _brain;
         protected List<StateTransition> _transitions = new();
 
         #endregion
@@ -30,15 +30,15 @@ namespace IndieGabo.HandyFSM
 
         public bool Interruptible => _interruptible;
         public string Name => string.IsNullOrEmpty(_name) ? name : _name;
-        public FSMBrain Brain => _machine;
+        public FSMBrain Brain => _brain;
 
         #endregion
 
         #region Cycle Methods
 
-        public void Initialize(FSMBrain machine)
+        public void Initialize(FSMBrain brain)
         {
-            _machine = machine;
+            _brain = brain;
             SortTransitions();
             LoadActions();
             OnInitAction?.Invoke();
@@ -49,6 +49,7 @@ namespace IndieGabo.HandyFSM
         public void Tick() { OnTickAction?.Invoke(); }
         public void FixedTick() { OnFixedTickAction?.Invoke(); }
         public void LateTick() { OnLateTickAction?.Invoke(); }
+        public void TickIK(int layerIndex) { OnTickIKAction?.Invoke(layerIndex); }
 
         protected UnityAction OnInitAction { get; private set; }
         protected UnityAction OnEnterAction { get; private set; }
@@ -57,6 +58,7 @@ namespace IndieGabo.HandyFSM
         protected UnityAction OnTickAction { get; private set; }
         protected UnityAction OnLateTickAction { get; private set; }
         protected UnityAction OnFixedTickAction { get; private set; }
+        protected UnityAction<int> OnTickIKAction { get; private set; }
 
         #endregion
 
@@ -134,6 +136,7 @@ namespace IndieGabo.HandyFSM
             OnTickAction = GetDelegate<UnityAction>(stateType, "OnTick");
             OnLateTickAction = GetDelegate<UnityAction>(stateType, "OnLateTick");
             OnFixedTickAction = GetDelegate<UnityAction>(stateType, "OnFixedTick");
+            OnTickIKAction = GetDelegate<UnityAction<int>>(stateType, "OnTickIK");
         }
 
         private TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
