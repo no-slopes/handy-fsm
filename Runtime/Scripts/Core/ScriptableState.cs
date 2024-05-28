@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     public abstract class ScriptableState : ScriptableObject, IState
     {

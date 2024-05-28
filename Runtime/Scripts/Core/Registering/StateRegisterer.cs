@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HandyFSM.Registering
+namespace IndieGabo.HandyFSM.Registering
 {
     [RequireComponent(typeof(FSMBrain))]
     public class StateRegisterer : MonoBehaviour

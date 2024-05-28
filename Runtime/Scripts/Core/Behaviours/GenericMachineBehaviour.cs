@@ -1,4 +1,4 @@
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     /// <summary>
     /// The state machine

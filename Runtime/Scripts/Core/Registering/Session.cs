@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HandyFSM.Registering
+namespace IndieGabo.HandyFSM.Registering
 {
     [System.Serializable]
     public class Session

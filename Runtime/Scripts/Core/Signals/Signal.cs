@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     [System.Serializable]
     public class Signal

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HandyFSM.Registering
+namespace IndieGabo.HandyFSM.Registering
 {
     [CreateAssetMenu(fileName = "StateRegistry", menuName = "HandyFSM/StateRegistry")]
     public class StateRegistry : ScriptableObject

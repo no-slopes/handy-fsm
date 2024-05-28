@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     public interface IStateMachineBrain
     {

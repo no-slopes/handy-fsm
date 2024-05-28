@@ -3,7 +3,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace HandyFSM.Editor
+namespace IndieGabo.HandyFSM.Editor
 {
     [CustomEditor(typeof(FSMBrain), true)]
     public class BrainInspector : UnityEditor.Editor

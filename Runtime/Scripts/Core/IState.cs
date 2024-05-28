@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     public interface IState
     {

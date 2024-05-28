@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     [CreateAssetMenu(fileName = "State Announcer", menuName = "Handy Tools/FSM/Info", order = 0)]
     public class StateAnnouncer : ScriptableObject

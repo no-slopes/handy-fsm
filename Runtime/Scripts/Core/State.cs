@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     /// <summary>
     /// Represents a State controlled by the StateMachine class.

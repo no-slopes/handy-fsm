@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     /// <summary>
     /// The state machine base class

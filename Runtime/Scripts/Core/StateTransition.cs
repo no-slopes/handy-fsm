@@ -1,6 +1,6 @@
 using System;
 
-namespace HandyFSM
+namespace IndieGabo.HandyFSM
 {
     public class StateTransition
     {

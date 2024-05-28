@@ -1,8 +1,8 @@
-using HandyFSM.Registering;
+using IndieGabo.HandyFSM.Registering;
 using UnityEditor;
 using UnityEngine;
 
-namespace HandyFSM.Editor
+namespace IndieGabo.HandyFSM.Editor
 {
     [FilePath("MachineStateVisualizerWindowData.asset", FilePathAttribute.Location.PreferencesFolder)]
     public class MachineStateVisualizerWindowData : ScriptableSingleton<MachineStateVisualizerWindowData>
