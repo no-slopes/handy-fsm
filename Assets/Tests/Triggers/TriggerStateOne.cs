@@ -21,6 +21,7 @@ public class TriggerStateOne : ScriptableState
 
     public void OnExit()
     {
+        Debug.Log($"{Brain.Signals.ReadInt("testInt")}");
         Brain.Triggers.UnregisterCallback("tap", GoToTwo);
     }
 

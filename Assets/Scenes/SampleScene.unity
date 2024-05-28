@@ -747,12 +747,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _status: 2
   _currentStateName: None
-  _owner: {fileID: 0}
+  _owner: {fileID: 1914156254}
   _initializationMode: 0
   _defaultScriptableState: {fileID: 0}
   _scriptableStates: []
   _signals: []
-  _triggers: []
+  _triggers:
+  - OnJump
   _statusChanged:
     m_PersistentCalls:
       m_Calls: []
