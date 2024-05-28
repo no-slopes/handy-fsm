@@ -17,5 +17,6 @@ namespace IndieGabo.HandyFSM
         void Tick();
         void FixedTick();
         void LateTick();
+        void TickIK(int layerIndex);
     }
 }

@@ -50,9 +50,9 @@ namespace IndieGabo.HandyFSM
         /// <summary>
         /// This will be called before the  method.
         /// </summary>
-        public virtual void Initialize(FSMBrain machine)
+        public virtual void Initialize(FSMBrain brain)
         {
-            _brain = machine;
+            _brain = brain;
             _name = GetType().Name;
             SortTransitions();
             LoadActions();
@@ -64,6 +64,7 @@ namespace IndieGabo.HandyFSM
         public void Tick() { OnTickAction?.Invoke(); }
         public void FixedTick() { OnFixedTickAction?.Invoke(); }
         public void LateTick() { OnLateTickAction?.Invoke(); }
+        public void TickIK(int layerIndex) { OnTickIKAction?.Invoke(layerIndex); }
 
         protected UnityAction OnInitAction { get; private set; }
         protected UnityAction OnEnterAction { get; private set; }
@@ -72,6 +73,7 @@ namespace IndieGabo.HandyFSM
         protected UnityAction OnTickAction { get; private set; }
         protected UnityAction OnLateTickAction { get; private set; }
         protected UnityAction OnFixedTickAction { get; private set; }
+        protected UnityAction<int> OnTickIKAction { get; private set; }
 
         #endregion       
 
@@ -148,6 +150,7 @@ namespace IndieGabo.HandyFSM
             OnTickAction = GetDelegate<UnityAction>(stateType, "OnTick");
             OnLateTickAction = GetDelegate<UnityAction>(stateType, "OnLateTick");
             OnFixedTickAction = GetDelegate<UnityAction>(stateType, "OnFixedTick");
+            OnTickIKAction = GetDelegate<UnityAction<int>>(stateType, "OnTickIK");
         }
 
         private TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
