@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HandyFSM.Registering;
+using IndieGabo.HandyFSM.Registering;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace HandyFSM.Editor
+namespace IndieGabo.HandyFSM.Editor
 {
     public class StateVisualizer
     {

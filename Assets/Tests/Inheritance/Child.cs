@@ -1,5 +1,5 @@
 using System;
-using HandyFSM;
+using IndieGabo.HandyFSM;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
