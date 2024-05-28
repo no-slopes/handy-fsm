@@ -1,5 +1,5 @@
 {
-    "name": "HandyFSM.Editor",
+    "name": "IndieGabo.HandyFSM.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:b38b25d335d323d4dad286aed712f4cf"

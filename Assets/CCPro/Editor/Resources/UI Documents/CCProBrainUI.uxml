@@ -1,0 +1,34 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/CCPro/Resources/Styles/ccpro-inspector-styles.uss?fileID=7433441132597879392&amp;guid=bcf801040c26de84287e091fb85ad043&amp;type=3#ccpro-inspector-styles" />
+    <uie:ObjectField label="Script" type="UnityEditor.MonoScript, UnityEditor.CoreModule" name="script-field" class="w-100 sa-field" />
+    <ui:VisualElement name="container-info" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+        <ui:VisualElement name="container-info-fields" style="flex-grow: 1;">
+            <ui:VisualElement name="runtime-info-container" class="row" style="flex-grow: 1; display: flex;">
+                <ui:Label tabindex="-1" text="Runtime Info" parse-escape-sequences="true" display-tooltip-when-elided="true" name="runtime-info-label" class="info-label" style="margin-top: 5px; margin-bottom: 5px; display: none;" />
+                <ui:VisualElement name="runtime-info" style="align-items: center; height: 100%; background-color: rgb(46, 46, 46); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+                    <ui:VisualElement name="status-row" class="field-row runtime-info-row" style="flex-direction: row; align-items: center;">
+                        <ui:Label tabindex="-1" text="Status: " parse-escape-sequences="true" display-tooltip-when-elided="true" name="status-label" class="runtime-label" style="-unity-font-style: bold; -unity-text-align: middle-left;" />
+                        <ui:Label tabindex="-1" text="Off" parse-escape-sequences="true" display-tooltip-when-elided="true" name="status-text" class="off" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="current-state-row" class="field-row runtime-info-row" style="flex-direction: row; width: 100%; font-size: 16px; -unity-font-style: bold; align-items: center;">
+                        <ui:Label tabindex="-1" text="Current State:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="current-state-label" class="runtime-label" style="font-size: 14px;" />
+                        <ui:Label tabindex="-1" text="None" parse-escape-sequences="true" display-tooltip-when-elided="true" name="current-state-text" binding-path="_currentStateName" class="state-name" style="-unity-font-style: normal; font-size: 14px; -unity-text-align: middle-left;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="hidden-fields" style="flex-grow: 1; display: none;">
+                <ui:EnumField label="Status" type="IndieGabo.HandyFSM.MachineStatus, HandyFSM.Runtime" name="status-field" binding-path="_status" value="Off" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <uie:ObjectField label="Owner" name="field-owner" binding-path="_owner" />
+    <ui:EnumField label="Initialization Mode" type="IndieGabo.HandyFSM.InitializationMode, HandyFSM.Runtime" name="field-initialization-mode" tooltip="How should the machine be initialized?" binding-path="_initializationMode" />
+    <uie:ObjectField label="Default Scriptable State" name="field-default-scriptable-state" type="IndieGabo.HandyFSM.ScriptableState, HandyFSM.Runtime" binding-path="_defaultScriptableState" />
+    <ui:ListView focusable="true" name="list-scriptable-states" selection-type="None" reorderable="true" header-title="Scriptable States" show-add-remove-footer="true" show-foldout-header="true" binding-path="_scriptableStates" class="no-label-list" />
+    <ui:ListView focusable="true" name="list-signals" reorderable="false" header-title="Signals" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" selection-type="None" show-border="false" binding-path="_signals" />
+    <ui:ListView focusable="true" name="list-triggers" reorderable="true" header-title="Triggers" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" binding-path="_triggers" selection-type="None" show-border="true" class="no-label-list" />
+    <ui:Foldout text="Events" name="foldout-events" value="false">
+        <uie:PropertyField name="status-changed-field" binding-path="_statusChanged" label="Status Changed" tooltip="Fired when the machine state changes" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+        <uie:PropertyField name="state-changed-field" binding-path="_stateChanged" label="State Changed" tooltip="Fired every time the current state changes" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+    </ui:Foldout>
+</ui:UXML>

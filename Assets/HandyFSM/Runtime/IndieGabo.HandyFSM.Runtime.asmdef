@@ -1,5 +1,5 @@
 {
-    "name": "HandyFSM.Runtime",
+    "name": "IndieGabo.HandyFSM.Runtime",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],

@@ -1,0 +1,19 @@
+{
+    "name": "IndieGabo.HandyFSM.CCPro.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bbffb97b4f35d0b42a3efd5cf0731e3b",
+        "GUID:b38b25d335d323d4dad286aed712f4cf"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
