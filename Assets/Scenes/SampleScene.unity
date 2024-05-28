@@ -752,8 +752,7 @@ MonoBehaviour:
   _defaultScriptableState: {fileID: 0}
   _scriptableStates: []
   _signals: []
-  _triggers:
-  - OnJump
+  _triggers: []
   _statusChanged:
     m_PersistentCalls:
       m_Calls: []
