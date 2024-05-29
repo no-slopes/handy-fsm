@@ -9,9 +9,7 @@ namespace IndieGabo.HandyFSM
         FSMBrain Brain { get; }
 
         bool ShouldTransition(out IState target);
-
         void Initialize(FSMBrain machine);
-
         void Enter();
         void Exit();
         void Tick();

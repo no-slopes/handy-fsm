@@ -98,7 +98,7 @@ namespace IndieGabo.HandyFSM
         /// </summary>
         /// <param name="state">The target state if a valid transition is found.</param>
         /// <returns>True if a valid transition is found, otherwise false.</returns>
-        public bool ShouldTransition(out IState state)
+        public virtual bool ShouldTransition(out IState state)
         {
             // Initialize the output parameter
             state = null;
@@ -139,7 +139,7 @@ namespace IndieGabo.HandyFSM
             OnTickIKAction = GetDelegate<UnityAction<int>>(stateType, "OnTickIK");
         }
 
-        private TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
+        protected virtual TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
         {
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             if (method != null)
