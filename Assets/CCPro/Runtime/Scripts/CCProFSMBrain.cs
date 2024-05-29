@@ -23,13 +23,13 @@ namespace IndieGabo.HandyFSM.CCPro
         protected NormalMovementStatsProvider _normalMovementStatsProvider;
 
         [SerializeField]
-        protected MovementReferenceParameters _movementReferenceParameters = new();
-
-        [SerializeField]
         protected MaterialController _materialController;
 
         [SerializeField]
         protected CharacterActions _characterActions;
+
+        [SerializeField]
+        protected MovementReferenceParameters _movementReferenceParameters = new();
 
         #endregion
 
@@ -106,7 +106,6 @@ namespace IndieGabo.HandyFSM.CCPro
         /// </summary>
         protected virtual void BeforeInitialized()
         {
-
         }
 
         /// <summary>
@@ -114,7 +113,6 @@ namespace IndieGabo.HandyFSM.CCPro
         /// </summary>
         protected virtual void AfterInitialized()
         {
-            _movementReferenceParameters.UpdateData(Vector2.right);
         }
 
         #endregion
@@ -144,6 +142,8 @@ namespace IndieGabo.HandyFSM.CCPro
         protected override void Start()
         {
             base.Start();
+            _movementReferenceParameters.Initialize(CharacterActor);
+            _movementReferenceParameters.UpdateData(Vector2.right);
         }
 
         protected override void Update() { }

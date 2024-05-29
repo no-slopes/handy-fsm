@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace IndieGabo.HandyFSM.CCPro
 {
-    public abstract class NormalMovement : ScriptableCCProState
+    public abstract class NormalMovementState : ScriptableCCProState
     {
         protected static readonly string WantsToRunSignal = "wantsToRun";
 
@@ -67,12 +67,11 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected virtual void OnInit()
         {
+            Debug.Log($"OnInit {CCProBrain}");
             _notGroundedJumpsLeft = CCProBrain.MovementStats.VerticalMovement.availableNotGroundedJumps;
             _targetHeight = CCProBrain.CharacterActor.DefaultBodySize.y;
             float minCrouchHeightRatio = CCProBrain.CharacterActor.BodySize.x / CCProBrain.CharacterActor.BodySize.y;
             CCProBrain.MovementStats.Crouch.heightRatio = Mathf.Max(minCrouchHeightRatio, CCProBrain.MovementStats.Crouch.heightRatio);
-
-            CCProBrain.Signals.ValidateSignal(WantsToRunSignal, this);
         }
 
         protected virtual void OnEnter()
