@@ -3212,6 +3212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 697881671}
   - component: {fileID: 697881672}
+  - component: {fileID: 697881673}
   m_Layer: 0
   m_Name: FSM
   m_TagString: Untagged
@@ -3262,9 +3263,25 @@ MonoBehaviour:
       m_Calls: []
   _animator: {fileID: 0}
   _characterActor: {fileID: 0}
+  _normalMovementStatsProvider: {fileID: 0}
   _movementReferenceParameters:
     movementReferenceMode: 0
     externalReference: {fileID: 0}
+  _materialController: {fileID: 0}
+  _characterActions: {fileID: 0}
+--- !u!114 &697881673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697881670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8557bc9e3f93c14bb703a43b977aa35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultStats: {fileID: 11400000, guid: 7d9bd57f221a74a4d8c87f4a8bff58dc, type: 2}
 --- !u!1 &703252279
 GameObject:
   m_ObjectHideFlags: 0
@@ -6650,7 +6667,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -91.4, y: -70.05}
+  m_AnchoredPosition: {x: -91.3999, y: -70.05005}
   m_SizeDelta: {x: 182.9, y: 139.0914}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1476832073

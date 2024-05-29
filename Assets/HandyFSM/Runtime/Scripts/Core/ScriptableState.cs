@@ -36,20 +36,21 @@ namespace IndieGabo.HandyFSM
 
         #region Cycle Methods
 
-        public void Initialize(FSMBrain brain)
+        public virtual void Initialize(FSMBrain brain)
         {
             _brain = brain;
             SortTransitions();
-            LoadActions();
+            Type type = GetType();
+            LoadActions(type);
             OnInitAction?.Invoke();
         }
 
-        public void Enter() { OnEnterAction?.Invoke(); }
-        public void Exit() { OnExitAction?.Invoke(); }
-        public void Tick() { OnTickAction?.Invoke(); }
-        public void FixedTick() { OnFixedTickAction?.Invoke(); }
-        public void LateTick() { OnLateTickAction?.Invoke(); }
-        public void TickIK(int layerIndex) { OnTickIKAction?.Invoke(layerIndex); }
+        public virtual void Enter() { OnEnterAction?.Invoke(); }
+        public virtual void Exit() { OnExitAction?.Invoke(); }
+        public virtual void Tick() { OnTickAction?.Invoke(); }
+        public virtual void FixedTick() { OnFixedTickAction?.Invoke(); }
+        public virtual void LateTick() { OnLateTickAction?.Invoke(); }
+        public virtual void TickIK(int layerIndex) { OnTickIKAction?.Invoke(layerIndex); }
 
         protected UnityAction OnInitAction { get; private set; }
         protected UnityAction OnEnterAction { get; private set; }
@@ -128,16 +129,15 @@ namespace IndieGabo.HandyFSM
         /// <summary>
         /// Loads methods as actions to be called during the state's lifecycle.
         /// </summary>
-        protected virtual void LoadActions()
+        protected virtual void LoadActions(Type type)
         {
-            Type stateType = GetType();
-            OnInitAction = GetDelegate<UnityAction>(stateType, "OnInit");
-            OnEnterAction = GetDelegate<UnityAction>(stateType, "OnEnter");
-            OnExitAction = GetDelegate<UnityAction>(stateType, "OnExit");
-            OnTickAction = GetDelegate<UnityAction>(stateType, "OnTick");
-            OnLateTickAction = GetDelegate<UnityAction>(stateType, "OnLateTick");
-            OnFixedTickAction = GetDelegate<UnityAction>(stateType, "OnFixedTick");
-            OnTickIKAction = GetDelegate<UnityAction<int>>(stateType, "OnTickIK");
+            OnInitAction = GetDelegate<UnityAction>(type, "OnInit");
+            OnEnterAction = GetDelegate<UnityAction>(type, "OnEnter");
+            OnExitAction = GetDelegate<UnityAction>(type, "OnExit");
+            OnTickAction = GetDelegate<UnityAction>(type, "OnTick");
+            OnLateTickAction = GetDelegate<UnityAction>(type, "OnLateTick");
+            OnFixedTickAction = GetDelegate<UnityAction>(type, "OnFixedTick");
+            OnTickIKAction = GetDelegate<UnityAction<int>>(type, "OnTickIK");
         }
 
         protected virtual TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class

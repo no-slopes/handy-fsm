@@ -26,57 +26,27 @@ namespace IndieGabo.HandyFSM.CCPro
         /// <summary>
         /// Returns true if the value is not equal to zero (e.g. When pressing a D-pad)
         /// </summary>
-        public bool Detected
-        {
-            get
-            {
-                return value != Vector2.zero;
-            }
-        }
+        public readonly bool Detected => value != Vector2.zero;
 
         /// <summary>
         /// Returns true if the x component is positive.
         /// </summary>
-        public bool Right
-        {
-            get
-            {
-                return value.x > 0;
-            }
-        }
+        public readonly bool Right => value.x > 0;
 
         /// <summary>
         /// Returns true if the x component is negative.
         /// </summary>
-        public bool Left
-        {
-            get
-            {
-                return value.x < 0;
-            }
-        }
+        public readonly bool Left => value.x < 0;
 
         /// <summary>
         /// Returns true if the y component is positive.
         /// </summary>
-        public bool Up
-        {
-            get
-            {
-                return value.y > 0;
-            }
-        }
+        public readonly bool Up => value.y > 0;
 
         /// <summary>
         /// Returns true if the y component is negative.
         /// </summary>
-        public bool Down
-        {
-            get
-            {
-                return value.y < 0;
-            }
-        }
+        public readonly bool Down => value.y < 0;
 
         public void Initialize(InputAction inputAction)
         {
@@ -93,7 +63,7 @@ namespace IndieGabo.HandyFSM.CCPro
 
         private void OnPerformed(InputAction.CallbackContext context)
         {
-            value = context.ReadValue<Vector2>();
+            value = context.ReadValue<Vector2>().normalized;
         }
 
         private void OnCanceled(InputAction.CallbackContext context)

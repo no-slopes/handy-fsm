@@ -1,4 +1,5 @@
 using Lightbug.CharacterControllerPro.Core;
+using Lightbug.CharacterControllerPro.Demo;
 using Lightbug.CharacterControllerPro.Implementation;
 using UnityEngine;
 
@@ -19,7 +20,16 @@ namespace IndieGabo.HandyFSM.CCPro
         protected CharacterActor _characterActor;
 
         [SerializeField]
-        MovementReferenceParameters _movementReferenceParameters = new();
+        protected NormalMovementStatsProvider _normalMovementStatsProvider;
+
+        [SerializeField]
+        protected MovementReferenceParameters _movementReferenceParameters = new();
+
+        [SerializeField]
+        protected MaterialController _materialController;
+
+        [SerializeField]
+        protected CharacterActions _characterActions;
 
         #endregion
 
@@ -32,11 +42,9 @@ namespace IndieGabo.HandyFSM.CCPro
         public Animator Animator => _animator;
         public CharacterActor CharacterActor => _characterActor;
         public MovementReferenceParameters MovementReferenceParameters => _movementReferenceParameters;
-        bool CanCurrentStateOverrideAnimatorController()
-        {
-            if (CurrentState is not ICCProState state) return false;
-            return state.OverrideAnimatorController && state.RuntimeAnimatorController != null && _animator != null;
-        }
+        public NormalMovementStatsProvider MovementStats => _normalMovementStatsProvider;
+        public MaterialController MaterialController => _materialController;
+        public CharacterActions CharacterActions => _characterActions;
 
         /// <summary>
         /// Gets a vector that is the product of the input axes (taken from the character actions) and the movement reference. 
@@ -174,9 +182,6 @@ namespace IndieGabo.HandyFSM.CCPro
 
             // Change the current state
             _currentState = state;
-
-            if (CanCurrentStateOverrideAnimatorController())
-                Animator.runtimeAnimatorController = (CurrentState as ICCProState).RuntimeAnimatorController;
 
             // Announce the new state
             _stateChanged.Invoke(_currentState, _previousState);

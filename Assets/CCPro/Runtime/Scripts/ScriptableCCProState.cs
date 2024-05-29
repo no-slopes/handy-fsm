@@ -6,25 +6,29 @@ namespace IndieGabo.HandyFSM.CCPro
 {
     public abstract class ScriptableCCProState : ScriptableState, ICCProState
     {
-        #region Inspector
-
-        [SerializeField]
-        private bool _overrideRuntimeAnimatorController;
-
-        [SerializeField]
-        private RuntimeAnimatorController _runtimeAnimatorController;
-
-        #endregion
 
         #region Fields
+
+        protected CCProFSMBrain _ccProbrain;
 
         #endregion
 
         #region  Getters
 
+        public CCProFSMBrain CCProBrain => _ccProbrain;
+
         #endregion
 
         #region Cycle Methods
+        public override void Initialize(FSMBrain brain)
+        {
+            _brain = brain;
+            _ccProbrain = _brain as CCProFSMBrain;
+            SortTransitions();
+            Type type = GetType();
+            LoadActions(type);
+            OnInitAction?.Invoke();
+        }
 
         public void PreCharacterSimulation(float dt) { OnPreCharacterSimulationAction?.Invoke(dt); }
         public void PostCharacterSimulation(float dt) { OnPostCharacterSimulationAction?.Invoke(dt); }
@@ -36,9 +40,6 @@ namespace IndieGabo.HandyFSM.CCPro
         protected UnityAction OnPreFixedTickAction { get; private set; }
         protected UnityAction OnPostFixedTickAction { get; private set; }
 
-        public bool OverrideAnimatorController => _overrideRuntimeAnimatorController;
-        public RuntimeAnimatorController RuntimeAnimatorController => _runtimeAnimatorController;
-
         #endregion
 
         #region Actions
@@ -47,14 +48,13 @@ namespace IndieGabo.HandyFSM.CCPro
         /// <summary>
         /// Loads methods as actions to be called during the state's lifecycle.
         /// </summary>
-        protected override void LoadActions()
+        protected override void LoadActions(Type type)
         {
-            base.LoadActions();
-            Type stateType = GetType();
-            OnPreCharacterSimulationAction = GetDelegate<UnityAction<float>>(stateType, "OnPreCharacterSimulation");
-            OnPostCharacterSimulationAction = GetDelegate<UnityAction<float>>(stateType, "OnPostCharacterSimulation");
-            OnPreFixedTickAction = GetDelegate<UnityAction>(stateType, "OnPreFixedTick");
-            OnPostFixedTickAction = GetDelegate<UnityAction>(stateType, "OnPostFixedTick");
+            base.LoadActions(type);
+            OnPreCharacterSimulationAction = GetDelegate<UnityAction<float>>(type, "OnPreCharacterSimulation");
+            OnPostCharacterSimulationAction = GetDelegate<UnityAction<float>>(type, "OnPostCharacterSimulation");
+            OnPreFixedTickAction = GetDelegate<UnityAction>(type, "OnPreFixedTick");
+            OnPostFixedTickAction = GetDelegate<UnityAction>(type, "OnPostFixedTick");
         }
 
         #endregion
