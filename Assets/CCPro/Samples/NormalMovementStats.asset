@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433fa2bdbbe4f584bbf659735643b07f, type: 3}
   m_Name: NormalMovementStats
   m_EditorClassIdentifier: 
-  _planarMovementParameters:
+  _planarMovement:
     baseSpeedLimit: 6
     canRun: 1
     runInputMode: 1
     boostSpeedLimit: 10
-    stableGroundedAcceleration: 50
-    stableGroundedDeceleration: 40
+    stableGroundedAcceleration: 100
+    stableGroundedDeceleration: 100
     stableGroundedAngleAccelerationBoost:
       serializedVersion: 2
       m_Curve:
@@ -69,8 +69,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    notGroundedAcceleration: 20
-    notGroundedDeceleration: 5
+    notGroundedAcceleration: 100
+    notGroundedDeceleration: 100
     notGroundedAngleAccelerationBoost:
       serializedVersion: 2
       m_Curve:
@@ -95,14 +95,14 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  _verticalMovementParameters:
+  _verticalMovement:
     useGravity: 1
     canJump: 1
     autoCalculate: 1
-    jumpApexHeight: 2.25
-    jumpApexDuration: 0.5
-    jumpSpeed: 10
-    gravity: 10
+    jumpApexHeight: 2.4
+    jumpApexDuration: 0.4
+    jumpSpeed: 9
+    gravity: 18
     cancelJumpOnRelease: 1
     cancelJumpMultiplier: 0.5
     cancelJumpMinTime: 0.1
@@ -116,15 +116,15 @@ MonoBehaviour:
     jumpDownTag: JumpDown
     jumpDownDistance: 0.05
     jumpDownVerticalVelocity: 0.5
-  _crouchParameters:
+  _crouch:
     enableCrouch: 1
     notGroundedCrouch: 0
     heightRatio: 0.75
     speedMultiplier: 0.3
-    inputMode: 1
+    inputMode: 0
     notGroundedReference: 0
     sizeLerpSpeed: 8
-  _lookingDirectionParameters:
+  _lookingDirection:
     changeLookingDirection: 1
     speed: 10
     lookingDirectionMode: 0
@@ -132,10 +132,10 @@ MonoBehaviour:
     stableGroundedLookingDirectionMode: 1
     unstableGroundedLookingDirectionMode: 0
     notGroundedLookingDirectionMode: 1
-  groundedParameter: Grounded
-  stableParameter: Stable
-  verticalSpeedParameter: VerticalSpeed
-  planarSpeedParameter: PlanarSpeed
-  horizontalAxisParameter: HorizontalAxis
-  verticalAxisParameter: VerticalAxis
-  heightParameter: Height
+  _groundedAnimationParameter: Grounded
+  _stableAnimationParameter: Stable
+  _verticalSpeedAnimationParameter: VerticalSpeed
+  _planarSpeedAnimationParameter: PlanarSpeed
+  _horizontalAxisAnimationParameter: HorizontalAxis
+  _verticalAxisAnimationParameter: VerticalAxis
+  _heightAnimationParameter: Height

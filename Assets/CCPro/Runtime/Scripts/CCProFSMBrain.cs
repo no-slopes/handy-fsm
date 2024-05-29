@@ -26,7 +26,7 @@ namespace IndieGabo.HandyFSM.CCPro
         protected MaterialController _materialController;
 
         [SerializeField]
-        protected CharacterActions _characterActions;
+        protected CharacterBrain _characterBrain;
 
         [SerializeField]
         protected MovementReferenceParameters _movementReferenceParameters = new();
@@ -41,10 +41,10 @@ namespace IndieGabo.HandyFSM.CCPro
 
         public Animator Animator => _animator;
         public CharacterActor CharacterActor => _characterActor;
+        public CharacterBrain CharacterBrain => _characterBrain;
         public MovementReferenceParameters MovementReferenceParameters => _movementReferenceParameters;
         public NormalMovementStatsProvider MovementStats => _normalMovementStatsProvider;
         public MaterialController MaterialController => _materialController;
-        public CharacterActions CharacterActions => _characterActions;
 
         /// <summary>
         /// Gets a vector that is the product of the input axes (taken from the character actions) and the movement reference. 
@@ -153,7 +153,7 @@ namespace IndieGabo.HandyFSM.CCPro
         {
             if (!IsOn) return;
 
-            _movementReferenceParameters.UpdateData(Vector2.right);
+            _movementReferenceParameters.UpdateData(_characterBrain.CharacterActions.movement.value);
 
             EvaluateTransition();
             (_currentState as ICCProState)?.PreFixedTick();

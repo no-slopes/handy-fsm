@@ -672,6 +672,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1657015000}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &141832106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 141832108}
+  - component: {fileID: 141832107}
+  m_Layer: 0
+  m_Name: Player Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &141832107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141832106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!4 &141832108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141832106}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 67.56, y: 3.78, z: 0}
+  m_LocalScale: {x: 7, y: 0.443, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &141914051
 GameObject:
   m_ObjectHideFlags: 0
@@ -2999,7 +3061,7 @@ MonoBehaviour:
   _characterActor: {fileID: 1407623432}
   _normalMovementStatsProvider: {fileID: 697881673}
   _materialController: {fileID: 1585700340}
-  _characterActions: {fileID: 1709897351}
+  _characterBrain: {fileID: 1709897350}
   _movementReferenceParameters:
     movementReferenceMode: 1
     externalReference: {fileID: 1300449432}
@@ -8537,7 +8599,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709897348}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c76e107f4442f0f4181c48506caf15f1, type: 3}
   m_Name: 
@@ -8545,8 +8607,8 @@ MonoBehaviour:
   UpdateMode: 0
   isAI: 0
   inputHandlerSettings:
-    humanInputType: 0
-    inputHandler: {fileID: 0}
+    humanInputType: 2
+    inputHandler: {fileID: 1709897351}
   aiBehaviour: {fileID: 0}
   characterActions:
     jump:
@@ -8576,9 +8638,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1709897348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faf7137a4c71def4c9bd2b8e7ac1a077, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f5d21c3e0e17544aa64367a3202f012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerInput: {fileID: 141832107}
+  _movementActionRef: {fileID: 7220861436608173131, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _jumpActionRef: {fileID: -7116467636281023146, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _crouchActionRef: {fileID: 4542634659746035562, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _runActionRef: {fileID: -2200654553793172549, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _dashActionRef: {fileID: 874905840803498737, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _interactActionRef: {fileID: -4390203871172007677, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _jetPackActionRef: {fileID: -8485348217834751688, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _pitchActionRef: {fileID: -9157907065255802017, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _rollActionRef: {fileID: 6400903552733661483, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
 --- !u!1 &1712790565
 GameObject:
   m_ObjectHideFlags: 0
@@ -12615,7 +12687,7 @@ MonoBehaviour:
     notGroundedCrouch: 0
     heightRatio: 0.75
     speedMultiplier: 0.3
-    inputMode: 1
+    inputMode: 0
     notGroundedReference: 0
     sizeLerpSpeed: 8
   lookingDirectionParameters:
@@ -12928,6 +13000,7 @@ SceneRoots:
   - {fileID: 469810518}
   - {fileID: 333401116}
   - {fileID: 8852230692867241913}
+  - {fileID: 141832108}
   - {fileID: 1407623434}
   - {fileID: 919798653}
   - {fileID: 7217005884417753257}

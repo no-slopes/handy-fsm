@@ -1,5 +1,6 @@
 using Lightbug.CharacterControllerPro.Core;
 using Lightbug.CharacterControllerPro.Demo;
+using Lightbug.CharacterControllerPro.Implementation;
 using Lightbug.Utilities;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected MaterialController MaterialController => CCProBrain.MaterialController;
         protected CharacterActor CharacterActor => CCProBrain.CharacterActor;
-        protected CharacterActions CharacterActions => CCProBrain.CharacterActions;
+        protected CharacterActions CharacterActions => CCProBrain.CharacterBrain.CharacterActions;
         protected PlanarMovementParameters PlanarMovement => CCProBrain.MovementStats.PlanarMovement;
         protected VerticalMovementParameters VerticalMovement => CCProBrain.MovementStats.VerticalMovement;
         protected CrouchParameters Crouch => CCProBrain.MovementStats.Crouch;
@@ -67,7 +68,6 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected virtual void OnInit()
         {
-            Debug.Log($"OnInit {CCProBrain}");
             _notGroundedJumpsLeft = CCProBrain.MovementStats.VerticalMovement.availableNotGroundedJumps;
             _targetHeight = CCProBrain.CharacterActor.DefaultBodySize.y;
             float minCrouchHeightRatio = CCProBrain.CharacterActor.BodySize.x / CCProBrain.CharacterActor.BodySize.y;
@@ -119,8 +119,8 @@ namespace IndieGabo.HandyFSM.CCPro
 
             CCProBrain.Animator.SetBool(CCProBrain.MovementStats.GroundedAnimationParameter, CharacterActor.IsGrounded);
             CCProBrain.Animator.SetBool(CCProBrain.MovementStats.StableAnimationParameter, CharacterActor.IsStable);
-            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.HorizontalAxisAnimationParameter, CharacterActions.MovementInput.x);
-            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.VerticalAxisAnimationParameter, CharacterActions.MovementInput.y);
+            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.HorizontalAxisAnimationParameter, CharacterActions.movement.value.x);
+            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.VerticalAxisAnimationParameter, CharacterActions.movement.value.y);
             CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.HeightAnimationParameter, CharacterActor.BodySize.y);
         }
 
@@ -247,12 +247,12 @@ namespace IndieGabo.HandyFSM.CCPro
                     // Run ------------------------------------------------------------
                     if (PlanarMovement.runInputMode == InputMode.Toggle)
                     {
-                        if (CharacterActions.WantsToMove)
+                        if (CharacterActions.run.Started)
                             _wantToRun = !_wantToRun;
                     }
                     else
                     {
-                        _wantToRun = CharacterActions.WantsToMove;
+                        _wantToRun = CharacterActions.run.value;
                     }
 
                     if (_wantToCrouch || !PlanarMovement.canRun)
@@ -324,9 +324,6 @@ namespace IndieGabo.HandyFSM.CCPro
         {
             JumpResult jumpResult = JumpResult.Invalid;
 
-            if (!CharacterActions.WantsToJump)
-                return jumpResult;
-
             if (!VerticalMovement.canJump)
                 return jumpResult;
 
@@ -336,25 +333,29 @@ namespace IndieGabo.HandyFSM.CCPro
             switch (CharacterActor.CurrentState)
             {
                 case CharacterActorState.StableGrounded:
-                    if (CharacterActions.JumpElapsedTime <= VerticalMovement.preGroundedJumpTime && _groundedJumpAvailable)
+                    if (CharacterActions.jump.StartedElapsedTime <= VerticalMovement.preGroundedJumpTime && _groundedJumpAvailable)
                         jumpResult = JumpResult.Grounded;
                     break;
 
                 case CharacterActorState.NotGrounded:
-                    // First check if the "grounded jump" is available. If so, execute a "coyote jump".
-                    if (CharacterActor.NotGroundedTime <= VerticalMovement.postGroundedJumpTime && _groundedJumpAvailable)
+
+                    if (CharacterActions.jump.Started)
                     {
-                        jumpResult = JumpResult.Grounded;
-                    }
-                    else if (_notGroundedJumpsLeft != 0)  // Do a not grounded jump
-                    {
-                        jumpResult = JumpResult.NotGrounded;
+                        // First check if the "grounded jump" is available. If so, execute a "coyote jump".
+                        if (CharacterActor.NotGroundedTime <= VerticalMovement.postGroundedJumpTime && _groundedJumpAvailable)
+                        {
+                            jumpResult = JumpResult.Grounded;
+                        }
+                        else if (_notGroundedJumpsLeft != 0)  // Do a not grounded jump
+                        {
+                            jumpResult = JumpResult.NotGrounded;
+                        }
                     }
 
                     break;
                 case CharacterActorState.UnstableGrounded:
 
-                    if (CharacterActions.JumpElapsedTime <= VerticalMovement.preGroundedJumpTime && VerticalMovement.canJumpOnUnstableGround)
+                    if (CharacterActions.jump.StartedElapsedTime <= VerticalMovement.preGroundedJumpTime && VerticalMovement.canJumpOnUnstableGround)
                         jumpResult = JumpResult.Grounded;
 
                     break;
@@ -398,12 +399,11 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected virtual bool ProcessJumpDownAction()
         {
-            return _isCrouched && CharacterActions.WantsToJump;
+            return _isCrouched && CharacterActions.jump.Started;
         }
 
         protected virtual void JumpDown(float dt)
         {
-
             float groundDisplacementExtraDistance = 0f;
 
             Vector3 groundDisplacement = CustomUtilities.Multiply(CharacterActor.GroundVelocity, dt);
@@ -441,11 +441,11 @@ namespace IndieGabo.HandyFSM.CCPro
             {
                 if (VerticalMovement.cancelJumpOnRelease)
                 {
-                    if (CharacterActions.JumpElapsedTime >= VerticalMovement.cancelJumpMaxTime || CharacterActor.IsFalling)
+                    if (CharacterActions.jump.StartedElapsedTime >= VerticalMovement.cancelJumpMaxTime || CharacterActor.IsFalling)
                     {
                         _isAllowedToCancelJump = false;
                     }
-                    else if (!CharacterActions.WantsToJump && CharacterActions.JumpElapsedTime >= VerticalMovement.cancelJumpMinTime)
+                    else if (!CharacterActions.jump.value && CharacterActions.jump.StartedElapsedTime >= VerticalMovement.cancelJumpMinTime)
                     {
                         // Get the velocity mapped onto the current jump direction
                         Vector3 projectedJumpVelocity = Vector3.Project(CharacterActor.Velocity, _jumpDirection);
@@ -606,12 +606,12 @@ namespace IndieGabo.HandyFSM.CCPro
             {
                 if (Crouch.inputMode == InputMode.Toggle)
                 {
-                    if (CharacterActions.WantsToCrouch)
+                    if (CharacterActions.crouch.Started)
                         _wantToCrouch = !_wantToCrouch;
                 }
                 else
                 {
-                    _wantToCrouch = CharacterActions.WantsToCrouch;
+                    _wantToCrouch = CharacterActions.crouch.value;
                 }
 
                 if (!Crouch.notGroundedCrouch && !CharacterActor.IsGrounded)
