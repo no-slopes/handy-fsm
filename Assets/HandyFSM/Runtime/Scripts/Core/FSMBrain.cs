@@ -28,37 +28,37 @@ namespace IndieGabo.HandyFSM
         /// The current machine's status of the MachineStatus enum type. 
         /// </summary>
         [SerializeField]
-        private MachineStatus _status = MachineStatus.Off;
+        protected MachineStatus _status = MachineStatus.Off;
 
         /// <summary>
         /// The current state name
         /// </summary>
         [SerializeField]
-        private string _currentStateName = "None";
+        protected string _currentStateName = "None";
 
         [SerializeField]
-        private Transform _owner;
+        protected Transform _owner;
 
         [SerializeField]
-        private InitializationMode _initializationMode = InitializationMode.Automatic;
+        protected InitializationMode _initializationMode = InitializationMode.Automatic;
 
         [SerializeField]
-        private ScriptableState _defaultScriptableState;
+        protected ScriptableState _defaultScriptableState;
 
         [SerializeField]
-        private List<ScriptableState> _scriptableStates;
+        protected List<ScriptableState> _scriptableStates;
 
         [SerializeField]
-        private List<Signal> _signals = new();
+        protected List<Signal> _signals = new();
 
         [SerializeField]
-        private List<string> _triggers = new();
+        protected List<string> _triggers = new();
 
         [SerializeField]
-        private UnityEvent<MachineStatus> _statusChanged;
+        protected UnityEvent<MachineStatus> _statusChanged;
 
         [SerializeField]
-        private UnityEvent<IState, IState> _stateChanged;
+        protected UnityEvent<IState, IState> _stateChanged;
 
         #endregion
 

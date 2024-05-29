@@ -16,16 +16,16 @@ namespace IndieGabo.HandyFSM
         #region Fields
 
         [SerializeField]
-        private string _name;
+        protected string _name;
 
         [SerializeField]
-        private bool _interruptible;
+        protected bool _interruptible;
 
         [SerializeField]
-        private FSMBrain _brain;
+        protected FSMBrain _brain;
 
         [SerializeField]
-        private List<StateTransition> _transitions = new();
+        protected List<StateTransition> _transitions = new();
 
         #endregion
 
@@ -153,7 +153,7 @@ namespace IndieGabo.HandyFSM
             OnTickIKAction = GetDelegate<UnityAction<int>>(stateType, "OnTickIK");
         }
 
-        private TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
+        protected virtual TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
         {
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             if (method != null)
@@ -167,12 +167,12 @@ namespace IndieGabo.HandyFSM
 
         #region Configurations
 
-        protected void SetName(string name)
+        protected virtual void SetName(string name)
         {
             _name = name;
         }
 
-        protected void SetInterruptible(bool interruptible)
+        protected virtual void SetInterruptible(bool interruptible)
         {
             _interruptible = interruptible;
         }
