@@ -100,8 +100,6 @@ namespace IndieGabo.HandyFSM
         /// <returns>True if a valid transition is found, otherwise false.</returns>
         public virtual bool ShouldTransition(out IState state)
         {
-            // Initialize the output parameter
-            state = null;
 
             // Iterate through each transition
             for (int i = 0; i < _transitions.Count; i++)
@@ -118,6 +116,9 @@ namespace IndieGabo.HandyFSM
                 // Return true to indicate a successful transition
                 return true;
             }
+
+            // Default to null if no valid transition was found
+            state = null;
 
             // No transition condition was met, return false
             return false;

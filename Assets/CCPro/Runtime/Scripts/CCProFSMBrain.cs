@@ -38,6 +38,35 @@ namespace IndieGabo.HandyFSM.CCPro
             return state.OverrideAnimatorController && state.RuntimeAnimatorController != null && _animator != null;
         }
 
+        /// <summary>
+        /// Gets a vector that is the product of the input axes (taken from the character actions) and the movement reference. 
+        /// The magnitude of this vector is always less than or equal to 1.
+        /// </summary>
+        public Vector3 InputMovementReference => _movementReferenceParameters.InputMovementReference;
+
+        public Transform ExternalReference
+        {
+            get => _movementReferenceParameters.externalReference;
+            set => _movementReferenceParameters.externalReference = value;
+        }
+
+        public MovementReferenceParameters.MovementReferenceMode MovementReferenceMode
+        {
+            get => _movementReferenceParameters.movementReferenceMode;
+            set => _movementReferenceParameters.movementReferenceMode = value;
+        }
+
+        /// <summary>
+        /// Forward vector used by the movement reference.
+        /// </summary>
+        public Vector3 MovementReferenceForward => _movementReferenceParameters.MovementReferenceForward;
+
+
+        /// <summary>
+        /// Right vector used by the movement reference.
+        /// </summary>
+        public Vector3 MovementReferenceRight => _movementReferenceParameters.MovementReferenceRight;
+
         #endregion
 
         #region Properties
@@ -124,9 +153,10 @@ namespace IndieGabo.HandyFSM.CCPro
             (_currentState as ICCProState)?.PostFixedTick();
         }
 
-        #endregion       
+        #endregion
 
         #region Machine's Logic
+
         /// <summary>
         /// Changes the state.
         /// </summary>
@@ -158,9 +188,6 @@ namespace IndieGabo.HandyFSM.CCPro
             _currentStateName = CurrentState.Name;
         }
 
-        /// <summary>
-        /// Handles the tick event.
-        /// </summary>
         protected override void EvaluateTransition()
         {
             if (_currentState == null) return;
