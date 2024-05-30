@@ -99,10 +99,10 @@ MonoBehaviour:
     useGravity: 1
     canJump: 1
     autoCalculate: 1
-    jumpApexHeight: 2.4
-    jumpApexDuration: 0.4
-    jumpSpeed: 9
-    gravity: 18
+    jumpApexHeight: 4
+    jumpApexDuration: 0.5
+    jumpSpeed: 14.545454
+    gravity: 26.44628
     cancelJumpOnRelease: 1
     cancelJumpMultiplier: 0.5
     cancelJumpMinTime: 0.1

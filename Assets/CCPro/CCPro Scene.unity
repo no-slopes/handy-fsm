@@ -10184,7 +10184,7 @@ MonoBehaviour:
   characterActor: {fileID: 8852230692867241910}
   references: []
   infoCanvas: {fileID: 0}
-  hideAndConfineCursor: 1
+  hideAndConfineCursor: 0
   graphicsObject: {fileID: 919132148161382005}
   camera: {fileID: 0}
   targetFrameRateText: {fileID: 288726015}

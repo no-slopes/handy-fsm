@@ -330,6 +330,11 @@ namespace IndieGabo.HandyFSM.CCPro
             if (_isCrouched)
                 return jumpResult;
 
+            if (VerticalMovement.canJumpDown && CharacterActor.IsGrounded && CharacterActions.movement.Down && CharacterActions.jump.Started)
+            {
+                return jumpResult;
+            }
+
             switch (CharacterActor.CurrentState)
             {
                 case CharacterActorState.StableGrounded:
@@ -399,7 +404,7 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected virtual bool ProcessJumpDownAction()
         {
-            return _isCrouched && CharacterActions.jump.Started;
+            return (_isCrouched || CharacterActions.movement.Down) && CharacterActions.jump.Started;
         }
 
         protected virtual void JumpDown(float dt)
@@ -435,7 +440,6 @@ namespace IndieGabo.HandyFSM.CCPro
 
                 _groundedJumpAvailable = true;
             }
-
 
             if (_isAllowedToCancelJump)
             {

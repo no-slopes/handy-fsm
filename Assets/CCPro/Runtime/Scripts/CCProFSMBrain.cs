@@ -143,7 +143,7 @@ namespace IndieGabo.HandyFSM.CCPro
         {
             base.Start();
             _movementReferenceParameters.Initialize(CharacterActor);
-            _movementReferenceParameters.UpdateData(Vector2.right);
+            _movementReferenceParameters.UpdateData(Vector2.zero);
         }
 
         protected override void Update() { }
