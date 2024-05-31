@@ -91,11 +91,12 @@ namespace IndieGabo.HandyFSM.CCPro
 
             if (CCProBrain.PreviousState is WallSlideState)
             {
+                Debug.Log("WallSlideState");
                 // "availableNotGroundedJumps + 1" because the update code will consume one jump!
                 _notGroundedJumpsLeft = VerticalMovement.availableNotGroundedJumps + 1;
 
                 // Reduce the amount of air control (acceleration and deceleration) for 0.5 seconds.
-                ReduceAirControl(0.5f);
+                ReduceAirControl(0.15f);
             }
 
             _currentPlanarSpeedLimit = Mathf.Max(CharacterActor.PlanarVelocity.magnitude, PlanarMovement.baseSpeedLimit);

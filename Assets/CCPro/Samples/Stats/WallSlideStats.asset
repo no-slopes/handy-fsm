@@ -16,15 +16,15 @@ MonoBehaviour:
   wallTag: WallSlide
   slideAcceleration: 10
   initialIntertia: 0.4
-  enableGrab: 1
+  enableGrab: 0
   enableClimb: 1
   wallClimbHorizontalSpeed: 1
   wallClimbVerticalSpeed: 3
   wallClimbAcceleration: 100
-  modifySize: 1
+  modifySize: 0
   height: 1.5
-  jumpNormalVelocity: 5
-  jumpVerticalVelocity: 5
+  jumpNormalVelocity: 15
+  jumpVerticalVelocity: 10
   horizontalVelocityParameter: HorizontalVelocity
   verticalVelocityParameter: VerticalVelocity
   grabParameter: Grab

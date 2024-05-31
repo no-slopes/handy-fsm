@@ -12,6 +12,7 @@ namespace IndieGabo.HandyFSM.CCPro
         #region Fields
 
         protected bool _wallJump = false;
+        protected bool _released = false;
         protected Vector2 _initialSize = Vector2.zero;
 
         #endregion
@@ -99,6 +100,18 @@ namespace IndieGabo.HandyFSM.CCPro
                 CharacterActor.Velocity = WallSlideStats.JumpVerticalVelocity
                     * CharacterActor.Up
                     + WallSlideStats.JumpNormalVelocity
+                    * CharacterActor.WallContact.normal;
+            }
+
+            if (_released)
+            {
+                _released = false;
+
+                // Apply the wall jump velocity.
+                CharacterActor.Velocity = WallSlideStats.JumpVerticalVelocity
+                    * CharacterActor.Up
+                    + 0.5f
+                    * WallSlideStats.JumpNormalVelocity
                     * CharacterActor.WallContact.normal;
             }
 
