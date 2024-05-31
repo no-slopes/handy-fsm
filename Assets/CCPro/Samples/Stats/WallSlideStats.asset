@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   filterByTag: 1
   wallTag: WallSlide
-  slideAcceleration: 10
+  slideAcceleration: 0
   initialIntertia: 0.4
-  enableGrab: 0
+  enableGrab: 1
   enableClimb: 1
   wallClimbHorizontalSpeed: 1
   wallClimbVerticalSpeed: 3
   wallClimbAcceleration: 100
   modifySize: 0
   height: 1.5
-  jumpNormalVelocity: 15
-  jumpVerticalVelocity: 10
+  jumpNormalVelocity: 5
+  jumpVerticalVelocity: 5
   horizontalVelocityParameter: HorizontalVelocity
   verticalVelocityParameter: VerticalVelocity
   grabParameter: Grab

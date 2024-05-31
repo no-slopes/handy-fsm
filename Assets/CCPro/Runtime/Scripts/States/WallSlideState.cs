@@ -34,7 +34,7 @@ namespace IndieGabo.HandyFSM.CCPro
             }
             else if (!IsGrabbing && WallSlideStats.SlideAcceleration == 0)
             {
-                _wallJump = true;
+                _released = true;
                 return true;
             }
             else if (CharacterActions.jump.Started)
@@ -110,8 +110,7 @@ namespace IndieGabo.HandyFSM.CCPro
                 // Apply the wall jump velocity.
                 CharacterActor.Velocity = WallSlideStats.JumpVerticalVelocity
                     * CharacterActor.Up
-                    + 0.5f
-                    * WallSlideStats.JumpNormalVelocity
+                    + WallSlideStats.JumpNormalVelocity
                     * CharacterActor.WallContact.normal;
             }
 

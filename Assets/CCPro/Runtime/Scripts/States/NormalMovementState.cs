@@ -96,7 +96,7 @@ namespace IndieGabo.HandyFSM.CCPro
                 _notGroundedJumpsLeft = VerticalMovement.availableNotGroundedJumps + 1;
 
                 // Reduce the amount of air control (acceleration and deceleration) for 0.5 seconds.
-                ReduceAirControl(0.15f);
+                ReduceAirControl(0.5f);
             }
 
             _currentPlanarSpeedLimit = Mathf.Max(CharacterActor.PlanarVelocity.magnitude, PlanarMovement.baseSpeedLimit);
@@ -198,7 +198,6 @@ namespace IndieGabo.HandyFSM.CCPro
                             _currentMotion.acceleration = PlanarMovement.notGroundedAcceleration;
                             _currentMotion.deceleration = PlanarMovement.notGroundedDeceleration;
                         }
-
                     }
                     else
                     {
