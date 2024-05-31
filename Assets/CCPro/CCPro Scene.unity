@@ -2433,7 +2433,6 @@ GameObject:
   - component: {fileID: 697881671}
   - component: {fileID: 697881672}
   - component: {fileID: 697881673}
-  - component: {fileID: 697881674}
   m_Layer: 0
   m_Name: FSM
   m_TagString: Untagged
@@ -2485,7 +2484,6 @@ MonoBehaviour:
       m_Calls: []
   _animator: {fileID: 0}
   _characterActor: {fileID: 1407623432}
-  _normalMovementStatsProvider: {fileID: 697881673}
   _materialController: {fileID: 1585700340}
   _characterBrain: {fileID: 1709897350}
   _movementReferenceParameters:
@@ -2504,29 +2502,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultStats: {fileID: 11400000, guid: 7d9bd57f221a74a4d8c87f4a8bff58dc, type: 2}
---- !u!114 &697881674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697881670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1036ce6f2c24fb246bdaa0010caad156, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _subject: {fileID: 1407623434}
-  _strategy: 1
-  _spriteRenderer: {fileID: 0}
-  _horizontalStartingDirection: 1
-  _verticalStartingDirection: 1
-  _facingDirectionSignUpdate:
-    m_PersistentCalls:
-      m_Calls: []
-  _verticalDirectionSignUpdate:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &704863008
 GameObject:
   m_ObjectHideFlags: 0

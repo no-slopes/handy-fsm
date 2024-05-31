@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76be4f34c8f78374093140943bd33fee, type: 3}
-  m_Name: TestNormalMovementState
+  m_Name: NormalMovementState
   m_EditorClassIdentifier: 
   _interruptible: 1
   _name: Normal Movement

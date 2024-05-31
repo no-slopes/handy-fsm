@@ -1,4 +1,4 @@
-using HandyTools.Gameplay.Capabilities.Generic;
+using System;
 using Lightbug.CharacterControllerPro.Core;
 using Lightbug.CharacterControllerPro.Demo;
 using Lightbug.CharacterControllerPro.Implementation;
@@ -28,12 +28,13 @@ namespace IndieGabo.HandyFSM.CCPro
         protected PlanarMovementParameters.PlanarMovementProperties _currentMotion = new();
 
         protected MaterialController MaterialController => CCProBrain.MaterialController;
+        protected NormalMovementStatsProvider MovementStats { get; private set; }
         protected CharacterActor CharacterActor => CCProBrain.CharacterActor;
         protected CharacterActions CharacterActions => CCProBrain.CharacterBrain.CharacterActions;
-        protected PlanarMovementParameters PlanarMovement => CCProBrain.MovementStats.PlanarMovement;
-        protected VerticalMovementParameters VerticalMovement => CCProBrain.MovementStats.VerticalMovement;
-        protected CrouchParameters Crouch => CCProBrain.MovementStats.Crouch;
-        protected LookingDirectionParameters LookingDirection => CCProBrain.MovementStats.LookingDirection;
+        protected PlanarMovementParameters PlanarMovement => MovementStats.PlanarMovement;
+        protected VerticalMovementParameters VerticalMovement => MovementStats.VerticalMovement;
+        protected CrouchParameters Crouch => MovementStats.Crouch;
+        protected LookingDirectionParameters LookingDirection => MovementStats.LookingDirection;
         protected bool UnstableGroundedJumpAvailable => !VerticalMovement.canJumpOnUnstableGround && CharacterActor.CurrentState == CharacterActorState.UnstableGrounded;
 
         bool _reducedAirControlFlag = false;
@@ -46,8 +47,6 @@ namespace IndieGabo.HandyFSM.CCPro
             Grounded,
             NotGrounded
         }
-
-        protected Flip2D _flip2D;
 
         #region Events	
 
@@ -70,11 +69,12 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected virtual void OnInit()
         {
-            _notGroundedJumpsLeft = CCProBrain.MovementStats.VerticalMovement.availableNotGroundedJumps;
+            MovementStats = CCProBrain.GetComponentInChildren<NormalMovementStatsProvider>();
+
+            _notGroundedJumpsLeft = MovementStats.VerticalMovement.availableNotGroundedJumps;
             _targetHeight = CCProBrain.CharacterActor.DefaultBodySize.y;
             float minCrouchHeightRatio = CCProBrain.CharacterActor.BodySize.x / CCProBrain.CharacterActor.BodySize.y;
-            CCProBrain.MovementStats.Crouch.heightRatio = Mathf.Max(minCrouchHeightRatio, CCProBrain.MovementStats.Crouch.heightRatio);
-            _flip2D = CCProBrain.GetComponent<Flip2D>();
+            MovementStats.Crouch.heightRatio = Mathf.Max(minCrouchHeightRatio, MovementStats.Crouch.heightRatio);
         }
 
         protected virtual void OnEnter()
@@ -83,19 +83,18 @@ namespace IndieGabo.HandyFSM.CCPro
 
             _targetLookingDirection = CharacterActor.Forward;
 
-            // if (fromState == CharacterStateController.GetState<WallSlide>())
-            // {
-            //     // "availableNotGroundedJumps + 1" because the update code will consume one jump!
-            //     notGroundedJumpsLeft = verticalMovementParameters.availableNotGroundedJumps + 1;
+            if (CCProBrain.PreviousState is WallSlideState)
+            {
+                // "availableNotGroundedJumps + 1" because the update code will consume one jump!
+                _notGroundedJumpsLeft = VerticalMovement.availableNotGroundedJumps + 1;
 
-            //     // Reduce the amount of air control (acceleration and deceleration) for 0.5 seconds.
-            //     ReduceAirControl(0.5f);
-            // }
+                // Reduce the amount of air control (acceleration and deceleration) for 0.5 seconds.
+                ReduceAirControl(0.5f);
+            }
 
             _currentPlanarSpeedLimit = Mathf.Max(CharacterActor.PlanarVelocity.magnitude, PlanarMovement.baseSpeedLimit);
 
             CharacterActor.UseRootMotion = false;
-
             CCProBrain.CharacterActor.OnTeleport += OnTeleport;
         }
 
@@ -120,11 +119,11 @@ namespace IndieGabo.HandyFSM.CCPro
             if (!CharacterActor.IsAnimatorValid())
                 return;
 
-            CCProBrain.Animator.SetBool(CCProBrain.MovementStats.GroundedAnimationParameter, CharacterActor.IsGrounded);
-            CCProBrain.Animator.SetBool(CCProBrain.MovementStats.StableAnimationParameter, CharacterActor.IsStable);
-            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.HorizontalAxisAnimationParameter, CharacterActions.movement.value.x);
-            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.VerticalAxisAnimationParameter, CharacterActions.movement.value.y);
-            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.HeightAnimationParameter, CharacterActor.BodySize.y);
+            CCProBrain.Animator.SetBool(MovementStats.GroundedAnimationParameter, CharacterActor.IsGrounded);
+            CCProBrain.Animator.SetBool(MovementStats.StableAnimationParameter, CharacterActor.IsStable);
+            CCProBrain.Animator.SetFloat(MovementStats.HorizontalAxisAnimationParameter, CharacterActions.movement.value.x);
+            CCProBrain.Animator.SetFloat(MovementStats.VerticalAxisAnimationParameter, CharacterActions.movement.value.y);
+            CCProBrain.Animator.SetFloat(MovementStats.HeightAnimationParameter, CharacterActor.BodySize.y);
         }
 
         public virtual void OnPostCharacterSimulation(float dt)
@@ -136,8 +135,8 @@ namespace IndieGabo.HandyFSM.CCPro
 
             // Parameters associated with velocity are sent after the simulation.
             // The PostSimulationUpdate (CharacterActor) might update velocity once more (e.g. if a "bad step" has been detected).
-            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.VerticalSpeedAnimationParameter, CharacterActor.LocalVelocity.y);
-            CCProBrain.Animator.SetFloat(CCProBrain.MovementStats.PlanarSpeedAnimationParameter, CharacterActor.PlanarVelocity.magnitude);
+            CCProBrain.Animator.SetFloat(MovementStats.VerticalSpeedAnimationParameter, CharacterActor.LocalVelocity.y);
+            CCProBrain.Animator.SetFloat(MovementStats.PlanarSpeedAnimationParameter, CharacterActor.PlanarVelocity.magnitude);
         }
 
         void OnTeleport(Vector3 position, Quaternion rotation)

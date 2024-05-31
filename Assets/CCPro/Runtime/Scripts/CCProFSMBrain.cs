@@ -20,9 +20,6 @@ namespace IndieGabo.HandyFSM.CCPro
         protected CharacterActor _characterActor;
 
         [SerializeField]
-        protected NormalMovementStatsProvider _normalMovementStatsProvider;
-
-        [SerializeField]
         protected MaterialController _materialController;
 
         [SerializeField]
@@ -43,7 +40,6 @@ namespace IndieGabo.HandyFSM.CCPro
         public CharacterActor CharacterActor => _characterActor;
         public CharacterBrain CharacterBrain => _characterBrain;
         public MovementReferenceParameters MovementReferenceParameters => _movementReferenceParameters;
-        public NormalMovementStatsProvider MovementStats => _normalMovementStatsProvider;
         public MaterialController MaterialController => _materialController;
 
         /// <summary>

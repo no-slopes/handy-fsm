@@ -24,7 +24,6 @@
     <uie:ObjectField label="Owner" name="field-owner" binding-path="_owner" />
     <uie:PropertyField name="field-animator" binding-path="_animator" />
     <uie:PropertyField name="field-character-actor" binding-path="_characterActor" label="Character Actor" />
-    <uie:PropertyField name="field-normal-movement-stats-provider" binding-path="_normalMovementStatsProvider" label="Normal Movement Stats Provider" />
     <uie:PropertyField name="field-material-controller" binding-path="_materialController" label="Material Controller" />
     <uie:PropertyField name="field-character-brain" binding-path="_characterBrain" label="Chracter Brain" />
     <uie:PropertyField name="field-movement-reference" binding-path="_movementReferenceParameters" label="Movement Reference" />
