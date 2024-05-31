@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Lightbug.CharacterControllerPro.Core;
+using Lightbug.CharacterControllerPro.Demo;
+using Lightbug.CharacterControllerPro.Implementation;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +25,11 @@ namespace IndieGabo.HandyFSM.CCPro
 
         #region Getters
 
+        protected CCProFSMBrain CCProBrain => _ccProbrain;
+        protected CharacterActor CharacterActor => _ccProbrain.CharacterActor;
+        protected MaterialController MaterialController => _ccProbrain.MaterialController;
+        protected CharacterActions CharacterActions => _ccProbrain.CharacterBrain.CharacterActions;
+
         #endregion
 
         #region Cycle Methods
@@ -36,15 +44,17 @@ namespace IndieGabo.HandyFSM.CCPro
             OnInitAction?.Invoke();
         }
 
-        public void PreCharacterSimulation(float dt) { OnPreCharacterSimulationAction?.Invoke(dt); }
-        public void PostCharacterSimulation(float dt) { OnPostCharacterSimulationAction?.Invoke(dt); }
-        public void PreFixedTick() { OnPreFixedTickAction?.Invoke(); }
-        public void PostFixedTick() { OnPostFixedTickAction?.Invoke(); }
+        public virtual void PreCharacterSimulation(float dt) { OnPreCharacterSimulationAction?.Invoke(dt); }
+        public virtual void PostCharacterSimulation(float dt) { OnPostCharacterSimulationAction?.Invoke(dt); }
+        public virtual void PreFixedTick() { OnPreFixedTickAction?.Invoke(); }
+        public virtual void PostFixedTick() { OnPostFixedTickAction?.Invoke(); }
+        public virtual void TickIK(int layerIndex) { OnTickIKAction?.Invoke(layerIndex); }
 
         protected UnityAction<float> OnPreCharacterSimulationAction { get; private set; }
         protected UnityAction<float> OnPostCharacterSimulationAction { get; private set; }
         protected UnityAction OnPreFixedTickAction { get; private set; }
         protected UnityAction OnPostFixedTickAction { get; private set; }
+        protected UnityAction<int> OnTickIKAction { get; private set; }
 
         #endregion
 
@@ -60,6 +70,7 @@ namespace IndieGabo.HandyFSM.CCPro
             OnPostCharacterSimulationAction = GetDelegate<UnityAction<float>>(type, "OnPostCharacterSimulation");
             OnPreFixedTickAction = GetDelegate<UnityAction>(type, "OnPreFixedTick");
             OnPostFixedTickAction = GetDelegate<UnityAction>(type, "OnPostFixedTick");
+            OnTickIKAction = GetDelegate<UnityAction<int>>(type, "OnTickIK");
         }
 
         #endregion

@@ -5,28 +5,28 @@ using UnityEngine;
 
 namespace IndieGabo.HandyFSM.CCPro
 {
-    [CreateAssetMenu(fileName = "WallSlideStats", menuName = "HandyFSM/CCPro/WallSlideStats")]
+    [CreateAssetMenu(fileName = "WallSlideStats", menuName = "HandyFSM/CCPro/Stats/Wall Slide")]
     public class WallSlideStats : ScriptableObject
     {
 
         [Header("Filter")]
 
         [SerializeField]
-        protected bool filterByTag = true;
+        public bool filterByTag = true;
 
         [Condition("filterByTag", ConditionAttribute.ConditionType.IsTrue)]
         [SerializeField]
-        protected string wallTag = "WallSlide";
+        public string wallTag = "WallSlide";
 
 
         [Header("Slide")]
 
         [SerializeField]
-        protected float slideAcceleration = 10f;
+        public float slideAcceleration = 10f;
 
         [Range(0f, 1f)]
         [SerializeField]
-        protected float initialIntertia = 0.4f;
+        public float initialIntertia = 0.4f;
 
         [Header("Grab")]
 
@@ -48,32 +48,32 @@ namespace IndieGabo.HandyFSM.CCPro
         [Header("Size")]
 
         [SerializeField]
-        protected bool modifySize = true;
+        public bool modifySize = true;
 
         [Condition("modifySize", ConditionAttribute.ConditionType.IsTrue)]
         [SerializeField]
-        protected float height = 1.5f;
+        public float height = 1.5f;
 
         [Header("Jump")]
 
         [SerializeField]
-        protected float jumpNormalVelocity = 5f;
+        public float jumpNormalVelocity = 5f;
 
         [SerializeField]
-        protected float jumpVerticalVelocity = 10f;
+        public float jumpVerticalVelocity = 10f;
 
         [Header("Animation")]
 
         [SerializeField]
-        protected string horizontalVelocityParameter = "HorizontalVelocity";
+        public string horizontalVelocityParameter = "HorizontalVelocity";
 
         [SerializeField]
-        protected string verticalVelocityParameter = "VerticalVelocity";
+        public string verticalVelocityParameter = "VerticalVelocity";
 
         [SerializeField]
-        protected string grabParameter = "Grab";
+        public string grabParameter = "Grab";
 
         [SerializeField]
-        protected string movementDetectedParameter = "MovementDetected";
+        public string movementDetectedParameter = "MovementDetected";
     }
 }

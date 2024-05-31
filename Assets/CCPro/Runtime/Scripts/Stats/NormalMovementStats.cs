@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace IndieGabo.HandyFSM.CCPro
 {
-        [CreateAssetMenu(fileName = "NormalMovementStats", menuName = "HandyFSM/CCPro/NormalMovementStats")]
+        [CreateAssetMenu(fileName = "WallSlideStats", menuName = "HandyFSM/CCPro/Stats/Normal Movement")]
         public class NormalMovementStats : ScriptableObject
         {
                 [SerializeField] protected PlanarMovementParameters _planarMovement = new();

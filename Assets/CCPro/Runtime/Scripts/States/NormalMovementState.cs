@@ -7,7 +7,8 @@ using UnityEngine;
 
 namespace IndieGabo.HandyFSM.CCPro
 {
-    public abstract class NormalMovementState : ScriptableCCProState
+    [CreateAssetMenu(fileName = "NormalMovementState", menuName = "HandyFSM/CCPro/States/Normal Movement")]
+    public class NormalMovementState : ScriptableCCProState
     {
         protected static readonly string WantsToRunSignal = "wantsToRun";
 
@@ -27,10 +28,7 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected PlanarMovementParameters.PlanarMovementProperties _currentMotion = new();
 
-        protected MaterialController MaterialController => CCProBrain.MaterialController;
         protected NormalMovementStatsProvider MovementStats { get; private set; }
-        protected CharacterActor CharacterActor => CCProBrain.CharacterActor;
-        protected CharacterActions CharacterActions => CCProBrain.CharacterBrain.CharacterActions;
         protected PlanarMovementParameters PlanarMovement => MovementStats.PlanarMovement;
         protected VerticalMovementParameters VerticalMovement => MovementStats.VerticalMovement;
         protected CrouchParameters Crouch => MovementStats.Crouch;
@@ -67,6 +65,12 @@ namespace IndieGabo.HandyFSM.CCPro
 
         #endregion
 
+        #region Transitions
+
+        protected Func<bool> WallSlideConditions => () => CharacterActor.WallCollision && !CharacterActor.IsAscending && !CharacterActor.IsGrounded && !CharacterActions.crouch.value;
+
+        #endregion
+
         protected virtual void OnInit()
         {
             MovementStats = CCProBrain.GetComponentInChildren<NormalMovementStatsProvider>();
@@ -75,6 +79,8 @@ namespace IndieGabo.HandyFSM.CCPro
             _targetHeight = CCProBrain.CharacterActor.DefaultBodySize.y;
             float minCrouchHeightRatio = CCProBrain.CharacterActor.BodySize.x / CCProBrain.CharacterActor.BodySize.y;
             MovementStats.Crouch.heightRatio = Mathf.Max(minCrouchHeightRatio, MovementStats.Crouch.heightRatio);
+
+            AddTransition(WallSlideConditions, Brain.GetState<WallSlideState>());
         }
 
         protected virtual void OnEnter()

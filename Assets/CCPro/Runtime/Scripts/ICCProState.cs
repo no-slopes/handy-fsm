@@ -9,5 +9,6 @@ namespace IndieGabo.HandyFSM.CCPro
 
         void PreFixedTick();
         void PostFixedTick();
+        void TickIK(int layerIndex);
     }
 }

@@ -159,49 +159,6 @@ namespace IndieGabo.HandyFSM.CCPro
 
         #endregion
 
-        #region Machine's Logic
-
-        /// <summary>
-        /// Changes the state.
-        /// </summary>
-        /// <param name="state">The new state to change to.</param>
-        protected override void ChangeState(IState state)
-        {
-            // Do not change state if it is the same as the current state or null
-            if (state == _currentState || state == null) return;
-
-            // Define the previous state
-            _previousState = _currentState;
-
-            // Invoke the exit action of the current state
-            _currentState?.Exit();
-
-            // Change the current state
-            _currentState = state;
-
-            // Announce the new state
-            _stateChanged.Invoke(_currentState, _previousState);
-
-            // Invoke the enter action of the new state
-            _currentState.Enter();
-
-            // Update the current state name
-            _currentStateName = CurrentState.Name;
-        }
-
-        protected override void EvaluateTransition()
-        {
-            if (_currentState == null) return;
-
-            // Evaluate the next state
-            if (_currentState.ShouldTransition(out IState targetState))
-            {
-                RequestStateChange(targetState);
-            }
-        }
-
-        #endregion
-
         #region Actor Stuff
 
         void PreCharacterSimulation(float dt) => (CurrentState as ICCProState).PreCharacterSimulation(dt);
@@ -221,7 +178,8 @@ namespace IndieGabo.HandyFSM.CCPro
 
         void OnAnimatorIK(int layerIndex)
         {
-            CurrentState?.TickIK(layerIndex);
+            if (CurrentState == null) return;
+            (CurrentState as ICCProState).TickIK(layerIndex);
         }
 
         #endregion
