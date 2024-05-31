@@ -449,9 +449,14 @@ namespace IndieGabo.HandyFSM
             if (_currentState == null) return;
 
             // Evaluate the next state
-            if (_currentState.ShouldTransition(out IState targetState))
+            if (!_currentState.WantsToTransition(out List<IState> targetStates)) return;
+
+
+            foreach (IState targetState in targetStates)
             {
+                if (!targetState.CanEnter(_currentState)) continue;
                 RequestStateChange(targetState);
+                return;
             }
         }
 

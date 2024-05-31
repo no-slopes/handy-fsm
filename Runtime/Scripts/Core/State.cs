@@ -15,17 +15,11 @@ namespace IndieGabo.HandyFSM
     {
         #region Fields
 
-        [SerializeField]
         protected string _name;
-
-        [SerializeField]
         protected bool _interruptible;
-
-        [SerializeField]
         protected FSMBrain _brain;
-
-        [SerializeField]
         protected List<StateTransition> _transitions = new();
+        protected List<IState> _transitionTargets = new();
 
         #endregion
 
@@ -60,12 +54,13 @@ namespace IndieGabo.HandyFSM
             OnInitAction?.Invoke();
         }
 
+        public virtual bool CanEnter(IState from) => true;
+
         public virtual void Enter() { OnEnterAction?.Invoke(); }
         public virtual void Exit() { OnExitAction?.Invoke(); }
         public virtual void Tick() { OnTickAction?.Invoke(); }
         public virtual void FixedTick() { OnFixedTickAction?.Invoke(); }
         public virtual void LateTick() { OnLateTickAction?.Invoke(); }
-        public virtual void TickIK(int layerIndex) { OnTickIKAction?.Invoke(layerIndex); }
 
         protected UnityAction OnInitAction { get; private set; }
         protected UnityAction OnEnterAction { get; private set; }
@@ -74,7 +69,6 @@ namespace IndieGabo.HandyFSM
         protected UnityAction OnTickAction { get; private set; }
         protected UnityAction OnLateTickAction { get; private set; }
         protected UnityAction OnFixedTickAction { get; private set; }
-        protected UnityAction<int> OnTickIKAction { get; private set; }
 
         #endregion       
 
@@ -112,10 +106,12 @@ namespace IndieGabo.HandyFSM
         /// <summary>
         /// Checks if there is a valid transition and sets the output parameter with the target state.
         /// </summary>
-        /// <param name="state">The target state if a valid transition is found.</param>
+        /// <param name="targets">A list of target states this state wants to transition into.</param>
         /// <returns>True if a valid transition is found, otherwise false.</returns>
-        public bool ShouldTransition(out IState state)
+        public bool WantsToTransition(out List<IState> targets)
         {
+            _transitionTargets.Clear();
+
             // Iterate through each transition
             for (int i = 0; i < _transitions.Count; i++)
             {
@@ -126,17 +122,14 @@ namespace IndieGabo.HandyFSM
                 if (!transition.ConditionMet()) continue;
 
                 // Set the output parameter to the target state
-                state = transition.TargetState;
-
-                // Return true to indicate a successful transition
-                return true;
+                _transitionTargets.Add(transition.TargetState);
             }
 
             // Default to null if no valid transition was found
-            state = null;
+            targets = _transitionTargets;
 
             // No transition condition was met, return false
-            return false;
+            return _transitionTargets.Count > 0;
         }
 
         /// <summary>
@@ -150,7 +143,6 @@ namespace IndieGabo.HandyFSM
             OnTickAction = GetDelegate<UnityAction>(type, "OnTick");
             OnLateTickAction = GetDelegate<UnityAction>(type, "OnLateTick");
             OnFixedTickAction = GetDelegate<UnityAction>(type, "OnFixedTick");
-            OnTickIKAction = GetDelegate<UnityAction<int>>(type, "OnTickIK");
         }
 
         protected virtual TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
