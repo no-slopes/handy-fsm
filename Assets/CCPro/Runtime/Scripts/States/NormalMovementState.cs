@@ -1,3 +1,4 @@
+using HandyTools.Gameplay.Capabilities.Generic;
 using Lightbug.CharacterControllerPro.Core;
 using Lightbug.CharacterControllerPro.Demo;
 using Lightbug.CharacterControllerPro.Implementation;
@@ -46,6 +47,7 @@ namespace IndieGabo.HandyFSM.CCPro
             NotGrounded
         }
 
+        protected Flip2D _flip2D;
 
         #region Events	
 
@@ -72,6 +74,7 @@ namespace IndieGabo.HandyFSM.CCPro
             _targetHeight = CCProBrain.CharacterActor.DefaultBodySize.y;
             float minCrouchHeightRatio = CCProBrain.CharacterActor.BodySize.x / CCProBrain.CharacterActor.BodySize.y;
             CCProBrain.MovementStats.Crouch.heightRatio = Mathf.Max(minCrouchHeightRatio, CCProBrain.MovementStats.Crouch.heightRatio);
+            _flip2D = CCProBrain.GetComponent<Flip2D>();
         }
 
         protected virtual void OnEnter()
@@ -527,6 +530,7 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected virtual void HandleRotation(float dt)
         {
+            // _flip2D.EvaluateAndFlipHorizontally(CharacterActions.movement.value.x);
             HandleLookingDirection(dt);
         }
 

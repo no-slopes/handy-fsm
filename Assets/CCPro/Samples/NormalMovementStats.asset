@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NormalMovementStats
   m_EditorClassIdentifier: 
   _planarMovement:
-    baseSpeedLimit: 6
+    baseSpeedLimit: 10
     canRun: 1
     runInputMode: 1
     boostSpeedLimit: 10
@@ -100,14 +100,14 @@ MonoBehaviour:
     canJump: 1
     autoCalculate: 1
     jumpApexHeight: 4
-    jumpApexDuration: 0.5
-    jumpSpeed: 14.545454
-    gravity: 26.44628
+    jumpApexDuration: 0.45
+    jumpSpeed: 17.777779
+    gravity: 39.506176
     cancelJumpOnRelease: 1
     cancelJumpMultiplier: 0.5
     cancelJumpMinTime: 0.1
     cancelJumpMaxTime: 0.3
-    preGroundedJumpTime: 0.2
+    preGroundedJumpTime: 0.1
     postGroundedJumpTime: 0.1
     availableNotGroundedJumps: 1
     canJumpOnUnstableGround: 0
