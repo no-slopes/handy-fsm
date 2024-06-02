@@ -24,7 +24,7 @@ MonoBehaviour:
   modifySize: 0
   height: 1.5
   jumpNormalVelocity: 5
-  jumpVerticalVelocity: 5
+  jumpVerticalVelocity: 10
   horizontalVelocityParameter: HorizontalVelocity
   verticalVelocityParameter: VerticalVelocity
   grabParameter: Grab

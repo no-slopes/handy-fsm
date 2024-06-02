@@ -91,7 +91,6 @@ namespace IndieGabo.HandyFSM.CCPro
 
             if (CCProBrain.PreviousState is WallSlideState)
             {
-                Debug.Log("WallSlideState");
                 // "availableNotGroundedJumps + 1" because the update code will consume one jump!
                 _notGroundedJumpsLeft = VerticalMovement.availableNotGroundedJumps + 1;
 
