@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using HandyFSM;
+using IndieGabo.HandyFSM;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour

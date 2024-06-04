@@ -1,4 +1,4 @@
-using HandyFSM;
+using IndieGabo.HandyFSM;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TriggerStateTwo", menuName = "FSM/Triggers/StateTwo")]

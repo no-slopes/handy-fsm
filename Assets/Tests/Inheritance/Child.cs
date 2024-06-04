@@ -1,11 +1,9 @@
 using System;
-using HandyFSM;
-using Sirenix.OdinInspector;
+using IndieGabo.HandyFSM.Implementations;
 using UnityEngine;
 
 public class Child : GenericHandyFSMBrain<ChildState, ChildStateIdle>
 {
-    [BoxGroup("Test")]
     [SerializeField]
     private float _testFloat;
 }

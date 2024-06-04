@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/HandyFSM/Resources/Styles/handy-fsm-inspector-styles.uss?fileID=7433441132597879392&amp;guid=c8210e453a717ae4483df14a5730d992&amp;type=3#handy-fsm-inspector-styles" />
+    <ui:VisualElement name="container-row" style="flex-grow: 1; flex-direction: row; padding-right: 5px; padding-left: 5px;">
+        <ui:TextField picking-mode="Ignore" name="field-key" style="flex-grow: 0; flex-shrink: 0; width: 50%; max-width: 150px;" />
+        <ui:EnumField type="IndieGabo.HandyFSM.SignalType, IndieGabo.HandyFSM.Runtime" name="field-type" style="flex-grow: 0; flex-shrink: 1; padding-right: 5px; padding-left: 5px; width: auto; min-width: 50px;" />
+        <ui:VisualElement name="container-value" style="flex-grow: 1; flex-shrink: 1; flex-direction: row; padding-right: 5px; padding-left: 5px; width: 35%; min-width: 50px;">
+            <ui:Toggle name="field-bool-value" style="flex-grow: 0;" />
+            <ui:FloatField value="0" name="field-float-value" style="flex-grow: 1; flex-shrink: 1;" />
+            <ui:IntegerField value="0" name="field-int-value" focusable="true" style="flex-grow: 1; flex-shrink: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

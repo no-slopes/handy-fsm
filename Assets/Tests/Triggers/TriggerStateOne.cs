@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using HandyFSM;
+using IndieGabo.HandyFSM;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,6 +21,7 @@ public class TriggerStateOne : ScriptableState
 
     public void OnExit()
     {
+        Debug.Log($"{Brain.Signals.ReadInt("testInt")}");
         Brain.Triggers.UnregisterCallback("tap", GoToTwo);
     }
 
