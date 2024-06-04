@@ -58,3 +58,11 @@
 
 .no-label-list {
 }
+
+.separation-label {
+    margin-top: 3px;
+    margin-right: 0;
+    margin-bottom: 3px;
+    margin-left: 0;
+    -unity-font-style: bold;
+}
