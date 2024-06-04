@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IndieGabo.HandyFSM
@@ -8,15 +9,13 @@ namespace IndieGabo.HandyFSM
         string Name { get; }
         FSMBrain Brain { get; }
 
-        bool ShouldTransition(out IState target);
-
+        bool WantsToTransition(out List<IState> targets);
+        bool CanEnter(IState from);
         void Initialize(FSMBrain machine);
-
         void Enter();
         void Exit();
         void Tick();
         void FixedTick();
         void LateTick();
-        void TickIK(int layerIndex);
     }
 }

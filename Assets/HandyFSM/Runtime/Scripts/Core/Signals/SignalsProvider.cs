@@ -8,11 +8,46 @@ namespace IndieGabo.HandyFSM
     {
         protected FSMBrain _brain;
         protected Dictionary<string, Signal> _signals = new();
+        protected List<Signal> _signalsList;
 
         public SignalsProvider(FSMBrain brain, List<Signal> signals)
         {
             _brain = brain;
-            signals.ForEach(signal => _signals.Add(signal.Key, signal));
+            _signalsList = signals;
+            _signalsList.ForEach(signal => _signals.Add(signal.Key, signal));
+        }
+
+        public void CreateSignal(string key, SignalType type, object startingValue)
+        {
+            if (_signals.ContainsKey(key))
+            {
+                Debug.LogError($"Trying to create signal '{key}' but it already exists for StateMachine Brain \"{_brain.name}\"", _brain);
+                return;
+            }
+
+            Signal signal = new()
+            {
+                Type = type
+            };
+
+            switch (type)
+            {
+                case SignalType.Boolean:
+                    signal.SetBool((bool)startingValue);
+                    break;
+                case SignalType.Integer:
+                    signal.SetInt((int)startingValue);
+                    break;
+                case SignalType.Float:
+                    signal.SetFloat((float)startingValue);
+                    break;
+                case SignalType.Vector2:
+                    signal.SetVector2((Vector2)startingValue);
+                    break;
+            }
+
+            _signals.Add(key, signal);
+            _signalsList.Add(signal);
         }
 
         public void Set(string key, bool value)
@@ -79,6 +114,18 @@ namespace IndieGabo.HandyFSM
             }
 
             return _signals[key].FloatValue;
+        }
+
+        public bool ValidateSignal(string key, IState state)
+        {
+            bool valid = _signals.ContainsKey(key);
+
+            if (!valid)
+            {
+                Debug.LogError($"State {state.Name} needs a signal named '{key}' but it does not exist for StateMachine Brain \"{_brain.name}\"", _brain);
+            }
+
+            return valid;
         }
     }
 }

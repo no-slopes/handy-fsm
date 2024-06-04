@@ -93,6 +93,15 @@ fmod_editor.log
 /node_modules.meta
 .release-it.json
 
+# Third Party
+
+/[Aa]ssets/Plugins/Sirenix
+/[Aa]ssets/Plugins/Sirenix.meta
+
+/[Aa]ssets/Plugins/Character Controller Pro
+/[Aa]ssets/Plugins/Character Controller Pro.meta
+
+
 
 
 

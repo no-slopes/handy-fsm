@@ -22,6 +22,9 @@ namespace IndieGabo.HandyFSM
         private float _floatValue = 0f;
 
         [SerializeField]
+        private Vector2 _vector2Value = Vector2.zero;
+
+        [SerializeField]
         private UnityEvent<SignalType, object> _valueChanged = new();
 
         public string Key { get => _key; set => _key = value; }
@@ -29,6 +32,7 @@ namespace IndieGabo.HandyFSM
         public bool BoolValue => _boolValue;
         public int IntValue => _intValue;
         public float FloatValue => _floatValue;
+        public Vector2 Vector2Value => _vector2Value;
         public UnityEvent<SignalType, object> ValueChanged => _valueChanged;
 
         public void SetBool(bool value)
@@ -48,6 +52,12 @@ namespace IndieGabo.HandyFSM
             _floatValue = value;
             _valueChanged.Invoke(SignalType.Float, value);
         }
+
+        public void SetVector2(Vector2 value)
+        {
+            _vector2Value = value;
+            _valueChanged.Invoke(SignalType.Float, value);
+        }
     }
 
     [System.Serializable]
@@ -65,5 +75,7 @@ namespace IndieGabo.HandyFSM
         Integer,
         [InspectorName("float")]
         Float,
+        [InspectorName("vector2")]
+        Vector2,
     }
 }

@@ -28,37 +28,46 @@ namespace IndieGabo.HandyFSM
         /// The current machine's status of the MachineStatus enum type. 
         /// </summary>
         [SerializeField]
-        private MachineStatus _status = MachineStatus.Off;
+        protected MachineStatus _status = MachineStatus.Off;
 
         /// <summary>
         /// The current state name
         /// </summary>
         [SerializeField]
-        private string _currentStateName = "None";
+        protected string _currentStateName = "None";
 
         [SerializeField]
-        private Transform _owner;
+        protected Transform _owner;
 
         [SerializeField]
-        private InitializationMode _initializationMode = InitializationMode.Automatic;
+        protected InitializationMode _initializationMode = InitializationMode.Automatic;
 
         [SerializeField]
-        private ScriptableState _defaultScriptableState;
+        protected bool _transitionsOnUpdate;
 
         [SerializeField]
-        private List<ScriptableState> _scriptableStates;
+        protected bool _transitionsOnLateUpdate;
 
         [SerializeField]
-        private List<Signal> _signals = new();
+        protected bool _transitionsOnFixedUpdate;
 
         [SerializeField]
-        private List<string> _triggers = new();
+        protected ScriptableState _defaultScriptableState;
 
         [SerializeField]
-        private UnityEvent<MachineStatus> _statusChanged;
+        protected List<ScriptableState> _scriptableStates;
 
         [SerializeField]
-        private UnityEvent<IState, IState> _stateChanged;
+        protected List<Signal> _signals = new();
+
+        [SerializeField]
+        protected List<string> _triggers = new();
+
+        [SerializeField]
+        protected UnityEvent<MachineStatus> _statusChanged;
+
+        [SerializeField]
+        protected UnityEvent<IState, IState> _stateChanged;
 
         #endregion
 
@@ -205,7 +214,9 @@ namespace IndieGabo.HandyFSM
         {
             if (!_status.Equals(MachineStatus.On)) return;
 
-            EvaluateTransition();
+            if (_transitionsOnUpdate)
+                EvaluateTransition();
+
             _currentState?.Tick();
         }
 
@@ -213,7 +224,9 @@ namespace IndieGabo.HandyFSM
         {
             if (!_status.Equals(MachineStatus.On)) return;
 
-            EvaluateTransition();
+            if (_transitionsOnLateUpdate)
+                EvaluateTransition();
+
             _currentState?.LateTick();
         }
 
@@ -221,7 +234,9 @@ namespace IndieGabo.HandyFSM
         {
             if (!_status.Equals(MachineStatus.On)) return;
 
-            EvaluateTransition();
+            if (_transitionsOnFixedUpdate)
+                EvaluateTransition();
+
             _currentState?.FixedTick();
         }
 
@@ -449,9 +464,14 @@ namespace IndieGabo.HandyFSM
             if (_currentState == null) return;
 
             // Evaluate the next state
-            if (_currentState.ShouldTransition(out IState targetState))
+            if (!_currentState.WantsToTransition(out List<IState> targetStates)) return;
+
+
+            foreach (IState targetState in targetStates)
             {
+                if (!targetState.CanEnter(_currentState)) continue;
                 RequestStateChange(targetState);
+                return;
             }
         }
 

@@ -23,6 +23,7 @@ namespace IndieGabo.HandyFSM
 
         protected FSMBrain _brain;
         protected List<StateTransition> _transitions = new();
+        protected List<IState> _transitionTargets = new();
 
         #endregion
 
@@ -36,20 +37,21 @@ namespace IndieGabo.HandyFSM
 
         #region Cycle Methods
 
-        public void Initialize(FSMBrain brain)
+        public virtual void Initialize(FSMBrain brain)
         {
             _brain = brain;
             SortTransitions();
-            LoadActions();
+            Type type = GetType();
+            LoadActions(type);
             OnInitAction?.Invoke();
         }
 
-        public void Enter() { OnEnterAction?.Invoke(); }
-        public void Exit() { OnExitAction?.Invoke(); }
-        public void Tick() { OnTickAction?.Invoke(); }
-        public void FixedTick() { OnFixedTickAction?.Invoke(); }
-        public void LateTick() { OnLateTickAction?.Invoke(); }
-        public void TickIK(int layerIndex) { OnTickIKAction?.Invoke(layerIndex); }
+        public virtual bool CanEnter(IState from) => true;
+        public virtual void Enter() { OnEnterAction?.Invoke(); }
+        public virtual void Exit() { OnExitAction?.Invoke(); }
+        public virtual void Tick() { OnTickAction?.Invoke(); }
+        public virtual void FixedTick() { OnFixedTickAction?.Invoke(); }
+        public virtual void LateTick() { OnLateTickAction?.Invoke(); }
 
         protected UnityAction OnInitAction { get; private set; }
         protected UnityAction OnEnterAction { get; private set; }
@@ -58,7 +60,6 @@ namespace IndieGabo.HandyFSM
         protected UnityAction OnTickAction { get; private set; }
         protected UnityAction OnLateTickAction { get; private set; }
         protected UnityAction OnFixedTickAction { get; private set; }
-        protected UnityAction<int> OnTickIKAction { get; private set; }
 
         #endregion
 
@@ -70,7 +71,7 @@ namespace IndieGabo.HandyFSM
         /// <param name="Condition"> A bool returning callback wich evaluates if the state should become active or not </param>
         /// <param name="targetState"> The state wich should become active based on condition </param>
         /// <param name="priority"> Priority level </param>
-        protected virtual void AddTransition(Func<bool> Condition, State targetState, int priority = 0)
+        protected virtual void AddTransition(Func<bool> Condition, IState targetState, int priority = 0)
         {
             StateTransition transition = new(Condition, targetState, priority);
             AddTransition(transition);
@@ -96,12 +97,11 @@ namespace IndieGabo.HandyFSM
         /// <summary>
         /// Checks if there is a valid transition and sets the output parameter with the target state.
         /// </summary>
-        /// <param name="state">The target state if a valid transition is found.</param>
+        /// <param name="targets">A list of target states this state wants to transition into.</param>
         /// <returns>True if a valid transition is found, otherwise false.</returns>
-        public bool ShouldTransition(out IState state)
+        public bool WantsToTransition(out List<IState> targets)
         {
-            // Initialize the output parameter
-            state = null;
+            _transitionTargets.Clear();
 
             // Iterate through each transition
             for (int i = 0; i < _transitions.Count; i++)
@@ -113,33 +113,31 @@ namespace IndieGabo.HandyFSM
                 if (!transition.ConditionMet()) continue;
 
                 // Set the output parameter to the target state
-                state = transition.TargetState;
-
-                // Return true to indicate a successful transition
-                return true;
+                _transitionTargets.Add(transition.TargetState);
             }
 
+            // Default to null if no valid transition was found
+            targets = _transitionTargets;
+
             // No transition condition was met, return false
-            return false;
+            return _transitionTargets.Count > 0;
         }
 
 
         /// <summary>
         /// Loads methods as actions to be called during the state's lifecycle.
         /// </summary>
-        protected virtual void LoadActions()
+        protected virtual void LoadActions(Type type)
         {
-            Type stateType = GetType();
-            OnInitAction = GetDelegate<UnityAction>(stateType, "OnInit");
-            OnEnterAction = GetDelegate<UnityAction>(stateType, "OnEnter");
-            OnExitAction = GetDelegate<UnityAction>(stateType, "OnExit");
-            OnTickAction = GetDelegate<UnityAction>(stateType, "OnTick");
-            OnLateTickAction = GetDelegate<UnityAction>(stateType, "OnLateTick");
-            OnFixedTickAction = GetDelegate<UnityAction>(stateType, "OnFixedTick");
-            OnTickIKAction = GetDelegate<UnityAction<int>>(stateType, "OnTickIK");
+            OnInitAction = GetDelegate<UnityAction>(type, "OnInit");
+            OnEnterAction = GetDelegate<UnityAction>(type, "OnEnter");
+            OnExitAction = GetDelegate<UnityAction>(type, "OnExit");
+            OnTickAction = GetDelegate<UnityAction>(type, "OnTick");
+            OnLateTickAction = GetDelegate<UnityAction>(type, "OnLateTick");
+            OnFixedTickAction = GetDelegate<UnityAction>(type, "OnFixedTick");
         }
 
-        private TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
+        protected virtual TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
         {
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             if (method != null)
