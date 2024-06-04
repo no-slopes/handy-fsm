@@ -3,7 +3,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace HandyFSM.Editor
+namespace IndieGabo.HandyFSM.Editor
 {
     public class StatesGraphView : GraphView
     {

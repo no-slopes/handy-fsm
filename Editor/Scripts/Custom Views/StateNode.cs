@@ -1,7 +1,7 @@
 using System;
 using UnityEditor.Experimental.GraphView;
 
-namespace HandyFSM.Editor
+namespace IndieGabo.HandyFSM.Editor
 {
     public class StateNode : Node
     {
