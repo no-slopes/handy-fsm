@@ -58,3 +58,7 @@
 
 .no-label-list {
 }
+
+.separation-label {
+    -unity-font-style: bold;
+}

@@ -132,6 +132,7 @@ MonoBehaviour:
     stableGroundedLookingDirectionMode: 1
     unstableGroundedLookingDirectionMode: 0
     notGroundedLookingDirectionMode: 1
+  _wallJumpReducedControlDuration: 0.5
   _groundedAnimationParameter: Grounded
   _stableAnimationParameter: Stable
   _verticalSpeedAnimationParameter: VerticalSpeed

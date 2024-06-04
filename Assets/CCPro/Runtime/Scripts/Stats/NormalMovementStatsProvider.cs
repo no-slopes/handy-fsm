@@ -11,6 +11,7 @@ namespace IndieGabo.HandyFSM.CCPro
         public VerticalMovementParameters VerticalMovement => CurrentStats.VerticalMovement;
         public CrouchParameters Crouch => CurrentStats.Crouch;
         public LookingDirectionParameters LookingDirection => CurrentStats.LookingDirection;
+        public float WallJumpReducedControlDuration => CurrentStats.WallJumpReducedControlDuration;
 
         public string GroundedAnimationParameter => CurrentStats.GroundedAnimationParameter;
         public string StableAnimationParameter => CurrentStats.StableAnimationParameter;

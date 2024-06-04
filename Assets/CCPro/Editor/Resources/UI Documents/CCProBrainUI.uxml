@@ -21,17 +21,25 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:Label tabindex="-1" text="General" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-general" class="separation-label" />
     <uie:ObjectField label="Owner" name="field-owner" binding-path="_owner" />
+    <ui:EnumField label="Initialization Mode" type="IndieGabo.HandyFSM.InitializationMode, IndieGabo.HandyFSM.Runtime" name="field-initialization-mode" tooltip="How should the machine be initialized?" binding-path="_initializationMode" />
+    <ui:Label tabindex="-1" text="States" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-transitions" class="separation-label" />
+    <ui:Toggle label="On Update" name="field-transitions-update" binding-path="_transitionsOnUpdate" />
+    <ui:Toggle label="On LateUpdate" name="field-transitions-late-update" binding-path="_transitionsLateUpdate" />
+    <ui:Toggle label="On FixedUpdate" name="field-transitions-fixed-update" binding-path="_transitionsOnFixedUpdate" />
+    <ui:Label tabindex="-1" text="States" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-states" class="separation-label" />
+    <uie:ObjectField label="Default Scriptable State" name="field-default-scriptable-state" type="IndieGabo.HandyFSM.ScriptableState, IndieGabo.HandyFSM.Runtime" binding-path="_defaultScriptableState" />
+    <ui:ListView focusable="true" name="list-scriptable-states" selection-type="None" reorderable="true" header-title="Scriptable States" show-add-remove-footer="true" show-foldout-header="true" binding-path="_scriptableStates" class="no-label-list" />
+    <ui:Label tabindex="-1" text="Triggers and Signals" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-triggers-and-signals" class="separation-label" />
+    <ui:ListView focusable="true" name="list-triggers" reorderable="true" header-title="Triggers" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" binding-path="_triggers" selection-type="None" show-border="true" class="no-label-list" />
+    <ui:ListView focusable="true" name="list-signals" reorderable="false" header-title="Signals" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" selection-type="None" show-border="false" binding-path="_signals" />
+    <ui:Label tabindex="-1" text="CCPro" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-ccpro" class="separation-label" />
     <uie:PropertyField name="field-animator" binding-path="_animator" />
     <uie:PropertyField name="field-character-actor" binding-path="_characterActor" label="Character Actor" />
     <uie:PropertyField name="field-material-controller" binding-path="_materialController" label="Material Controller" />
     <uie:PropertyField name="field-character-brain" binding-path="_characterBrain" label="Chracter Brain" />
     <uie:PropertyField name="field-movement-reference" binding-path="_movementReferenceParameters" label="Movement Reference" />
-    <ui:EnumField label="Initialization Mode" type="IndieGabo.HandyFSM.InitializationMode, IndieGabo.HandyFSM.Runtime" name="field-initialization-mode" tooltip="How should the machine be initialized?" binding-path="_initializationMode" />
-    <uie:ObjectField label="Default Scriptable State" name="field-default-scriptable-state" type="IndieGabo.HandyFSM.ScriptableState, IndieGabo.HandyFSM.Runtime" binding-path="_defaultScriptableState" />
-    <ui:ListView focusable="true" name="list-scriptable-states" selection-type="None" reorderable="true" header-title="Scriptable States" show-add-remove-footer="true" show-foldout-header="true" binding-path="_scriptableStates" class="no-label-list" />
-    <ui:ListView focusable="true" name="list-signals" reorderable="false" header-title="Signals" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" selection-type="None" show-border="false" binding-path="_signals" />
-    <ui:ListView focusable="true" name="list-triggers" reorderable="true" header-title="Triggers" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" binding-path="_triggers" selection-type="None" show-border="true" class="no-label-list" />
     <ui:Foldout text="Events" name="foldout-events" value="false">
         <uie:PropertyField name="status-changed-field" binding-path="_statusChanged" label="Status Changed" tooltip="Fired when the machine state changes" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
         <uie:PropertyField name="state-changed-field" binding-path="_stateChanged" label="State Changed" tooltip="Fired every time the current state changes" style="margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />

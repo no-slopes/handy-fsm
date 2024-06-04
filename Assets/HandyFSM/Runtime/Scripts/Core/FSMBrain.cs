@@ -43,6 +43,15 @@ namespace IndieGabo.HandyFSM
         protected InitializationMode _initializationMode = InitializationMode.Automatic;
 
         [SerializeField]
+        protected bool _transitionsOnUpdate;
+
+        [SerializeField]
+        protected bool _transitionsOnLateUpdate;
+
+        [SerializeField]
+        protected bool _transitionsOnFixedUpdate;
+
+        [SerializeField]
         protected ScriptableState _defaultScriptableState;
 
         [SerializeField]
@@ -205,7 +214,9 @@ namespace IndieGabo.HandyFSM
         {
             if (!_status.Equals(MachineStatus.On)) return;
 
-            EvaluateTransition();
+            if (_transitionsOnUpdate)
+                EvaluateTransition();
+
             _currentState?.Tick();
         }
 
@@ -213,7 +224,9 @@ namespace IndieGabo.HandyFSM
         {
             if (!_status.Equals(MachineStatus.On)) return;
 
-            EvaluateTransition();
+            if (_transitionsOnLateUpdate)
+                EvaluateTransition();
+
             _currentState?.LateTick();
         }
 
@@ -221,7 +234,9 @@ namespace IndieGabo.HandyFSM
         {
             if (!_status.Equals(MachineStatus.On)) return;
 
-            EvaluateTransition();
+            if (_transitionsOnFixedUpdate)
+                EvaluateTransition();
+
             _currentState?.FixedTick();
         }
 

@@ -14,6 +14,7 @@ namespace IndieGabo.HandyFSM.CCPro
         protected bool _wallJump = false;
         protected bool _released = false;
         protected Vector2 _initialSize = Vector2.zero;
+        protected Vector2 _remanescenteNormal;
 
         #endregion
 
@@ -24,11 +25,22 @@ namespace IndieGabo.HandyFSM.CCPro
 
         #endregion
 
+        #region Getters
+
+        public Vector2 RemanescenteNormal => _remanescenteNormal;
+
+        #endregion
+
         #region Transitions
 
         protected bool CheckNormalMovementTransition()
         {
-            if (CharacterActions.crouch.value || CharacterActor.IsGrounded || !CharacterActor.WallCollision || !CheckCenterRay())
+            if (CharacterActions.jump.Started)
+            {
+                _wallJump = true;
+                return true;
+            }
+            else if (CharacterActions.crouch.value || CharacterActor.IsGrounded || !CharacterActor.WallCollision || !CheckCenterRay())
             {
                 return true;
             }
@@ -37,11 +49,13 @@ namespace IndieGabo.HandyFSM.CCPro
                 _released = true;
                 return true;
             }
-            else if (CharacterActions.jump.Started)
-            {
-                _wallJump = true;
-                return true;
-            }
+
+            return false;
+        }
+
+        protected bool CheckWallJumpTransition()
+        {
+
 
             return false;
         }
@@ -76,6 +90,8 @@ namespace IndieGabo.HandyFSM.CCPro
 
         protected virtual void OnEnter()
         {
+            _remanescenteNormal = Vector2.zero;
+
             CharacterActor.UseRootMotion = false;
 
             CharacterActor.Velocity *= WallSlideStats.InitialInertia;
@@ -87,16 +103,17 @@ namespace IndieGabo.HandyFSM.CCPro
                 CharacterActor.SetSize(new Vector2(_initialSize.x, WallSlideStats.Height), CharacterActor.SizeReferenceType.Center);
             }
         }
+
         protected virtual void OnExit()
         {
             if (_wallJump)
             {
                 _wallJump = false;
+                _remanescenteNormal = CharacterActor.WallContact.normal;
 
                 // Do a 180 degrees turn.
                 CharacterActor.TurnAround();
 
-                // Apply the wall jump velocity.
                 CharacterActor.Velocity = WallSlideStats.JumpVerticalVelocity
                     * CharacterActor.Up
                     + WallSlideStats.JumpNormalVelocity
@@ -107,11 +124,8 @@ namespace IndieGabo.HandyFSM.CCPro
             {
                 _released = false;
 
-                // Apply the wall jump velocity.
-                CharacterActor.Velocity = WallSlideStats.JumpVerticalVelocity
-                    * CharacterActor.Up
-                    + WallSlideStats.JumpNormalVelocity
-                    * CharacterActor.WallContact.normal;
+                // Pushes the character away from the wall. a bit
+                CharacterActor.Velocity = 3f * CharacterActor.Up + CharacterActor.WallContact.normal;
             }
 
             if (WallSlideStats.ModifySize)

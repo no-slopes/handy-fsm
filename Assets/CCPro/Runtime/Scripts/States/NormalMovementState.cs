@@ -95,7 +95,7 @@ namespace IndieGabo.HandyFSM.CCPro
                 _notGroundedJumpsLeft = VerticalMovement.availableNotGroundedJumps + 1;
 
                 // Reduce the amount of air control (acceleration and deceleration) for 0.5 seconds.
-                ReduceAirControl(0.5f);
+                ReduceAirControl(MovementStats.WallJumpReducedControlDuration);
             }
 
             _currentPlanarSpeedLimit = Mathf.Max(CharacterActor.PlanarVelocity.magnitude, PlanarMovement.baseSpeedLimit);
@@ -113,6 +113,7 @@ namespace IndieGabo.HandyFSM.CCPro
         protected virtual void OnFixedTick()
         {
             float dt = Time.deltaTime;
+
             HandleSize(dt);
             HandleVelocity(dt);
             HandleRotation(dt);
@@ -187,8 +188,8 @@ namespace IndieGabo.HandyFSM.CCPro
                         float time = Time.time - _reducedAirControlInitialTime;
                         if (time <= _reductionDuration)
                         {
-                            _currentMotion.acceleration = (PlanarMovement.notGroundedAcceleration / _reductionDuration) * time;
-                            _currentMotion.deceleration = (PlanarMovement.notGroundedDeceleration / _reductionDuration) * time;
+                            _currentMotion.acceleration = PlanarMovement.notGroundedAcceleration / _reductionDuration * time;
+                            _currentMotion.deceleration = PlanarMovement.notGroundedDeceleration / _reductionDuration * time;
                         }
                         else
                         {
@@ -284,7 +285,6 @@ namespace IndieGabo.HandyFSM.CCPro
             }
 
             SetMotionValues(targetPlanarVelocity);
-
 
             float acceleration = _currentMotion.acceleration;
 
@@ -462,7 +462,6 @@ namespace IndieGabo.HandyFSM.CCPro
                         Vector3 projectedJumpVelocity = Vector3.Project(CharacterActor.Velocity, _jumpDirection);
 
                         CharacterActor.Velocity -= CustomUtilities.Multiply(projectedJumpVelocity, 1f - VerticalMovement.cancelJumpMultiplier);
-
                         _isAllowedToCancelJump = false;
                     }
                 }
@@ -489,7 +488,6 @@ namespace IndieGabo.HandyFSM.CCPro
                 // Events ---------------------------------------------------
                 if (CharacterActor.IsGrounded)
                 {
-
                     OnGroundedJumpPerformed?.Invoke(true);
                 }
                 else
@@ -506,8 +504,13 @@ namespace IndieGabo.HandyFSM.CCPro
                 if (CharacterActor.IsGrounded)
                     CharacterActor.ForceNotGrounded();
 
-                // First remove any velocity associated with the jump direction.
-                CharacterActor.Velocity -= Vector3.Project(CharacterActor.Velocity, _jumpDirection);
+                // IMPORTANT so the player can really adjust wall jump velocity 
+                if (!_reducedAirControlFlag)
+                {
+                    CharacterActor.Velocity -= Vector3.Project(CharacterActor.Velocity, _jumpDirection);
+                }
+
+                // First remove any velocity associated with the jump direction.    
                 CharacterActor.Velocity += CustomUtilities.Multiply(_jumpDirection, VerticalMovement.jumpSpeed);
 
                 if (VerticalMovement.cancelJumpOnRelease)

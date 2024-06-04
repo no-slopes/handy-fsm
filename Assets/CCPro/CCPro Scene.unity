@@ -2602,6 +2602,9 @@ MonoBehaviour:
   _currentStateName: None
   _owner: {fileID: 1407623434}
   _initializationMode: 0
+  _transitionsOnUpdate: 0
+  _transitionsOnLateUpdate: 0
+  _transitionsOnFixedUpdate: 1
   _defaultScriptableState: {fileID: 11400000, guid: 884d20f4a07f4894f9d2396b148b8402, type: 2}
   _scriptableStates:
   - {fileID: 11400000, guid: 884d20f4a07f4894f9d2396b148b8402, type: 2}
@@ -11179,7 +11182,7 @@ MonoBehaviour:
   modifySize: 1
   height: 1.5
   jumpNormalVelocity: 5
-  jumpVerticalVelocity: 5
+  jumpVerticalVelocity: 25
   horizontalVelocityParameter: HorizontalVelocity
   verticalVelocityParameter: VerticalVelocity
   grabParameter: Grab

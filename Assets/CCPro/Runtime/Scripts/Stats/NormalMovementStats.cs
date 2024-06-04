@@ -11,6 +11,7 @@ namespace IndieGabo.HandyFSM.CCPro
                 [SerializeField] protected VerticalMovementParameters _verticalMovement = new();
                 [SerializeField] protected CrouchParameters _crouch = new();
                 [SerializeField] protected LookingDirectionParameters _lookingDirection = new();
+                [SerializeField] protected float _wallJumpReducedControlDuration = 0.5f;
 
                 [Header("Animation")]
                 [SerializeField]
@@ -40,6 +41,7 @@ namespace IndieGabo.HandyFSM.CCPro
                 public VerticalMovementParameters VerticalMovement => _verticalMovement;
                 public CrouchParameters Crouch => _crouch;
                 public LookingDirectionParameters LookingDirection => _lookingDirection;
+                public float WallJumpReducedControlDuration => _wallJumpReducedControlDuration;
 
                 public string GroundedAnimationParameter => _groundedAnimationParameter;
                 public string StableAnimationParameter => _stableAnimationParameter;

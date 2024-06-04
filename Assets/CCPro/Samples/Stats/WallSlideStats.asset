@@ -23,8 +23,8 @@ MonoBehaviour:
   wallClimbAcceleration: 100
   modifySize: 0
   height: 1.5
-  jumpNormalVelocity: 5
-  jumpVerticalVelocity: 10
+  jumpNormalVelocity: 7
+  jumpVerticalVelocity: 13
   horizontalVelocityParameter: HorizontalVelocity
   verticalVelocityParameter: VerticalVelocity
   grabParameter: Grab
