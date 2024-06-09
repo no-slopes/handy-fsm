@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/no-slopes/handy-fsm/compare/v1.11.0...v1.11.1) (2024-06-09)
+
+
+### Bug Fixes
+
+* AddTransition IState ([9a0b56c](https://github.com/no-slopes/handy-fsm/commit/9a0b56cdb548818e2ea099cad32e103ee917c0e3))
+
 # [1.11.0](https://github.com/no-slopes/handy-fsm/compare/v1.10.0...v1.11.0) (2024-06-04)
 
 
