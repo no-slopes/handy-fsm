@@ -453,7 +453,7 @@ namespace IndieGabo.HandyFSM
             _currentState.Enter();
 
             // Update the current state name
-            _currentStateName = CurrentState.Name;
+            _currentStateName = CurrentState.DisplayName;
         }
 
         /// <summary>
@@ -526,6 +526,16 @@ namespace IndieGabo.HandyFSM
         }
 
         /// <summary>
+        /// Retrieves the state associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the state to retrieve.</param>
+        /// <returns>The state associated with the specified key.</returns>
+        public IState GetState(string key)
+        {
+            return _stateProvider.Get(key);
+        }
+
+        /// <summary>
         /// Tries to get the state of the specified type.
         /// </summary>
         /// <param name="stateType">The type of the state to get.</param>
@@ -534,6 +544,17 @@ namespace IndieGabo.HandyFSM
         public bool TryGetState(Type stateType, out IState state)
         {
             return _stateProvider.TryGet(stateType, out state);
+        }
+
+        /// <summary>
+        /// Tries to get the state associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the state to retrieve.</param>
+        /// <param name="state">When this method returns, contains the state associated with the specified key, if found; otherwise, null.</param>
+        /// <returns><c>true</c> if the state was found; otherwise, <c>false</c>.</returns>
+        public bool TryGetState(string key, out IState state)
+        {
+            return _stateProvider.TryGet(key, out state);
         }
 
         /// <summary>

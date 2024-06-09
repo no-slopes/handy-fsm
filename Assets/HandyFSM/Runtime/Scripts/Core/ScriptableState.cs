@@ -17,6 +17,9 @@ namespace IndieGabo.HandyFSM
         [SerializeField]
         protected string _name;
 
+        [SerializeField]
+        protected string _key;
+
         #endregion
 
         #region Fields
@@ -30,8 +33,9 @@ namespace IndieGabo.HandyFSM
         #region  Getters
 
         public bool Interruptible => _interruptible;
-        public string Name => string.IsNullOrEmpty(_name) ? name : _name;
+        public string DisplayName => string.IsNullOrEmpty(_name) ? name : _name;
         public FSMBrain Brain => _brain;
+        public string Key => _key;
 
         #endregion
 

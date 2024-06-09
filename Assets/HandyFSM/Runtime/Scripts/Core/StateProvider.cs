@@ -9,7 +9,8 @@ namespace IndieGabo.HandyFSM
     {
         #region Fields
 
-        protected Dictionary<Type, IState> _states;
+        protected Dictionary<Type, IState> _statesByType;
+        protected Dictionary<string, IState> _statesByKey;
         protected FSMBrain _machine;
 
         #endregion
@@ -19,7 +20,8 @@ namespace IndieGabo.HandyFSM
         public StateProvider(FSMBrain machine)
         {
             _machine = machine;
-            _states = new Dictionary<Type, IState>();
+            _statesByType = new Dictionary<Type, IState>();
+            _statesByKey = new Dictionary<string, IState>();
         }
 
         #endregion
@@ -56,7 +58,7 @@ namespace IndieGabo.HandyFSM
             {
                 State childState = Activator.CreateInstance(childType) as State;
                 instatiatedState.Add(childState);
-                CommitState(childType, childState);
+                CommitState(childState);
             }
 
             if (!initializeAfterCommit) return;
@@ -79,7 +81,7 @@ namespace IndieGabo.HandyFSM
                 ScriptableState clone = UnityEngine.Object.Instantiate(scriptableState);
 
                 // Commit the state
-                if (!CommitState(clone.GetType(), clone)) continue;
+                CommitState(clone);
                 commitedStates.Add(clone);
             }
 
@@ -95,7 +97,7 @@ namespace IndieGabo.HandyFSM
 
         public void InitializeAllStates()
         {
-            foreach (IState state in _states.Values)
+            foreach (IState state in _statesByType.Values)
             {
                 state.Initialize(_machine);
             }
@@ -120,7 +122,7 @@ namespace IndieGabo.HandyFSM
             State state = Activator.CreateInstance(stateType) as State;
 
             // Commit the state
-            CommitState(stateType, state);
+            CommitState(state);
 
             // Initialize the state with the state machine
             state.Initialize(_machine);
@@ -128,22 +130,28 @@ namespace IndieGabo.HandyFSM
 
         public void LoadState(IState state)
         {
-            CommitState(state.GetType(), state);
+            CommitState(state);
             state.Initialize(_machine);
         }
 
         /// <summary>
         /// Commits the state for the given type addind it to the dictionary.
         /// </summary>
-        /// <param name="type">The type to commit the state for.</param>
         /// <param name="state">The state to be committed.</param>
-        protected bool CommitState(Type type, IState state)
+        protected void CommitState(IState state)
         {
-            if (_states.ContainsKey(type)) return false;
+            Type stateType = state.GetType();
+            if (!_statesByType.ContainsKey(stateType))
+            {
+                // Add the state to the dictionary
+                _statesByType.Add(stateType, state);
+            }
 
-            // Add the state to the dictionary
-            _states.Add(type, state);
-            return true;
+            string key = state.Key;
+            if (!string.IsNullOrEmpty(key) && !_statesByKey.ContainsKey(key))
+            {
+                _statesByKey.Add(key, state);
+            }
         }
 
         #endregion
@@ -152,12 +160,22 @@ namespace IndieGabo.HandyFSM
 
         public bool IsLoaded(IState state)
         {
-            return _states.ContainsKey(state.GetType());
+            return _statesByType.ContainsKey(state.GetType());
         }
 
         public IState Get(Type stateType)
         {
-            if (_states.TryGetValue(stateType, out IState state))
+            if (_statesByType.TryGetValue(stateType, out IState state))
+            {
+                return state;
+            }
+
+            return null;
+        }
+
+        public IState Get(string key)
+        {
+            if (_statesByKey.TryGetValue(key, out IState state))
             {
                 return state;
             }
@@ -170,19 +188,25 @@ namespace IndieGabo.HandyFSM
             return (T)Get(typeof(T));
         }
 
+
         public bool TryGet(Type type, out IState state)
         {
-            return _states.TryGetValue(type, out state);
+            return _statesByType.TryGetValue(type, out state);
         }
 
         public bool TryGet<T>(out IState state) where T : IState
         {
-            return _states.TryGetValue(typeof(T), out state);
+            return _statesByType.TryGetValue(typeof(T), out state);
+        }
+
+        public bool TryGet(string key, out IState state)
+        {
+            return _statesByKey.TryGetValue(key, out state);
         }
 
         public List<IState> GetAllStates()
         {
-            return _states.Values.ToList();
+            return _statesByType.Values.ToList();
         }
 
         #endregion
