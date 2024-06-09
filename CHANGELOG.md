@@ -1,3 +1,25 @@
+## [1.11.1](https://github.com/no-slopes/handy-fsm/compare/v1.11.0...v1.11.1) (2024-06-09)
+
+
+### Bug Fixes
+
+* AddTransition IState ([9a0b56c](https://github.com/no-slopes/handy-fsm/commit/9a0b56cdb548818e2ea099cad32e103ee917c0e3))
+
+# [1.11.0](https://github.com/no-slopes/handy-fsm/compare/v1.10.0...v1.11.0) (2024-06-04)
+
+
+### Features
+
+* Choose in wich updates transitions evaluation happens ([6c6d85e](https://github.com/no-slopes/handy-fsm/commit/6c6d85e65a328996f3ad8982ed577f3d41dde6b1))
+* IndieGabo namespace ([0f5f33b](https://github.com/no-slopes/handy-fsm/commit/0f5f33b7393ead706aabac44af5fc627af0edbde))
+
+# [1.10.0](https://github.com/no-slopes/handy-fsm/compare/v1.9.3...v1.10.0) (2024-05-27)
+
+
+### Features
+
+* HandyFSMBrain -> FSMBrain ([ad275f4](https://github.com/no-slopes/handy-fsm/commit/ad275f44afae313f540718858d6283b221b977be))
+
 ## [1.9.3](https://github.com/no-slopes/handy-fsm/compare/v1.9.2...v1.9.3) (2024-05-27)
 
 
