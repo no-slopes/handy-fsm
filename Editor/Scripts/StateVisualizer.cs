@@ -58,7 +58,7 @@ namespace IndieGabo.HandyFSM.Editor
             if (recordsCount > 0)
             {
                 Record record = _session.Records.Last();
-                Debug.Log(record.State.Name);
+                Debug.Log(record.State.DisplayName);
                 BuildView(record);
             }
         }

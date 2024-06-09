@@ -6,7 +6,8 @@ namespace IndieGabo.HandyFSM
     public interface IState
     {
         bool Interruptible { get; }
-        string Name { get; }
+        string Key { get; }
+        string DisplayName { get; }
         FSMBrain Brain { get; }
 
         bool WantsToTransition(out List<IState> targets);

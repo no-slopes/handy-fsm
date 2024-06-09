@@ -24,7 +24,7 @@ namespace IndieGabo.HandyFSM.Registering
 
         public void DisplayStateName()
         {
-            Debug.Log($"{_state.Name}");
+            Debug.Log($"{_state.DisplayName}");
         }
 
         #endregion

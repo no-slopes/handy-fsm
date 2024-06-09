@@ -122,7 +122,7 @@ namespace IndieGabo.HandyFSM
 
             if (!valid)
             {
-                Debug.LogError($"State {state.Name} needs a signal named '{key}' but it does not exist for StateMachine Brain \"{_brain.name}\"", _brain);
+                Debug.LogError($"State {state.DisplayName} needs a signal named '{key}' but it does not exist for StateMachine Brain \"{_brain.name}\"", _brain);
             }
 
             return valid;

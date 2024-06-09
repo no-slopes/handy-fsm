@@ -15,7 +15,7 @@ namespace IndieGabo.HandyFSM
     {
         #region Fields
 
-        protected string _name;
+        protected string _displayName;
         protected bool _interruptible;
         protected FSMBrain _brain;
         protected List<StateTransition> _transitions = new();
@@ -28,7 +28,7 @@ namespace IndieGabo.HandyFSM
         /// <summary>
         /// Either the state name defined on Inspector or the type of the state class
         /// </summary>
-        public string Name => _name;
+        public string DisplayName => _displayName;
 
         /// <summary>
         /// If the state can be interrupted.
@@ -47,7 +47,7 @@ namespace IndieGabo.HandyFSM
         public virtual void Initialize(FSMBrain brain)
         {
             _brain = brain;
-            _name = GetType().Name;
+            _displayName = GetType().Name;
             SortTransitions();
             Type stateType = GetType();
             LoadActions(stateType);
@@ -161,13 +161,15 @@ namespace IndieGabo.HandyFSM
 
         protected virtual void SetName(string name)
         {
-            _name = name;
+            _displayName = name;
         }
 
         protected virtual void SetInterruptible(bool interruptible)
         {
             _interruptible = interruptible;
         }
+
+        public virtual string Key => string.Empty;
 
         #endregion
     }
