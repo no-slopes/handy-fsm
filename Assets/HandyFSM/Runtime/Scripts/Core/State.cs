@@ -80,7 +80,7 @@ namespace IndieGabo.HandyFSM
         /// <param name="Condition"> A bool returning callback wich evaluates if the state should become active or not </param>
         /// <param name="targetState"> The state wich should become active based on condition </param>
         /// <param name="priority"> Priority level </param>
-        protected virtual void AddTransition(Func<bool> Condition, State targetState, int priority = 0)
+        protected virtual void AddTransition(Func<bool> Condition, IState targetState, int priority = 0)
         {
             StateTransition transition = new(Condition, targetState, priority);
             AddTransition(transition);
