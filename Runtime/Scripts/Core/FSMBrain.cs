@@ -470,7 +470,7 @@ namespace IndieGabo.HandyFSM
             foreach (IState targetState in targetStates)
             {
                 if (!targetState.CanEnter(_currentState)) continue;
-                RequestStateChange(targetState);
+                ChangeState(targetState);
                 return;
             }
         }
