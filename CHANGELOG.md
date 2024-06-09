@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/no-slopes/handy-fsm/compare/v1.11.3...v1.12.0) (2024-06-09)
+
+
+### Features
+
+* EndState ([6e4461f](https://github.com/no-slopes/handy-fsm/commit/6e4461fbb46c899d47ceb52d0e5e69fb94f7b234))
+* Now states are stored by type and key ([d37377f](https://github.com/no-slopes/handy-fsm/commit/d37377f2181201ec7de5eae60e89f9ce481565b3))
+
 ## [1.11.3](https://github.com/no-slopes/handy-fsm/compare/v1.11.2...v1.11.3) (2024-06-09)
 
 
