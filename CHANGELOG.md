@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/no-slopes/handy-fsm/compare/v1.11.1...v1.11.2) (2024-06-09)
+
+
+### Bug Fixes
+
+* ChangeState ([aa7f86a](https://github.com/no-slopes/handy-fsm/commit/aa7f86a1bfc3faf3392fbae4bed8e5290a59e82e))
+
 ## [1.11.1](https://github.com/no-slopes/handy-fsm/compare/v1.11.0...v1.11.1) (2024-06-09)
 
 
