@@ -429,6 +429,22 @@ namespace IndieGabo.HandyFSM
         }
 
         /// <summary>
+        /// Ends the specified state of type T.
+        /// </summary>
+        public virtual void EndState(string targetStateKey)
+        {
+            // Check if the requested state of type T exists in the state factory
+            if (!_stateProvider.TryGet(targetStateKey, out IState state))
+            {
+                Debug.LogError($"A state under the key {targetStateKey} was requested but it is not present in the state factory ", this);
+                return;
+            }
+
+            // End the specified state
+            EndState(state);
+        }
+
+        /// <summary>
         /// Changes the state.
         /// </summary>
         /// <param name="state">The new state to change to.</param>

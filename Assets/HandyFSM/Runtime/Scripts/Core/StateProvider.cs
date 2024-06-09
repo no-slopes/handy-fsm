@@ -135,7 +135,7 @@ namespace IndieGabo.HandyFSM
         }
 
         /// <summary>
-        /// Commits the state for the given type addind it to the dictionary.
+        /// Commits the state adding it to the dictionaries.
         /// </summary>
         /// <param name="state">The state to be committed.</param>
         protected void CommitState(IState state)
