@@ -1,3 +1,10 @@
+## [1.11.3](https://github.com/no-slopes/handy-fsm/compare/v1.11.2...v1.11.3) (2024-06-09)
+
+
+### Bug Fixes
+
+* Defaulting before initializing ([b9f4ef5](https://github.com/no-slopes/handy-fsm/commit/b9f4ef5d97c3f1b8bc75f4cf7ab93e593f1e96b0))
+
 ## [1.11.2](https://github.com/no-slopes/handy-fsm/compare/v1.11.1...v1.11.2) (2024-06-09)
 
 
