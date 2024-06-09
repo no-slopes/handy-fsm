@@ -186,10 +186,10 @@ namespace IndieGabo.HandyFSM
             MethodInfo beforeInitializeMethod = machineType.GetMethod("BeforeInitialized", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             beforeInitializeMethod?.Invoke(this, null);
 
-            _stateProvider.InitializeAllStates();
-
-            if (_defaultScriptableState != null)
+            if (_defaultState == null && _defaultScriptableState != null)
                 _defaultState = _stateProvider.Get(_defaultScriptableState.GetType());
+
+            _stateProvider.InitializeAllStates();
 
             _isInitialized = true;
 
