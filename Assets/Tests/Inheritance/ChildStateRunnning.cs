@@ -6,7 +6,6 @@ public class ChildStateRunnning : ChildStateGrounded
 {
     protected void OnInit()
     {
-        SetInterruptible(true);
         SetName("Running");
     }
 

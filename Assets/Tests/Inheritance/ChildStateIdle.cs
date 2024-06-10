@@ -6,7 +6,6 @@ public class ChildStateIdle : ChildStateGrounded
 {
     protected void OnInit()
     {
-        SetInterruptible(true);
         SetName("Idle");
     }
 

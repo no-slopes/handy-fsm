@@ -12,9 +12,6 @@ namespace IndieGabo.HandyFSM
         #region Inspector
 
         [SerializeField]
-        protected bool _interruptible;
-
-        [SerializeField]
         protected string _name;
 
         [SerializeField]
@@ -32,7 +29,6 @@ namespace IndieGabo.HandyFSM
 
         #region  Getters
 
-        public bool Interruptible => _interruptible;
         public string DisplayName => string.IsNullOrEmpty(_name) ? name : _name;
         public FSMBrain Brain => _brain;
         public string Key => _key;
@@ -99,7 +95,7 @@ namespace IndieGabo.HandyFSM
         }
 
         /// <summary>
-        /// Checks if there is a valid transition and sets the output parameter with the target state.
+        /// Checks if there are valid transitions and sets the output parameter with the target states list.
         /// </summary>
         /// <param name="targets">A list of target states this state wants to transition into.</param>
         /// <returns>True if a valid transition is found, otherwise false.</returns>

@@ -9,10 +9,9 @@ namespace IndieGabo.HandyFSM
         protected FSMBrain _brain;
         protected Dictionary<string, UnityEvent<TriggerData>> _triggers = new();
 
-        public TriggersProvider(FSMBrain brain, List<string> triggersKeys)
+        public TriggersProvider(FSMBrain brain)
         {
             _brain = brain;
-            triggersKeys.ForEach(triggerKey => _triggers.Add(triggerKey, new UnityEvent<TriggerData>()));
         }
 
         public void Squeeze(string key, TriggerData data = null)
@@ -30,8 +29,7 @@ namespace IndieGabo.HandyFSM
         {
             if (!_triggers.ContainsKey(key))
             {
-                Debug.LogError($"Trying to register callback for trigger '{key}' but it does not exist for StateMachine Brain \"{_brain.name}\"");
-                return;
+                _triggers.Add(key, new UnityEvent<TriggerData>());
             }
 
             _triggers[key].AddListener(action);
