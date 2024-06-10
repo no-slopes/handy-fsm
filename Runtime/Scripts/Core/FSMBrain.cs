@@ -61,9 +61,6 @@ namespace IndieGabo.HandyFSM
         protected List<Signal> _signals = new();
 
         [SerializeField]
-        protected List<string> _triggers = new();
-
-        [SerializeField]
         protected UnityEvent<MachineStatus> _statusChanged;
 
         [SerializeField]
@@ -179,7 +176,7 @@ namespace IndieGabo.HandyFSM
             _stateProvider.LoadStatesFromScriptablesList(_scriptableStates, false);
 
             _signalsProvider = new SignalsProvider(this, _signals);
-            _triggersProvider = new TriggersProvider(this, _triggers);
+            _triggersProvider = new TriggersProvider(this);
 
             Type machineType = GetType();
 
@@ -355,11 +352,9 @@ namespace IndieGabo.HandyFSM
         /// </summary>
         /// <param name="state"> The state to be set as active </param>
         /// <param name="forceInterruption"> If an uninterruptible state should be interrupted </param>
-        public virtual void RequestStateChange(IState state, StateChangeMode mode = StateChangeMode.Respectfully)
+        public virtual void RequestStateChange(IState state)
         {
             if (_status != MachineStatus.On || state == null) return;
-
-            if (_currentState != null && !_currentState.Interruptible && mode.Equals(StateChangeMode.Respectfully)) return; // State cannot be interrupted, but will if forced.
 
             ChangeState(state);
         }
@@ -369,7 +364,7 @@ namespace IndieGabo.HandyFSM
         /// </summary>
         /// <param name="state"> The state to be set as active </param>
         /// <param name="forceInterruption"> If an uninterruptible state should be interrupted </param>
-        public virtual void RequestStateChange<T>(StateChangeMode mode = StateChangeMode.Respectfully) where T : State
+        public virtual void RequestStateChange<T>() where T : State
         {
             if (!_stateProvider.TryGet<T>(out IState state))
             {
@@ -377,7 +372,7 @@ namespace IndieGabo.HandyFSM
                 return;
             }
 
-            RequestStateChange(state, mode);
+            RequestStateChange(state);
         }
 
         /// <summary>

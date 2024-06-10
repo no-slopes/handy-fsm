@@ -16,22 +16,6 @@ namespace IndieGabo.HandyFSM
     }
 
     /// <summary>
-    /// Enum representing the mode of changing state.
-    /// </summary>
-    public enum StateChangeMode
-    {
-        /// <summary>
-        /// Change state respectfully.
-        /// </summary>
-        Respectfully,
-
-        /// <summary>
-        /// Change state forcefully.
-        /// </summary>
-        Forcefully
-    }
-
-    /// <summary>
     /// The machine's Statuses.
     /// </summary>
     public enum MachineStatus
