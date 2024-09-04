@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/no-slopes/handy-fsm/compare/v1.13.0...v1.14.0) (2024-09-04)
+
+
+### Features
+
+* Removed Signals ([6e2a708](https://github.com/no-slopes/handy-fsm/commit/6e2a7087b73c822296512dc56da581618934d879))
+
 # [1.13.0](https://github.com/no-slopes/handy-fsm/compare/v1.12.0...v1.13.0) (2024-06-10)
 
 
