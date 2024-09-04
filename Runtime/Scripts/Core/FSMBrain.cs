@@ -58,9 +58,6 @@ namespace IndieGabo.HandyFSM
         protected List<ScriptableState> _scriptableStates;
 
         [SerializeField]
-        protected List<Signal> _signals = new();
-
-        [SerializeField]
         protected UnityEvent<MachineStatus> _statusChanged;
 
         [SerializeField]
@@ -77,7 +74,6 @@ namespace IndieGabo.HandyFSM
 
         protected bool _isInitialized;
         protected StateProvider _stateProvider;
-        protected SignalsProvider _signalsProvider;
         protected TriggersProvider _triggersProvider;
 
         #endregion
@@ -135,13 +131,6 @@ namespace IndieGabo.HandyFSM
         /// </summary>
         public IState DefaultState => _defaultState;
 
-        public List<Signal> SignalsList => _signals;
-
-        /// <summary>
-        /// The signals registered in this machine brain
-        /// </summary>
-        public SignalsProvider Signals => _signalsProvider;
-
         /// <summary>
         /// The triggers registered in this machine brain
         /// </summary>
@@ -175,7 +164,6 @@ namespace IndieGabo.HandyFSM
             _stateProvider = new StateProvider(this);
             _stateProvider.LoadStatesFromScriptablesList(_scriptableStates, false);
 
-            _signalsProvider = new SignalsProvider(this, _signals);
             _triggersProvider = new TriggersProvider(this);
 
             Type machineType = GetType();
