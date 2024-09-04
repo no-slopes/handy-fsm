@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/no-slopes/handy-fsm/compare/v1.12.0...v1.13.0) (2024-06-10)
+
+
+### Features
+
+* triggers no longer demands registering and interrupting is no longer a deeal. ([a6b9be7](https://github.com/no-slopes/handy-fsm/commit/a6b9be79fe1be6ab270b3a0e93c4c70b379d31ba))
+
 # [1.12.0](https://github.com/no-slopes/handy-fsm/compare/v1.11.3...v1.12.0) (2024-06-09)
 
 
