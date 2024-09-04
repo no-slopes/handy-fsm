@@ -31,8 +31,6 @@
     <ui:Label tabindex="-1" text="States" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-states" class="separation-label" />
     <uie:ObjectField label="Default Scriptable State" name="field-default-scriptable-state" type="IndieGabo.HandyFSM.ScriptableState, IndieGabo.HandyFSM.Runtime" binding-path="_defaultScriptableState" />
     <ui:ListView focusable="true" name="list-scriptable-states" selection-type="None" reorderable="true" header-title="Scriptable States" show-add-remove-footer="true" show-foldout-header="true" binding-path="_scriptableStates" class="no-label-list" />
-    <ui:Label tabindex="-1" text="Triggers and Signals" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-triggers-and-signals" class="separation-label" />
-    <ui:ListView focusable="true" name="list-signals" reorderable="false" header-title="Signals" virtualization-method="DynamicHeight" show-foldout-header="true" show-add-remove-footer="true" selection-type="None" show-border="false" binding-path="_signals" />
     <ui:Label tabindex="-1" text="CCPro" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-ccpro" class="separation-label" />
     <uie:PropertyField name="field-animator" binding-path="_animator" />
     <uie:PropertyField name="field-character-actor" binding-path="_characterActor" label="Character Actor" />

@@ -12,8 +12,6 @@ public class TriggerStateTwo : ScriptableState
     public void OnEnter()
     {
         Brain.Triggers.RegisterCallback("tap", GoToOne);
-        Brain.Signals.Set("test", false);
-        Brain.Signals.Set("testInt", Random.Range(0, 100));
     }
 
     public void OnExit()

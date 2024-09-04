@@ -19,7 +19,6 @@ namespace IndieGabo.HandyFSM.Editor
         private Label _statusText;
         private EnumField _statusField;
         private ObjectField _fieldOwner;
-        private ListView _listSignals;
 
         public FSMBrain Brain => _brain;
 
@@ -42,25 +41,6 @@ namespace IndieGabo.HandyFSM.Editor
 
             _fieldOwner = _containerMain.Q<ObjectField>("field-owner");
             _fieldOwner.objectType = typeof(Transform);
-
-
-            _listSignals = _containerMain.Q<ListView>("list-signals");
-            _listSignals.makeItem = () =>
-            {
-                SignalElement element = new();
-                return element;
-            };
-
-            _listSignals.bindItem = (element, i) =>
-            {
-                SignalElement signalElement = element as SignalElement;
-                if (_brain.SignalsList[i] == null)
-                {
-                    _brain.SignalsList[i] = new();
-                }
-                signalElement.SetSignal(_brain.SignalsList[i]);
-            };
-            _listSignals.itemsSource = _brain.SignalsList;
 
             return _containerMain;
         }

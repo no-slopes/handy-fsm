@@ -15,13 +15,10 @@ public class TriggerStateOne : ScriptableState
     public void OnEnter()
     {
         Brain.Triggers.RegisterCallback("tap", GoToTwo);
-        Brain.Signals.Set("test", true);
-        Brain.Signals.Set("testInt", Random.Range(0, 100));
     }
 
     public void OnExit()
     {
-        Debug.Log($"{Brain.Signals.ReadInt("testInt")}");
         Brain.Triggers.UnregisterCallback("tap", GoToTwo);
     }
 
