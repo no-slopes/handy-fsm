@@ -19,7 +19,6 @@ namespace IndieGabo.HandyFSM
         {
             if (!_datalessTriggers.ContainsKey(key))
             {
-                Debug.LogError($"Trying to squeeze trigger '{key}' but it does not exist for StateMachine Brain \"{_brain.name}\"");
                 return;
             }
 
@@ -33,7 +32,6 @@ namespace IndieGabo.HandyFSM
         {
             if (!_dataTriggers.ContainsKey(key))
             {
-                Debug.LogError($"Trying to squeeze trigger '{key}' but it does not exist for StateMachine Brain \"{_brain.name}\"");
                 return;
             }
 
