@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/no-slopes/handy-fsm/compare/v1.14.1...v1.14.2) (2024-11-07)
+
+
+### Bug Fixes
+
+* removing debug error when squeezing ([0e3d61d](https://github.com/no-slopes/handy-fsm/commit/0e3d61dbd014d59ba6c19403d25d782c2bbdd77a))
+
 ## [1.14.1](https://github.com/no-slopes/handy-fsm/compare/v1.14.0...v1.14.1) (2024-11-07)
 
 
