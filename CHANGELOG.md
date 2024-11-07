@@ -1,3 +1,10 @@
+## [1.14.3](https://github.com/no-slopes/handy-fsm/compare/v1.14.2...v1.14.3) (2024-11-07)
+
+
+### Bug Fixes
+
+* handling collection altered executions ([2ce9e72](https://github.com/no-slopes/handy-fsm/commit/2ce9e7256cb03de8f6d04f268e50715d1cbc6e81))
+
 ## [1.14.2](https://github.com/no-slopes/handy-fsm/compare/v1.14.1...v1.14.2) (2024-11-07)
 
 
