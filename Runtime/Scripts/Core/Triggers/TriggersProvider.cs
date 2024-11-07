@@ -7,6 +7,8 @@ namespace IndieGabo.HandyFSM
     public class TriggersProvider
     {
         protected FSMBrain _brain;
+        protected List<UnityAction> _datalessActions = new();
+        protected List<UnityAction<TriggerData>> _dataActions = new();
         protected Dictionary<string, List<UnityAction>> _datalessTriggers = new();
         protected Dictionary<string, List<UnityAction<TriggerData>>> _dataTriggers = new();
 
@@ -22,7 +24,10 @@ namespace IndieGabo.HandyFSM
                 return;
             }
 
-            foreach (UnityAction action in _datalessTriggers[key])
+            _datalessActions.Clear();
+            _datalessActions.AddRange(_datalessTriggers[key]);
+
+            foreach (UnityAction action in _datalessActions)
             {
                 action?.Invoke();
             }
@@ -35,7 +40,10 @@ namespace IndieGabo.HandyFSM
                 return;
             }
 
-            foreach (UnityAction<TriggerData> action in _dataTriggers[key])
+            _dataActions.Clear();
+            _dataActions.AddRange(_dataTriggers[key]);
+
+            foreach (UnityAction<TriggerData> action in _dataActions)
             {
                 action?.Invoke(value);
             }
