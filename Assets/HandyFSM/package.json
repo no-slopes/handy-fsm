@@ -1,6 +1,6 @@
 {
   "name": "com.no-slopes.handy-fsm",
-  "version": "1.14.0",
+  "version": "1.14.1",
   "displayName": "Handy FSM",
   "description": "A solution for working with Finite State Machines in Unity.",
   "unity": "2022.3",

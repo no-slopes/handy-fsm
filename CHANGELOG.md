@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/no-slopes/handy-fsm/compare/v1.14.0...v1.14.1) (2024-11-07)
+
+
+### Bug Fixes
+
+* Triggers now can be dataless ([61b57aa](https://github.com/no-slopes/handy-fsm/commit/61b57aae9aeabbaaa300b55969d8cb4f21df4356))
+
 # [1.14.0](https://github.com/no-slopes/handy-fsm/compare/v1.13.0...v1.14.0) (2024-09-04)
 
 
