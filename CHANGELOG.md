@@ -1,3 +1,10 @@
+## [1.14.4](https://github.com/no-slopes/handy-fsm/compare/v1.14.3...v1.14.4) (2025-04-08)
+
+
+### Bug Fixes
+
+* ASMDEFs no longer using guids ([476e0d5](https://github.com/no-slopes/handy-fsm/commit/476e0d5bdc7ae50d094e5139e5fc37823c03c3ff))
+
 ## [1.14.3](https://github.com/no-slopes/handy-fsm/compare/v1.14.2...v1.14.3) (2024-11-07)
 
 
