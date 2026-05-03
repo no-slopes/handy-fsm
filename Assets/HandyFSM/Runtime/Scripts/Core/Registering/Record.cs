@@ -8,6 +8,9 @@ namespace IndieGabo.HandyFSM.Registering
         #region Inspector
 
         [SerializeField]
+        private StateTransitionReport _transitionReport;
+
+        [SerializeField]
         private bool _isScriptable;
 
         [SerializeField]
@@ -31,6 +34,12 @@ namespace IndieGabo.HandyFSM.Registering
 
         #region Getters
 
+        public StateTransitionReason TransitionReason => _transitionReport.Reason;
+
+        public StateTransitionReport TransitionReport => _transitionReport;
+
+        public string TransitionMessage => _transitionReport.Message;
+
         public bool IsScriptable => _isScriptable;
 
         public ScriptableState FromScriptable => _fromScriptable;
@@ -43,7 +52,25 @@ namespace IndieGabo.HandyFSM.Registering
         #region Consctructors
 
         public Record(IState from, IState state)
+            : this(from, state, StateTransitionReport.Unknown)
         {
+        }
+
+        public Record(
+            IState from,
+            IState state,
+            StateTransitionReason transitionReason)
+            : this(from, state, new StateTransitionReport(transitionReason))
+        {
+        }
+
+        public Record(
+            IState from,
+            IState state,
+            StateTransitionReport transitionReport)
+        {
+            _transitionReport = transitionReport;
+
             if (from is State)
             {
                 _fromState = from as State;

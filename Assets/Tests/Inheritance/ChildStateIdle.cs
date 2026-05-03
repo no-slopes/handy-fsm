@@ -33,7 +33,7 @@ public class ChildStateIdle : ChildStateGrounded
 
     private IEnumerator WaitAndRun()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(2f);
         Brain.EndState(Brain.GetState<ChildStateRunnning>());
     }
 }

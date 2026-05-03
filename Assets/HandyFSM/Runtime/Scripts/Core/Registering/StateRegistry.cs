@@ -58,10 +58,24 @@ namespace IndieGabo.HandyFSM.Registering
 
         public void Register(IState state)
         {
+            Register(state, StateTransitionReport.Unknown);
+        }
+
+        public void Register(
+            IState state,
+            StateTransitionReason transitionReason)
+        {
+            Register(state, new StateTransitionReport(transitionReason));
+        }
+
+        public void Register(
+            IState state,
+            StateTransitionReport transitionReport)
+        {
             if (_currentSession == null) return;
             if (state == null) return;
 
-            _currentSession.Register(state);
+            _currentSession.Register(state, transitionReport);
         }
 
         #endregion

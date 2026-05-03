@@ -20,7 +20,7 @@ public class ChildStateRunnning : ChildStateGrounded
 
     private IEnumerator WaitAndAttack()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(2f);
         Brain.EndState(Brain.GetState<ChildStateAttacking>());
     }
 }

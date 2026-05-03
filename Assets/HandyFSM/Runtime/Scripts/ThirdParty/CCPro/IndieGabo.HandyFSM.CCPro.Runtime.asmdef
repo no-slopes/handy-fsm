@@ -1,0 +1,25 @@
+{
+    "name": "IndieGabo.HandyFSM.CCPro.Runtime",
+    "rootNamespace": "IndieGabo.HandyFSM.CCPro",
+    "references": [
+        "IndieGabo.HandyFSM.Runtime",
+        "com.lightbug.character-controller-pro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "HANDYFSM_CHARACTER_CONTROLLER_PRO"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.lightbug.character-controller-pro",
+            "expression": "",
+            "define": "HANDYFSM_CHARACTER_CONTROLLER_PRO"
+        }
+    ],
+    "noEngineReferences": false
+}

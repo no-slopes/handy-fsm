@@ -6,35 +6,46 @@ using UnityEngine.UIElements;
 
 namespace IndieGabo.HandyFSM.Editor
 {
+    /// <summary>
+    /// Displays the current-state inheritance path and the recorded history of an FSM brain.
+    /// </summary>
     public class MachineStateVisualizerWindow : EditorWindow
     {
         #region Static
 
+        /// <summary>
+        /// Opens the visualizer window.
+        /// </summary>
+        /// <returns>The opened editor window instance.</returns>
         public static MachineStateVisualizerWindow OpenEditorWindow()
         {
             var window = GetWindow<MachineStateVisualizerWindow>();
             window.titleContent = new GUIContent("State Visualizer");
-            window.minSize = new Vector2(300, 150);
+            window.minSize = new Vector2(520f, 360f);
             window.Show();
             return window;
+        }
+
+        [MenuItem("Window/HandyFSM/State Visualizer")]
+        private static void OpenFromMenu()
+        {
+            OpenEditorWindow();
         }
 
         #endregion
 
         #region Fields
 
-        private MachineStateVisualizerWindowData _data;
-        private FSMBrain _machine;
         private StateVisualizer _stateVisualizer;
         private VisualElement _stateVisualizerRoot;
 
         private TemplateContainer _root;
         private VisualElement _body;
         private VisualElement _selectStateMachineContainer;
-        private VisualElement _enterPlayModeContainer;
 
         private ObjectField _machineSelectorField;
         private Button _fromSelectionButton;
+        private bool _sessionRefreshQueued;
 
         #endregion
 
@@ -57,17 +68,36 @@ namespace IndieGabo.HandyFSM.Editor
 
         #region Behaviour
 
+        /// <summary>
+        /// Builds the window UI and restores the selected machine.
+        /// </summary>
         private void OnEnable()
         {
             VisualTreeAsset tree = Resources.Load<VisualTreeAsset>("UI Documents/MachineStateVisualizerWindowUI");
+
+            if (tree == null)
+            {
+                rootVisualElement.Clear();
+                rootVisualElement.Add(new Label(
+                    "MachineStateVisualizerWindowUI could not be loaded."));
+                return;
+            }
+
             _root = tree.CloneTree();
+
+            StyleSheet styleSheet = Resources.Load<StyleSheet>(
+                "Styles/handy-fsm-state-visualizer-styles");
+
+            if (styleSheet != null)
+            {
+                _root.styleSheets.Add(styleSheet);
+            }
 
             _root.style.flexGrow = 1;
 
             _body = _root.Q<VisualElement>("body");
 
             _selectStateMachineContainer = _root.Q("select-machine-container");
-            _enterPlayModeContainer = _root.Q("enter-play-mode-container");
 
             _stateVisualizer = new StateVisualizer();
             _stateVisualizerRoot = _stateVisualizer.Root;
@@ -100,49 +130,67 @@ namespace IndieGabo.HandyFSM.Editor
             rootVisualElement.Add(_root);
         }
 
+        /// <summary>
+        /// Detaches listeners when the window is disabled.
+        /// </summary>
         private void OnDisable()
         {
             EditorApplication.playModeStateChanged -= OnEditorModeChanged;
-            Data.Machine?.StatusChanged.RemoveListener(OnStatusChanged);
-            Data.Machine?.StateChanged.RemoveListener(OnStateChanged);
+            DetachMachineListeners(Data.Machine);
         }
 
+        /// <summary>
+        /// Releases transient listeners when the window is destroyed.
+        /// </summary>
         private void OnDestroy()
         {
-            SetMachine(null);
-            Data.SetSession(null);
+            DetachMachineListeners(Data.Machine);
         }
 
+        /// <summary>
+        /// Keeps the window session aligned with play mode transitions.
+        /// </summary>
+        /// <param name="mode">The new editor play mode state.</param>
         private void OnEditorModeChanged(PlayModeStateChange mode)
         {
-            if (!mode.Equals(PlayModeStateChange.EnteredEditMode)) return;
-            LoadMachineFromData();
-            LoadSession();
+            if (mode == PlayModeStateChange.EnteredEditMode)
+            {
+                LoadMachineFromData();
+                LoadSession();
+                return;
+            }
+
+            if (mode == PlayModeStateChange.EnteredPlayMode)
+            {
+                LoadMachineFromData();
+                LoadSession();
+            }
         }
 
         #endregion
 
         #region Flow
 
-        private void InitializeSession()
+        /// <summary>
+        /// Loads the latest tracked session for the currently selected machine.
+        /// </summary>
+        private void RefreshTrackedSession()
         {
-            if (Data.Machine == null)
+            Session session = null;
+
+            if (Data.Machine != null)
             {
-                Data.SetSession(null);
-                return;
+                Data.TryGetLastSession(Data.Machine, out session);
             }
 
-            Data.SetSession(new Session(Data.Machine, 100));
+            Data.SetSession(session);
+            _stateVisualizer.SetMachine(Data.Machine);
             _stateVisualizer.LoadSession(Data.Session);
-
-            if (Data.Machine.CurrentState != null)
-            {
-                SetState(Data.Machine.CurrentState, Data.Machine.PreviousState);
-            }
-
-            Data.Machine.StateChanged.AddListener(OnStateChanged);
         }
 
+        /// <summary>
+        /// Shows either the selection prompt or the visualizer itself.
+        /// </summary>
         private void EvaluateDisplay()
         {
             if (Data.Machine == null)
@@ -161,73 +209,136 @@ namespace IndieGabo.HandyFSM.Editor
 
         #region Machine
 
+        /// <summary>
+        /// Binds the window to a specific FSM brain.
+        /// </summary>
+        /// <param name="machine">The machine to inspect.</param>
         public void SetMachine(FSMBrain machine)
         {
-            Data.Machine?.StatusChanged.RemoveListener(OnStatusChanged);
+            ApplyMachine(machine, true);
+        }
 
-            Data.SetMachine(machine);
+        /// <summary>
+        /// Applies a machine to the current window, optionally persisting the selection.
+        /// </summary>
+        /// <param name="machine">The machine to inspect.</param>
+        /// <param name="persistSelection">Whether the selection should be persisted across reloads.</param>
+        private void ApplyMachine(FSMBrain machine, bool persistSelection)
+        {
+            DetachMachineListeners(Data.Machine);
+
+            if (persistSelection)
+            {
+                Data.SetMachine(machine);
+            }
+            else
+            {
+                Data.SetResolvedMachine(machine);
+            }
+
+            _stateVisualizer.SetMachine(Data.Machine);
 
             if (Data.Machine != null)
             {
                 Data.Machine.StatusChanged.AddListener(OnStatusChanged);
+                Data.Machine.StateChanged.AddListener(OnStateChanged);
             }
+
+            RefreshTrackedSession();
 
             EvaluateDisplay();
         }
 
+        /// <summary>
+        /// Restores the selected machine from the persisted window data.
+        /// </summary>
         private void LoadMachineFromData()
         {
-            if (Data.Machine != null)
+            if (!Data.TryResolveMachine(out FSMBrain machine))
             {
                 _machineSelectorField.value = null;
-                _machineSelectorField.value = Data.Machine;
-                EvaluateDisplay();
-                return;
-            }
-
-            if (Data.MachineObj == null)
-            {
-                _machineSelectorField.value = null;
-                EvaluateDisplay(); return;
-            }
-
-            if (!Data.MachineObj.TryGetComponent<FSMBrain>(out var machine))
-            {
-                _machineSelectorField.value = null;
-                EvaluateDisplay();
+                ApplyMachine(null, false);
                 return;
             }
 
             _machineSelectorField.value = null;
             _machineSelectorField.value = machine;
-            SetMachine(machine);
+            ApplyMachine(machine, false);
         }
 
+        /// <summary>
+        /// Loads a previously captured session into the visualizer.
+        /// </summary>
         private void LoadSession()
         {
-            if (Data.Machine == null || Data.Session == null) return;
-            _stateVisualizer.LoadSession(Data.Session);
+            RefreshTrackedSession();
         }
 
+        /// <summary>
+        /// Refreshes the tracked session after the current editor callback chain finishes.
+        /// </summary>
+        private void ScheduleSessionRefresh()
+        {
+            if (_sessionRefreshQueued)
+            {
+                return;
+            }
+
+            _sessionRefreshQueued = true;
+            EditorApplication.delayCall += () =>
+            {
+                _sessionRefreshQueued = false;
+
+                if (this == null)
+                {
+                    return;
+                }
+
+                LoadSession();
+            };
+        }
+
+        /// <summary>
+        /// Reacts to machine status changes.
+        /// </summary>
+        /// <param name="status">The updated machine status.</param>
         private void OnStatusChanged(MachineStatus status)
         {
-            switch (status)
-            {
-                case MachineStatus.On:
-                    InitializeSession();
-                    break;
-            }
+            ScheduleSessionRefresh();
+        }
+
+        /// <summary>
+        /// Removes window listeners from a machine.
+        /// </summary>
+        /// <param name="machine">The machine that should be detached.</param>
+        private void DetachMachineListeners(FSMBrain machine)
+        {
+            if (machine == null)
+                return;
+
+            machine.StatusChanged.RemoveListener(OnStatusChanged);
+            machine.StateChanged.RemoveListener(OnStateChanged);
         }
 
         #endregion
 
         #region States
 
+        /// <summary>
+        /// Registers the latest active state in the visualizer.
+        /// </summary>
+        /// <param name="state">The active state.</param>
+        /// <param name="previous">The previous active state.</param>
         private void SetState(IState state, IState previous)
         {
-            _stateVisualizer.RegisterState(state);
+            ScheduleSessionRefresh();
         }
 
+        /// <summary>
+        /// Responds to runtime state transitions.
+        /// </summary>
+        /// <param name="state">The new active state.</param>
+        /// <param name="previous">The previous active state.</param>
         private void OnStateChanged(IState state, IState previous)
         {
             SetState(state, previous);

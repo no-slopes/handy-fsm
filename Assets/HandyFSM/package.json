@@ -23,7 +23,13 @@
     "finite",
     "finite state machine"
   ],
-  "samples": [],
+  "samples": [
+    {
+      "displayName": "Character Controller Pro Starter Kit",
+      "description": "Optional Character Controller Pro integration sample for Handy FSM.",
+      "path": "Samples/CCPro Starter Kit"
+    }
+  ],
   "scripts": {
     "release": "npm run release-it",
     "pre-release": "npx auto-changelog -p && mv -f CHANGELOG.md ../../docfx_project/documentation/CHANGELOG.md && docfx ../../docfx_project/docfx.json && echo Go create Unity .meta and the .unitypackage before releasing",

@@ -28,6 +28,18 @@
     <ui:Toggle label="On Update" name="field-transitions-update" binding-path="_transitionsOnUpdate" />
     <ui:Toggle label="On LateUpdate" name="field-transitions-late-update" binding-path="_transitionsOnLateUpdate" />
     <ui:Toggle label="On FixedUpdate" name="field-transitions-fixed-update" binding-path="_transitionsOnFixedUpdate" />
+    <ui:Label tabindex="-1" text="Debug" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-debug" class="separation-label" />
+    <ui:Toggle label="Save History" name="field-save-history" binding-path="_saveHistory" tooltip="Captures the last play-session history for editor debugging. Player builds ignore this flag and only capture history in Development Build." />
+    <ui:Label tabindex="-1" text="Third Party" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-third-party" class="separation-label" />
+    <ui:VisualElement name="third-party-simple-blackboard" style="margin-left: 8px;">
+        <ui:Label tabindex="-1" text="Simple Blackboard" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-simple-blackboard" class="subsection-label" />
+        <ui:Toggle label="Use Simple Blackboard?" name="field-use-simple-blackboard" binding-path="_useSimpleBlackboard" />
+        <uie:ObjectField label="Blackboard Container" name="field-blackboard" binding-path="_blackboardContainer" />
+    </ui:VisualElement>
+    <ui:VisualElement name="third-party-ccpro" style="margin-left: 8px; display: none;">
+        <ui:Label tabindex="-1" text="Character Controller Pro" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-character-controller-pro" class="subsection-label" />
+        <ui:VisualElement name="third-party-ccpro-fields" />
+    </ui:VisualElement>
     <ui:Label tabindex="-1" text="States" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label-states" class="separation-label" />
     <uie:ObjectField label="Default Scriptable State" name="field-default-scriptable-state" type="IndieGabo.HandyFSM.ScriptableState, IndieGabo.HandyFSM.Runtime" binding-path="_defaultScriptableState" />
     <ui:ListView focusable="true" name="list-scriptable-states" selection-type="None" reorderable="true" header-title="Scriptable States" show-add-remove-footer="true" show-foldout-header="true" binding-path="_scriptableStates" class="no-label-list" />

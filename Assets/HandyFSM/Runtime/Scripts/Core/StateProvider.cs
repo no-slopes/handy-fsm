@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace IndieGabo.HandyFSM
 {
     public class StateProvider
     {
+        private static readonly Dictionary<Type, Type[]> s_derivedRuntimeStateTypes =
+            new();
+
+        private static readonly Dictionary<Type, Func<State>> s_runtimeStateFactories =
+            new();
+
         #region Fields
 
         protected Dictionary<Type, IState> _statesByType;
@@ -45,26 +51,34 @@ namespace IndieGabo.HandyFSM
         /// <param name="baseStateType">The base state type.</param>
         public void LoadStatesFromBaseType(Type baseStateType, bool initializeAfterCommit = true)
         {
+            Type[] childrenTypes = GetDerivedRuntimeStateTypes(baseStateType);
+            State[] instantiatedStates = initializeAfterCommit
+                ? new State[childrenTypes.Length]
+                : null;
 
-            // Get all the classes that derive from the base state type and are not abstract
-            IEnumerable<Type> childrenTypes = baseStateType.Assembly.GetTypes()
-                .Where(t => t.IsClass && baseStateType.IsAssignableFrom(t) && !t.IsAbstract);
-
-            // List to hold instantiated states
-            List<State> instatiatedState = new();
-
-            // Instantiate and add each child state to the list and dictionary
-            foreach (Type childType in childrenTypes)
+            for (int index = 0; index < childrenTypes.Length; index++)
             {
-                State childState = Activator.CreateInstance(childType) as State;
-                instatiatedState.Add(childState);
+                State childState = CreateRuntimeState(childrenTypes[index]);
+
+                if (childState == null)
+                {
+                    continue;
+                }
+
                 CommitState(childState);
+
+                if (initializeAfterCommit)
+                {
+                    instantiatedStates[index] = childState;
+                }
             }
 
             if (!initializeAfterCommit) return;
 
-            // Initialize each instantiated state
-            instatiatedState.ForEach(state => state.Initialize(_machine));
+            for (int index = 0; index < instantiatedStates.Length; index++)
+            {
+                InitializeState(instantiatedStates[index]);
+            }
         }
 
         /// <summary>
@@ -73,25 +87,41 @@ namespace IndieGabo.HandyFSM
         /// <param name="states">The list of scriptable states to load.</param>
         public void LoadStatesFromScriptablesList(List<ScriptableState> states, bool initializeAfterCommit = true)
         {
-            List<IState> commitedStates = new();
-
-            // Instantiate and commit each scriptable state
-            foreach (ScriptableState scriptableState in states)
+            if (states == null || states.Count == 0)
             {
+                return;
+            }
+
+            ScriptableState[] committedStates = initializeAfterCommit
+                ? new ScriptableState[states.Count]
+                : null;
+
+            int committedStatesCount = 0;
+
+            for (int index = 0; index < states.Count; index++)
+            {
+                ScriptableState scriptableState = states[index];
+
+                if (scriptableState == null)
+                {
+                    continue;
+                }
+
                 ScriptableState clone = UnityEngine.Object.Instantiate(scriptableState);
 
-                // Commit the state
                 CommitState(clone);
-                commitedStates.Add(clone);
+
+                if (initializeAfterCommit)
+                {
+                    committedStates[committedStatesCount++] = clone;
+                }
             }
 
             if (!initializeAfterCommit) return;
 
-            // We can only initialize the states after commiting them because they might have
-            // transitions wich need other states to work.
-            foreach (IState commitedState in commitedStates)
+            for (int index = 0; index < committedStatesCount; index++)
             {
-                commitedState.Initialize(_machine);
+                InitializeState(committedStates[index]);
             }
         }
 
@@ -99,7 +129,7 @@ namespace IndieGabo.HandyFSM
         {
             foreach (IState state in _statesByType.Values)
             {
-                state.Initialize(_machine);
+                InitializeState(state);
             }
         }
 
@@ -118,20 +148,39 @@ namespace IndieGabo.HandyFSM
         /// <param name="stateType">The type of the state to load.</param>
         public void LoadState(Type stateType)
         {
-            // Create an instance of the specified state type
-            State state = Activator.CreateInstance(stateType) as State;
+            State state = CreateRuntimeState(stateType);
 
-            // Commit the state
+            if (state == null)
+            {
+                return;
+            }
+
             CommitState(state);
 
-            // Initialize the state with the state machine
-            state.Initialize(_machine);
+            InitializeState(state);
         }
 
         public void LoadState(IState state)
         {
             CommitState(state);
-            state.Initialize(_machine);
+            InitializeState(state);
+        }
+
+        private void InitializeState(IState state)
+        {
+            if (state == null)
+            {
+                return;
+            }
+
+            try
+            {
+                state.Initialize(_machine);
+            }
+            catch (StateFailureException exception)
+            {
+                _machine.HandleStateInitializationFailure(state, exception);
+            }
         }
 
         /// <summary>
@@ -140,15 +189,21 @@ namespace IndieGabo.HandyFSM
         /// <param name="state">The state to be committed.</param>
         protected void CommitState(IState state)
         {
-            Type stateType = state.GetType();
-            if (!_statesByType.ContainsKey(stateType))
+            if (state == null)
             {
-                // Add the state to the dictionary
+                return;
+            }
+
+            Type stateType = state.GetType();
+
+            if (!_statesByType.TryGetValue(stateType, out _))
+            {
                 _statesByType.Add(stateType, state);
             }
 
             string key = state.Key;
-            if (!string.IsNullOrEmpty(key) && !_statesByKey.ContainsKey(key))
+
+            if (!string.IsNullOrEmpty(key) && !_statesByKey.TryGetValue(key, out _))
             {
                 _statesByKey.Add(key, state);
             }
@@ -206,7 +261,73 @@ namespace IndieGabo.HandyFSM
 
         public List<IState> GetAllStates()
         {
-            return _statesByType.Values.ToList();
+            List<IState> states = new(_statesByType.Count);
+
+            foreach (IState state in _statesByType.Values)
+            {
+                states.Add(state);
+            }
+
+            return states;
+        }
+
+        private static Type[] GetDerivedRuntimeStateTypes(Type baseStateType)
+        {
+            if (s_derivedRuntimeStateTypes.TryGetValue(baseStateType, out Type[] cachedTypes))
+            {
+                return cachedTypes;
+            }
+
+            Type[] assemblyTypes = baseStateType.Assembly.GetTypes();
+            List<Type> derivedTypes = new(assemblyTypes.Length);
+
+            for (int index = 0; index < assemblyTypes.Length; index++)
+            {
+                Type candidateType = assemblyTypes[index];
+
+                if (!candidateType.IsClass
+                    || candidateType.IsAbstract
+                    || !baseStateType.IsAssignableFrom(candidateType))
+                {
+                    continue;
+                }
+
+                derivedTypes.Add(candidateType);
+            }
+
+            cachedTypes = derivedTypes.Count == 0
+                ? Array.Empty<Type>()
+                : derivedTypes.ToArray();
+
+            s_derivedRuntimeStateTypes.Add(baseStateType, cachedTypes);
+            return cachedTypes;
+        }
+
+        private static State CreateRuntimeState(Type stateType)
+        {
+            if (!s_runtimeStateFactories.TryGetValue(stateType, out Func<State> factory))
+            {
+                factory = CreateRuntimeStateFactory(stateType);
+                s_runtimeStateFactories.Add(stateType, factory);
+            }
+
+            return factory();
+        }
+
+        private static Func<State> CreateRuntimeStateFactory(Type stateType)
+        {
+            ConstructorInfo constructor = stateType.GetConstructor(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null,
+                Type.EmptyTypes,
+                null);
+
+            if (constructor == null)
+            {
+                return () => Activator.CreateInstance(stateType) as State;
+            }
+
+            return () => constructor.Invoke(null) as State;
         }
 
         #endregion
