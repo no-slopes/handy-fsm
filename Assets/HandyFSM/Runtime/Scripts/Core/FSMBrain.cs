@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Collections.Generic;
@@ -1206,9 +1207,14 @@ namespace IndieGabo.HandyFSM
 
             private static Type s_containerType;
             private static Type s_blackboardType;
+            private static Type s_propertyNameListType;
             private static Type s_propertyNameType;
             private static ConstructorInfo s_propertyNameConstructor;
             private static PropertyInfo s_blackboardProperty;
+            private static PropertyInfo s_propertyNameNameProperty;
+            private static MethodInfo s_getPropertyNamesMethod;
+            private static MethodInfo s_getValueTypeMethod;
+            private static MethodInfo s_recreateBlackboardMethod;
             private static MethodInfo s_tryGetStructValueMethodDefinition;
             private static MethodInfo s_tryGetClassValueMethodDefinition;
             private static MethodInfo s_setStructValueMethodDefinition;
@@ -1372,6 +1378,88 @@ namespace IndieGabo.HandyFSM
                     && s_containsValueDelegate(blackboard, boxedPropertyName);
             }
 
+            /// <summary>
+            /// Recreates the runtime blackboard owned by a container component.
+            /// </summary>
+            /// <param name="container">The candidate Simple Blackboard container.</param>
+            /// <returns>True when the container recreated its runtime blackboard.</returns>
+            public static bool RecreateBlackboard(Component container)
+            {
+                if (!IsAvailable || container == null || !ContainerType.IsInstanceOfType(container))
+                {
+                    return false;
+                }
+
+                s_recreateBlackboardMethod ??=
+                    ContainerType.GetMethod("RecreateBlackboard", BindingFlags.Instance | BindingFlags.Public);
+
+                if (s_recreateBlackboardMethod == null)
+                {
+                    return false;
+                }
+
+                s_recreateBlackboardMethod.Invoke(container, Array.Empty<object>());
+                return true;
+            }
+
+            /// <summary>
+            /// Tries to enumerate the available blackboard property names and their value types.
+            /// </summary>
+            /// <param name="blackboard">The resolved blackboard instance.</param>
+            /// <param name="propertyMetadata">Receives the discovered property metadata.</param>
+            /// <returns>True when the blackboard metadata APIs were resolved and invoked.</returns>
+            public static bool TryGetPropertyMetadata(
+                object blackboard,
+                Dictionary<string, Type> propertyMetadata)
+            {
+                propertyMetadata?.Clear();
+
+                if (!IsAvailable
+                    || blackboard == null
+                    || propertyMetadata == null
+                    || !BlackboardType.IsInstanceOfType(blackboard))
+                {
+                    return false;
+                }
+
+                EnsureMetadataMethods();
+
+                if (s_getPropertyNamesMethod == null
+                    || s_getValueTypeMethod == null
+                    || s_propertyNameNameProperty == null)
+                {
+                    return false;
+                }
+
+                IList propertyNames = CreatePropertyNameListInstance();
+
+                if (propertyNames == null)
+                {
+                    return false;
+                }
+
+                s_getPropertyNamesMethod.Invoke(blackboard, new object[] { propertyNames });
+
+                foreach (object propertyName in propertyNames)
+                {
+                    string name = s_propertyNameNameProperty.GetValue(propertyName) as string;
+
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        continue;
+                    }
+
+                    Type valueType = s_getValueTypeMethod.Invoke(blackboard, new[] { propertyName }) as Type;
+
+                    if (valueType != null)
+                    {
+                        propertyMetadata[name] = valueType;
+                    }
+                }
+
+                return true;
+            }
+
             private static Type BlackboardType =>
                 s_blackboardType ??= Type.GetType(BlackboardTypeName);
 
@@ -1473,6 +1561,45 @@ namespace IndieGabo.HandyFSM
                     s_containsValueDelegate =
                         CreateContainsValueDelegate(s_containsValueMethod);
                 }
+            }
+
+            private static void EnsureMetadataMethods()
+            {
+                if (s_getPropertyNamesMethod != null
+                    && s_getValueTypeMethod != null
+                    && s_propertyNameNameProperty != null)
+                {
+                    return;
+                }
+
+                s_getPropertyNamesMethod ??=
+                    BlackboardType?.GetMethod(
+                        "GetPropertyNames",
+                        BindingFlags.Instance | BindingFlags.Public);
+
+                s_getValueTypeMethod ??=
+                    BlackboardType?.GetMethod(
+                        "GetValueType",
+                        BindingFlags.Instance | BindingFlags.Public,
+                        null,
+                        new[] { PropertyNameType },
+                        null);
+
+                s_propertyNameNameProperty ??=
+                    PropertyNameType?.GetProperty("name", BindingFlags.Instance | BindingFlags.Public);
+            }
+
+            private static IList CreatePropertyNameListInstance()
+            {
+                Type propertyNameType = PropertyNameType;
+
+                if (propertyNameType == null)
+                {
+                    return null;
+                }
+
+                s_propertyNameListType ??= typeof(List<>).MakeGenericType(propertyNameType);
+                return Activator.CreateInstance(s_propertyNameListType) as IList;
             }
 
             private static Delegate CreateTryGetValueDelegate<T>()
