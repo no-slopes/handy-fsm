@@ -6,16 +6,16 @@ The goal is not only to list APIs. The goal is to explain the full workflow for 
 
 ## Recommended Reading Order
 
-1. [01 - Getting Started](Docs/01-Getting-Started.md)
-2. [02 - Core Concepts](Docs/02-Core-Concepts.md)
-3. [03 - FSMBrain and Machine Flow](Docs/03-FSMBrain-and-Machine-Flow.md)
-4. [04 - Creating States](Docs/04-Creating-States.md)
-5. [05 - Transitions and Flow Control](Docs/05-Transitions-and-Flow-Control.md)
-6. [06 - Triggers](Docs/06-Triggers.md)
-7. [07 - Blackboard with Simple Blackboard](Docs/07-Blackboard-with-Simple-Blackboard.md)
-8. [08 - Character Controller Pro](Docs/08-Character-Controller-Pro.md)
-9. [09 - Debug, History, and Visualizer](Docs/09-Debug-History-and-Visualizer.md)
-10. [10 - Best Practices and FAQ](Docs/10-Best-Practices-and-FAQ.md)
+1. [Getting Started](Docs/01-Getting-Started.md)
+2. [Core Concepts](Docs/02-Core-Concepts.md)
+3. [FSMBrain and Machine Flow](Docs/03-FSMBrain-and-Machine-Flow.md)
+4. [Creating States](Docs/04-Creating-States.md)
+5. [Transitions and Flow Control](Docs/05-Transitions-and-Flow-Control.md)
+6. [Triggers](Docs/06-Triggers.md)
+7. [Blackboard with Simple Blackboard](Docs/07-Blackboard-with-Simple-Blackboard.md)
+8. [Character Controller Pro](Docs/08-Character-Controller-Pro.md)
+9. [Debug, History, and Visualizer](Docs/09-Debug-History-and-Visualizer.md)
+10. [Best Practices and FAQ](Docs/10-Best-Practices-and-FAQ.md)
 
 ## What HandyFSM Solves
 
