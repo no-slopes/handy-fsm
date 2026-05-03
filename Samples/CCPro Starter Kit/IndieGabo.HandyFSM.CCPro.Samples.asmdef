@@ -2,6 +2,7 @@
     "name": "IndieGabo.HandyFSM.CCPro.Samples",
     "rootNamespace": "IndieGabo.HandyFSM.CCPro",
     "references": [
+        "IndieGabo.HandyFSM.Runtime",
         "IndieGabo.HandyFSM.CCPro.Runtime",
         "com.lightbug.character-controller-pro",
         "Unity.InputSystem"
@@ -12,10 +13,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "HANDYFSM_CHARACTER_CONTROLLER_PRO",
-        "HANDYFSM_INPUT_SYSTEM"
-    ],
+    "defineConstraints": [],
     "versionDefines": [
         {
             "name": "com.lightbug.character-controller-pro",
