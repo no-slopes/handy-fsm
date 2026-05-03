@@ -1,3 +1,13 @@
+# [2.0.0](https://github.com/no-slopes/handy-fsm/compare/v1.14.4...v2.0.0) (2026-05-03)
+
+
+* feat(handyfsm)!: merge CCPro support into the core FSM brain ([e02efbe](https://github.com/no-slopes/handy-fsm/commit/e02efbe9400218dd42d97e7722efc53e0f803a3e))
+
+
+### BREAKING CHANGES
+
+* CCProFSMBrain and the standalone CCPro package layout were removed. Projects must migrate to FSMBrain with the built-in Third Party CCPro configuration and the new HandyFSM runtime and sample paths.
+
 ## [1.14.4](https://github.com/no-slopes/handy-fsm/compare/v1.14.3...v1.14.4) (2025-04-08)
 
 
