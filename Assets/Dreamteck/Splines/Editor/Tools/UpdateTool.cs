@@ -57,7 +57,7 @@ namespace Dreamteck.Splines
 
         private void UpdateNodes()
         {
-            Node[] nodes = GameObject.FindObjectsOfType<Node>();
+            Node[] nodes = UnityEngine.Object.FindObjectsByType<Node>(FindObjectsInactive.Exclude);
             EditorUtility.ClearProgressBar();
             for (int i = 0; i < nodes.Length; i++)
             {
@@ -67,27 +67,27 @@ namespace Dreamteck.Splines
                 updated += i + " - " + nodes[i].name + System.Environment.NewLine;
             }
             EditorUtility.ClearProgressBar();
-            if (nodes.Length == 0) updated += System.Environment.NewLine+"No active Nodes found in the scene.";
+            if (nodes.Length == 0) updated += System.Environment.NewLine + "No active Nodes found in the scene.";
         }
 
         private void UpdateUsers()
         {
-            SplineUser[] users = GameObject.FindObjectsOfType<SplineUser>();
+            SplineUser[] users = UnityEngine.Object.FindObjectsByType<SplineUser>(FindObjectsInactive.Exclude);
             EditorUtility.ClearProgressBar();
             for (int i = 0; i < users.Length; i++)
             {
-                EditorUtility.DisplayProgressBar("Updating users", "Updating user " + users[i].name, (float)i/(users.Length-1));
+                EditorUtility.DisplayProgressBar("Updating users", "Updating user " + users[i].name, (float)i / (users.Length - 1));
                 users[i].Rebuild();
                 EditorUtility.SetDirty(users[i]);
                 updated += i + " - " + users[i].name + System.Environment.NewLine;
             }
             EditorUtility.ClearProgressBar();
-            if (users.Length == 0) updated += System.Environment.NewLine+"No active SplineUsers found in the scene.";
+            if (users.Length == 0) updated += System.Environment.NewLine + "No active SplineUsers found in the scene.";
         }
 
         private void UpdateMeshGenerators()
         {
-            MeshGenerator[] users = GameObject.FindObjectsOfType<MeshGenerator>();
+            MeshGenerator[] users = UnityEngine.Object.FindObjectsByType<MeshGenerator>(FindObjectsInactive.Exclude);
             EditorUtility.ClearProgressBar();
             for (int i = 0; i < users.Length; i++)
             {
@@ -102,7 +102,7 @@ namespace Dreamteck.Splines
 
         private void UpdateComputers()
         {
-            SplineComputer[] computers = GameObject.FindObjectsOfType<SplineComputer>();
+            SplineComputer[] computers = UnityEngine.Object.FindObjectsByType<SplineComputer>(FindObjectsInactive.Exclude);
             EditorUtility.ClearProgressBar();
             for (int i = 0; i < computers.Length; i++)
             {
@@ -112,7 +112,7 @@ namespace Dreamteck.Splines
                 updated += i + " - " + computers[i].name + System.Environment.NewLine;
             }
             EditorUtility.ClearProgressBar();
-            if (computers.Length == 0) updated += System.Environment.NewLine+"No active SplineComputers found in the scene.";
+            if (computers.Length == 0) updated += System.Environment.NewLine + "No active SplineComputers found in the scene.";
         }
     }
 }

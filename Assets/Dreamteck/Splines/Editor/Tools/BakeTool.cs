@@ -37,7 +37,8 @@ namespace Dreamteck.Splines.Editor
             if (bakeGroup == BakeGroup.Selected)
             {
                 MeshGenSelector(ref selected, "Selected");
-            } else if(bakeGroup == BakeGroup.AllExcluding)
+            }
+            else if (bakeGroup == BakeGroup.AllExcluding)
             {
                 MeshGenSelector(ref excluded, "Excluded");
             }
@@ -94,7 +95,7 @@ namespace Dreamteck.Splines.Editor
                 string suff = "all";
                 if (bakeGroup == BakeGroup.Selected) suff = "selected";
                 if (bakeGroup == BakeGroup.AllExcluding) suff = "all excluding";
-                if(EditorUtility.DisplayDialog("Bake " + suff, "This operation cannot be undone. Are you sure you want to bake the meshes?", "Yes", "No"))
+                if (EditorUtility.DisplayDialog("Bake " + suff, "This operation cannot be undone. Are you sure you want to bake the meshes?", "Yes", "No"))
                 {
                     switch (bakeGroup)
                     {
@@ -145,7 +146,7 @@ namespace Dreamteck.Splines.Editor
         private void Bake(MeshGenerator gen)
         {
             MeshFilter filter = gen.GetComponent<MeshFilter>();
-            if(filter == null)
+            if (filter == null)
             {
                 EditorUtility.DisplayDialog("Save error", "No mesh present in " + gen.name, "OK");
                 return;
@@ -153,11 +154,11 @@ namespace Dreamteck.Splines.Editor
             if (copy)
             {
                 UnityEditor.MeshUtility.Optimize(filter.sharedMesh);
-               Unwrapping.GenerateSecondaryUVSet(filter.sharedMesh);
+                Unwrapping.GenerateSecondaryUVSet(filter.sharedMesh);
             }
             else gen.Bake(isStatic, true);
 
-            if(format == BakeMeshWindow.SaveFormat.OBJ)
+            if (format == BakeMeshWindow.SaveFormat.OBJ)
             {
                 MeshRenderer renderer = gen.GetComponent<MeshRenderer>();
                 dirInfo = new DirectoryInfo(savePath);
@@ -175,7 +176,7 @@ namespace Dreamteck.Splines.Editor
                 }
             }
 
-            if(format == BakeMeshWindow.SaveFormat.MeshAsset)
+            if (format == BakeMeshWindow.SaveFormat.MeshAsset)
             {
                 dirInfo = new DirectoryInfo(savePath);
                 FileInfo[] files = dirInfo.GetFiles(filter.sharedMesh.name + "*.asset");
@@ -187,7 +188,8 @@ namespace Dreamteck.Splines.Editor
                 {
                     Mesh assetMesh = Dreamteck.MeshUtility.Copy(filter.sharedMesh);
                     AssetDatabase.CreateAsset(assetMesh, relativepath);
-                } else AssetDatabase.CreateAsset(filter.sharedMesh, relativepath);
+                }
+                else AssetDatabase.CreateAsset(filter.sharedMesh, relativepath);
             }
 
             if (permanent && !copy)
@@ -208,7 +210,7 @@ namespace Dreamteck.Splines.Editor
 
         private void Refresh()
         {
-            found = Object.FindObjectsOfType<MeshGenerator>();
+            found = UnityEngine.Object.FindObjectsByType<MeshGenerator>(FindObjectsInactive.Exclude);
         }
 
         void OnFocus()
@@ -243,7 +245,7 @@ namespace Dreamteck.Splines.Editor
         private void MeshGenSelector(ref List<MeshGenerator> list, string title)
         {
             List<MeshGenerator> availalbe = new List<MeshGenerator>(found);
-            for (int i = availalbe.Count-1; i >= 0; i--)
+            for (int i = availalbe.Count - 1; i >= 0; i--)
             {
                 for (int n = 0; n < list.Count; n++)
                 {
@@ -254,7 +256,7 @@ namespace Dreamteck.Splines.Editor
                     }
                 }
             }
-            GUILayout.Box("Available", GUILayout.Width(Screen.width - 15 - Screen.width/3f), GUILayout.Height(100));
+            GUILayout.Box("Available", GUILayout.Width(Screen.width - 15 - Screen.width / 3f), GUILayout.Height(100));
             Rect rect = GUILayoutUtility.GetLastRect();
             rect.y += 15;
             rect.height -= 15;
@@ -269,7 +271,7 @@ namespace Dreamteck.Splines.Editor
                     break;
                 }
             }
-                GUI.EndScrollView();
+            GUI.EndScrollView();
             EditorGUILayout.Space();
             GUILayout.Box(title, GUILayout.Width(Screen.width - 15 - Screen.width / 3f), GUILayout.Height(100));
 
@@ -277,7 +279,7 @@ namespace Dreamteck.Splines.Editor
             rect.y += 15;
             rect.height -= 15;
             scroll2 = GUI.BeginScrollView(rect, scroll2, new Rect(0, 0, rect.width, 22 * list.Count));
-            for (int i = list.Count-1; i >= 0; i--)
+            for (int i = list.Count - 1; i >= 0; i--)
             {
                 GUI.Label(new Rect(5, 22 * i, rect.width - 30, 22), list[i].name);
                 if (GUI.Button(new Rect(rect.width - 29, 22 * i, 22, 22), "x"))

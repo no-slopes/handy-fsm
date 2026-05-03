@@ -25,7 +25,8 @@ namespace Dreamteck.Splines
             public Vector2 vector
             {
                 get { return new Vector2(x, y); }
-                set {
+                set
+                {
                     x = (int)value.x;
                     y = (int)value.y;
                 }
@@ -79,14 +80,14 @@ namespace Dreamteck.Splines
 
         void GetSplinesAndTerrain()
         {
-            if(splines.Count == 0) GetSplines();
+            if (splines.Count == 0) GetSplines();
             for (int i = 0; i < Selection.gameObjects.Length; i++)
             {
-                if (terrain == null)  terrain = Selection.gameObjects[i].GetComponent<Terrain>();
+                if (terrain == null) terrain = Selection.gameObjects[i].GetComponent<Terrain>();
             }
 
-            Terrain[] terrains = GameObject.FindObjectsOfType<Terrain>();
-            if(terrains.Length == 1)
+            Terrain[] terrains = UnityEngine.Object.FindObjectsByType<Terrain>(FindObjectsInactive.Exclude);
+            if (terrains.Length == 1)
             {
                 //if there is only one terrain in the scene, automatically select it
                 terrain = terrains[0];
@@ -95,7 +96,7 @@ namespace Dreamteck.Splines
 
         void OnGUI()
         {
-           // Draw();
+            // Draw();
         }
 
         public override void Open(EditorWindow window)
@@ -146,9 +147,9 @@ namespace Dreamteck.Splines
             float lastSize = size;
             size = EditorGUILayout.FloatField("Brush radius", size);
             if (size < 0f) size = 0f;
-            if(lastSize != size) brushPreview = GenerateBrushThumbnail();
+            if (lastSize != size) brushPreview = GenerateBrushThumbnail();
             int lastBlur = feather;
-            int maxFeatherCount = Mathf.Max(heights.GetLength(0)/64, 2);
+            int maxFeatherCount = Mathf.Max(heights.GetLength(0) / 64, 2);
             feather = EditorGUILayout.IntSlider("Feather", feather, 0, maxFeatherCount);
             if (lastBlur != feather) brushPreview = GenerateBrushThumbnail();
             GUILayout.EndVertical();
@@ -164,7 +165,7 @@ namespace Dreamteck.Splines
             GUILayout.Label("Path heightmap:");
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUILayout.Box("", GUILayout.Width((windowRect.width-10)/2), GUILayout.Height((windowRect.width - 10) / 2));
+            GUILayout.Box("", GUILayout.Width((windowRect.width - 10) / 2), GUILayout.Height((windowRect.width - 10) / 2));
             rect = GUILayoutUtility.GetLastRect();
             GUI.DrawTexture(rect, basePreview);
             GUILayout.Box("", GUILayout.Width((windowRect.width - 10) / 2), GUILayout.Height((windowRect.width - 10) / 2));
@@ -191,12 +192,14 @@ namespace Dreamteck.Splines
                 if (newHeights.GetLength(0) != heights.GetLength(0) || newHeights.GetLength(1) != heights.GetLength(1))
                 {
                     isChanged = true;
-                } else {
+                }
+                else
+                {
                     for (int x = 0; x < heights.GetLength(0); x++)
                     {
                         for (int y = 0; y < heights.GetLength(1); y++)
                         {
-                            if (heights[x,y] != newHeights[x, y])
+                            if (heights[x, y] != newHeights[x, y])
                             {
                                 isChanged = true;
                                 break;
@@ -212,12 +215,12 @@ namespace Dreamteck.Splines
                     }
                 }
             }
-          
+
         }
 
         void OnLostFocus()
         {
-           // RevertToBase();
+            // RevertToBase();
         }
 
         void CarveTerrain()
@@ -245,9 +248,9 @@ namespace Dreamteck.Splines
             {
                 for (int y = 0; y < drawLayer.GetLength(1); y++)
                 {
-                    finalLayer[x, y] = Mathf.Lerp(heights[x, y], blurLayer[x, y], blurAlphaLayer[x,y]);
-                    pixels[x * drawPreview.width + y] = Color.Lerp(Color.black, Color.white, blurLayer[x, y]/maxDrawHeight*blurAlphaLayer[x,y]);
-                } 
+                    finalLayer[x, y] = Mathf.Lerp(heights[x, y], blurLayer[x, y], blurAlphaLayer[x, y]);
+                    pixels[x * drawPreview.width + y] = Color.Lerp(Color.black, Color.white, blurLayer[x, y] / maxDrawHeight * blurAlphaLayer[x, y]);
+                }
             }
             terrain.terrainData.SetHeights(0, 0, finalLayer);
             drawPreview.SetPixels(pixels);
@@ -265,7 +268,7 @@ namespace Dreamteck.Splines
             //Get the brush size, compared to the blur amount
             int hmSize = ToHeightmapSize(size);
             float percent = 1f;
-            if(hmSize > 0) percent = Mathf.Clamp01((float)(feather* feather) / hmSize);
+            if (hmSize > 0) percent = Mathf.Clamp01((float)(feather * feather) / hmSize);
             int r = Mathf.RoundToInt(30 * (1f - percent));
             int center = 32;
             for (int x = center - 30; x <= center; x++)
@@ -282,23 +285,24 @@ namespace Dreamteck.Splines
                         colors[xSym * tex.width + y] = Color.black;
                         colors[x * tex.width + ySym] = Color.black;
                         colors[xSym * tex.width + ySym] = Color.black;
-                    } else 
-                    if (value <= 30 * 30 && value > r*r)
-                    {
-                        float rr = r * r;
-                        float val = value - rr;
-                        float div = 30 * 30 - rr;
-                        float alpha = Mathf.Clamp01(val / div);
-                        //Debug.Log(val + "/" + div + " = " + alpha);
-                        Color col = Color.Lerp(Color.black, Color.white, alpha);
-                        colors[x * tex.width + y] = col;
-                        colors[xSym * tex.width + y] = col;
-                        colors[x * tex.width + ySym] = col;
-                        colors[xSym * tex.width + ySym] = col;
                     }
+                    else
+                        if (value <= 30 * 30 && value > r * r)
+                        {
+                            float rr = r * r;
+                            float val = value - rr;
+                            float div = 30 * 30 - rr;
+                            float alpha = Mathf.Clamp01(val / div);
+                            //Debug.Log(val + "/" + div + " = " + alpha);
+                            Color col = Color.Lerp(Color.black, Color.white, alpha);
+                            colors[x * tex.width + y] = col;
+                            colors[xSym * tex.width + y] = col;
+                            colors[x * tex.width + ySym] = col;
+                            colors[xSym * tex.width + ySym] = col;
+                        }
                     if (value <= 30 * 30 && value >= 29 * 29)
                     {
-                        Color col = Color.Lerp(Color.gray, Color.white, 1f-percent);
+                        Color col = Color.Lerp(Color.gray, Color.white, 1f - percent);
                         colors[x * tex.width + y] = col;
                         colors[xSym * tex.width + y] = col;
                         colors[x * tex.width + ySym] = col;
@@ -325,14 +329,14 @@ namespace Dreamteck.Splines
             float maxHeight = 0f;
             for (int x = 0; x < basePreview.width; x++)
             {
-                for(int y = 0; y < basePreview.height; y++)
+                for (int y = 0; y < basePreview.height; y++)
                 {
                     if (heights[x, y] > maxHeight) maxHeight = heights[x, y];
                     pixels[x * basePreview.width + y] = Color.Lerp(Color.black, Color.white, heights[x, y]);
                     blackPixels[x * basePreview.width + y] = Color.black;
                 }
             }
-            if(maxHeight > 0f)
+            if (maxHeight > 0f)
             {
                 for (int x = 0; x < basePreview.width; x++)
                 {
@@ -366,7 +370,7 @@ namespace Dreamteck.Splines
             if (heights == null) GetBase();
             SplineSample[] results = new SplineSample[computer.iterations];
             computer.Evaluate(ref results, clipFrom, clipTo);
-            Draw(results, ref drawLayer, ref alphaLayer);          
+            Draw(results, ref drawLayer, ref alphaLayer);
         }
 
 
@@ -412,7 +416,7 @@ namespace Dreamteck.Splines
 
             float alphaStartPercent = 0f;
             float alphaEndPercent = 1f;
-            if(feather > 0)
+            if (feather > 0)
             {
                 currentPosition += (fromPoint.leftPoint.vector - fromPoint.center.vector).normalized * feather * 4f;
                 fromRight += (fromPoint.rightPoint.vector - fromPoint.center.vector).normalized * feather * 4f;
@@ -426,7 +430,7 @@ namespace Dreamteck.Splines
             while (true)
             {
                 float armDistance = Vector2.Distance(currentPosition, fromRight);
-                float armPercent = 1f-armDistance / armLength;
+                float armPercent = 1f - armDistance / armLength;
                 //This can be optimized, take it outside of the cycle
                 Point fromPos = new Point(currentPosition);
                 Vector2 leftvector = toPoint.leftPoint.vector;
@@ -444,7 +448,7 @@ namespace Dreamteck.Splines
                 int err = dx + dy, e2;
                 Point current = fromPos;
                 Vector2 target = new Vector2(toPos.x - fromPos.x, toPos.y - fromPos.y);
-                
+
                 float fromHeight = fromPoint.GetHeight(armPercent);
                 float toHeight = toPoint.GetHeight(armPercent);
                 while (true)
@@ -472,7 +476,8 @@ namespace Dreamteck.Splines
                     {
                         err += dy;
                         current.x += sx;
-                    } else if (e2 < dx)
+                    }
+                    else if (e2 < dx)
                     {
                         err += dx;
                         current.y += sy;
@@ -481,11 +486,11 @@ namespace Dreamteck.Splines
                 if (currentPosition == fromRight) break;
                 currentPosition = Vector2.MoveTowards(currentPosition, fromRight, 1f);
             }
-         }
+        }
 
         private bool ContainsPoint(ref List<Point> list, Point point)
         {
-            for(int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 if (list[i].x == point.x && list[i].y == point.y) return true;
             }
@@ -500,11 +505,12 @@ namespace Dreamteck.Splines
             for (int i = 0; i < points.Length; i++)
             {
                 Point current = ToHeightmapCoords(points[i].position + points[i].up * offset);
-                if (i == 0 || i == points.Length-1)
+                if (i == 0 || i == points.Length - 1)
                 {
                     last = new Point(current.x, current.y);
                     selectedPoints.Add(points[i]);
-                } else if (Vector2.Distance(new Vector2(current.x, current.y), new Vector2(last.x, last.y)) >= 1.5f)
+                }
+                else if (Vector2.Distance(new Vector2(current.x, current.y), new Vector2(last.x, last.y)) >= 1.5f)
                 {
                     selectedPoints.Add(points[i]);
                     last = new Point(current.x, current.y);
@@ -529,10 +535,10 @@ namespace Dreamteck.Splines
             ConvertToPaintPoint(exResult, ref exPoint);
             PaintSegment(paintPoints[0], exPoint, ref drawLayer, ref alphaLayer, false, false);
 
-            exResult = selectedPoints[selectedPoints.Count-1];
+            exResult = selectedPoints[selectedPoints.Count - 1];
             exResult.position += exResult.position - selectedPoints[selectedPoints.Count - 2].position;
             ConvertToPaintPoint(exResult, ref exPoint);
-            PaintSegment(paintPoints[paintPoints.Length-1], exPoint, ref drawLayer, ref alphaLayer, false, false);
+            PaintSegment(paintPoints[paintPoints.Length - 1], exPoint, ref drawLayer, ref alphaLayer, false, false);
             //Extrapolate the ending and the begining
         }
 
@@ -615,7 +621,7 @@ namespace Dreamteck.Splines
 
         void HorizontalBlur(ref float[] source, ref float[] target, int w, int h, int r)
         {
-            float iarr = 1f / (r*2f + 1f);
+            float iarr = 1f / (r * 2f + 1f);
             for (int i = 0; i < h; i++)
             {
                 int ti = i * w, li = ti, ri = ti + r;

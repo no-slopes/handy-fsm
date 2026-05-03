@@ -35,18 +35,18 @@ namespace Dreamteck.Splines.Editor
 
         private static void HerarchyWindowChanged()
         {
-        if (currentScene != EditorSceneManager.GetActiveScene())
+            if (currentScene != EditorSceneManager.GetActiveScene())
             {
                 currentScene = EditorSceneManager.GetActiveScene();
                 FindComputers();
             }
-            
+
         }
 
         private static void FindComputers()
         {
             drawComputers.Clear();
-            SplineComputer[] computers = GameObject.FindObjectsOfType<SplineComputer>();
+            SplineComputer[] computers = UnityEngine.Object.FindObjectsByType<SplineComputer>(FindObjectsInactive.Exclude);
             drawComputers.AddRange(computers);
         }
 
@@ -78,9 +78,9 @@ namespace Dreamteck.Splines.Editor
 
         public static void UnregisterComputer(SplineComputer comp)
         {
-            for(int i = 0; i < drawComputers.Count; i++)
+            for (int i = 0; i < drawComputers.Count; i++)
             {
-                if(drawComputers[i] == comp)
+                if (drawComputers[i] == comp)
                 {
                     drawComputers[i].editorAlwaysDraw = false;
                     drawComputers.RemoveAt(i);

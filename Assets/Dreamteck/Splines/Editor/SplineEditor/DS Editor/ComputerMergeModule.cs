@@ -47,7 +47,7 @@ namespace Dreamteck.Splines.Editor
 
         private void FindAvailableComputers()
         {
-            SplineComputer[] found = Object.FindObjectsOfType<SplineComputer>();
+            SplineComputer[] found = UnityEngine.Object.FindObjectsByType<SplineComputer>(FindObjectsInactive.Exclude);
             List<SplineComputer> available = new List<SplineComputer>();
             for (int i = 0; i < found.Length; i++)
             {
@@ -105,18 +105,20 @@ namespace Dreamteck.Splines.Editor
             if (!mergeEndpoints) points = new SplinePoint[mergedPoints.Length + original.Length];
             else points = new SplinePoint[mergedPoints.Length + original.Length - 1];
 
-            if(mergeSide == MergeSide.End)
+            if (mergeSide == MergeSide.End)
             {
-                if(mergingSide == MergeSide.Start)
+                if (mergingSide == MergeSide.Start)
                 {
                     for (int i = 0; i < original.Length; i++) pointsList.Add(original[i]);
                     for (int i = mergeEndpoints ? 1 : 0; i < mergedPoints.Length; i++) pointsList.Add(mergedPoints[i]);
-                } else
+                }
+                else
                 {
                     for (int i = 0; i < original.Length; i++) pointsList.Add(original[i]);
-                    for (int i = 0; i < mergedPoints.Length - (mergeEndpoints ? 1 : 0); i++) pointsList.Add(mergedPoints[(mergedPoints.Length-1)-i]);
+                    for (int i = 0; i < mergedPoints.Length - (mergeEndpoints ? 1 : 0); i++) pointsList.Add(mergedPoints[(mergedPoints.Length - 1) - i]);
                 }
-            } else
+            }
+            else
             {
                 if (mergingSide == MergeSide.Start)
                 {
@@ -130,7 +132,7 @@ namespace Dreamteck.Splines.Editor
                 }
             }
             points = pointsList.ToArray();
-            double mergedPercent = (double)(mergedPoints.Length-1) / (points.Length-1);
+            double mergedPercent = (double)(mergedPoints.Length - 1) / (points.Length - 1);
             double from = 0.0;
             double to = 1.0;
             if (mergeSide == MergeSide.End)
@@ -178,7 +180,8 @@ namespace Dreamteck.Splines.Editor
                 {
                     spline.ConnectNode(mergedNodes[i], mergedIndices[i]);
                 }
-            } else
+            }
+            else
             {
                 for (int i = 0; i < mergedNodes.Count; i++)
                 {
@@ -195,7 +198,7 @@ namespace Dreamteck.Splines.Editor
             {
                 for (int i = 0; i < mergedNodes.Count; i++)
                 {
-                    if(TransformUtility.IsParent(mergedNodes[i].transform, mergedSpline.transform))
+                    if (TransformUtility.IsParent(mergedNodes[i].transform, mergedSpline.transform))
                     {
                         Undo.SetTransformParent(mergedNodes[i].transform, mergedSpline.transform.parent, "Reparent Node");
                     }

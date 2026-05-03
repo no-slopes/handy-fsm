@@ -6,7 +6,7 @@ namespace Dreamteck.Splines.Editor
 
     [CustomEditor(typeof(SplineComputer), true)]
     [CanEditMultipleObjects]
-    public partial class SplineComputerEditor : Editor 
+    public partial class SplineComputerEditor : Editor
     {
         public SplineComputer spline;
         public SplineComputer[] splines = new SplineComputer[0];
@@ -39,7 +39,7 @@ namespace Dreamteck.Splines.Editor
         [MenuItem("GameObject/3D Object/Spline Computer")]
         private static void NewEmptySpline()
         {
-            int count = GameObject.FindObjectsOfType<SplineComputer>().Length;
+            int count = UnityEngine.Object.FindObjectsByType<SplineComputer>(FindObjectsInactive.Exclude).Length;
             string objName = "Spline";
             if (count > 0) objName += " " + count;
             GameObject obj = new GameObject(objName);
@@ -59,14 +59,14 @@ namespace Dreamteck.Splines.Editor
         [MenuItem("GameObject/3D Object/Spline Node")]
         private static void NewSplineNode()
         {
-            int count = Object.FindObjectsOfType<Node>().Length;
+            int count = UnityEngine.Object.FindObjectsByType<Node>(FindObjectsInactive.Exclude).Length;
             string objName = "Node";
             if (count > 0) objName += " " + count;
             GameObject obj = new GameObject(objName);
             obj.AddComponent<Node>();
-            if(Selection.activeGameObject != null)
+            if (Selection.activeGameObject != null)
             {
-                if(EditorUtility.DisplayDialog("Make child?", "Do you want to make the new node a child of " + Selection.activeGameObject.name + "?", "Yes", "No"))
+                if (EditorUtility.DisplayDialog("Make child?", "Do you want to make the new node a child of " + Selection.activeGameObject.name + "?", "Yes", "No"))
                 {
                     obj.transform.parent = Selection.activeGameObject.transform;
                     obj.transform.localPosition = Vector3.zero;
