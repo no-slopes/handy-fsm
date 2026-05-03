@@ -20,6 +20,7 @@ namespace IndieGabo.HandyFSM.Editor
         private Label _thirdPartyLabel;
         private EnumField _statusField;
         private ObjectField _fieldOwner;
+        private Label _transitionsLabel;
         private Toggle _toggleUseSimpleBlackboard;
         private ObjectField _fieldBlackboard;
         private VisualElement _thirdPartySimpleBlackboardContainer;
@@ -59,6 +60,18 @@ namespace IndieGabo.HandyFSM.Editor
 
             _fieldOwner = _containerMain.Q<ObjectField>("field-owner");
             _fieldOwner.objectType = typeof(Transform);
+
+            _transitionsLabel = _containerMain.Q<Label>("label-transitions");
+
+            if (_transitionsLabel != null)
+            {
+                // Animator is a general runtime dependency that can be shared by
+                // multiple integration paths, so it lives alongside the core
+                // brain configuration instead of inside the CCPro subsection.
+                _containerMain.Insert(
+                    _containerMain.IndexOf(_transitionsLabel),
+                    CreateObjectField("Animator", "_animator", typeof(Animator)));
+            }
 
             _toggleUseSimpleBlackboard =
                 _containerMain.Q<Toggle>("field-use-simple-blackboard");
@@ -162,9 +175,6 @@ namespace IndieGabo.HandyFSM.Editor
 
             _thirdPartyCCProOptionsContainer = new VisualElement();
             _thirdPartyCCProOptionsContainer.style.marginLeft = 12f;
-
-            _thirdPartyCCProOptionsContainer.Add(
-                CreateObjectField("Animator", "_animator", typeof(Animator)));
 
             _thirdPartyCCProOptionsContainer.Add(
                 CreateObjectField(
