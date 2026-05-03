@@ -23,28 +23,41 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create upm branch
+      - name: Create upm branches
         run: |
-          git branch -d upm &> /dev/null || echo upm branch not found
-          git subtree split -P "$PKG_ROOT" -b upm
-          git checkout upm
-          if [[ -d "Samples" ]]; then
-            git mv Samples Samples~
-            rm -f Samples.meta
-            find Samples~ -name "*.meta" -type f -delete
-            git config --global user.name 'github-bot'
-            git config --global user.email 'github-bot@users.noreply.github.com'
-            git commit -am "fix: Samples => Samples~"
-          fi
-          git push -f -u origin upm
-        env:
-          PKG_ROOT: Assets/HandyFSM
+          set -e
 
-      - name: Create upm git tag
+          git config --global user.name 'github-bot'
+          git config --global user.email 'github-bot@users.noreply.github.com'
+
+          create_package_branch() {
+            local branch_name="$1"
+            local package_root="$2"
+
+            git branch -D "$branch_name" > /dev/null 2>&1 || echo "$branch_name branch not found"
+            git subtree split -P "$package_root" -b "$branch_name"
+            git checkout "$branch_name"
+
+            if [[ -d "Samples" ]]; then
+              git mv Samples Samples~
+              rm -f Samples.meta Samples~.meta
+            fi
+
+            rm -f package.json.meta README.md.meta
+
+            git commit -am "fix: prepare package layout" || echo "No layout changes to commit for $branch_name"
+            git push -f -u origin "$branch_name"
+            git checkout main
+          }
+
+          create_package_branch upm Assets/HandyFSM
+
+      - name: Create upm git tags
         if: steps.semantic.outputs.new_release_published == 'true'
         run: |
-          echo Creating tag $TAG
-          git tag $TAG upm
+          echo Creating tag $CORE_TAG
+          git tag "$CORE_TAG" upm
+
           git push origin --tags
         env:
-          TAG: upm/v${{ steps.semantic.outputs.new_release_version }}
+          CORE_TAG: upm/v${{ steps.semantic.outputs.new_release_version }}
