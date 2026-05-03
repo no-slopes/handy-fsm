@@ -1,0 +1,32 @@
+{
+    "name": "IndieGabo.HandyFSM.CCPro.Samples",
+    "rootNamespace": "IndieGabo.HandyFSM.CCPro",
+    "references": [
+        "IndieGabo.HandyFSM.CCPro.Runtime",
+        "com.lightbug.character-controller-pro",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "HANDYFSM_CHARACTER_CONTROLLER_PRO",
+        "HANDYFSM_INPUT_SYSTEM"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.lightbug.character-controller-pro",
+            "expression": "",
+            "define": "HANDYFSM_CHARACTER_CONTROLLER_PRO"
+        },
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "",
+            "define": "HANDYFSM_INPUT_SYSTEM"
+        }
+    ],
+    "noEngineReferences": false
+}

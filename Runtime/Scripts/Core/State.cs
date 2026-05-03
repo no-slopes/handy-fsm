@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,7 +17,12 @@ namespace IndieGabo.HandyFSM
         protected string _displayName;
         protected FSMBrain _brain;
         protected List<StateTransition> _transitions = new();
-        protected List<IState> _transitionTargets = new();
+
+        private static readonly Comparison<StateTransition>
+            s_transitionPriorityComparison = CompareTransitionsByPriority;
+
+        private static readonly Dictionary<Type, CachedLifecycleMethods>
+            s_cachedLifecycleMethods = new();
 
         #endregion
 
@@ -30,6 +34,110 @@ namespace IndieGabo.HandyFSM
         public string DisplayName => _displayName;
 
         public FSMBrain Brain => _brain;
+
+        /// <summary>
+        /// Gets whether the owning brain currently exposes a valid blackboard.
+        /// </summary>
+        protected bool HasBlackboard => _brain != null && _brain.HasBlackboard;
+
+        /// <summary>
+        /// Gets the optional Simple Blackboard container component configured on the owning brain.
+        /// </summary>
+        protected Component BlackboardContainer => _brain?.BlackboardContainer;
+
+        /// <summary>
+        /// Gets the raw blackboard object exposed by the owning brain.
+        /// </summary>
+        protected object Blackboard => _brain?.Blackboard;
+
+        /// <summary>
+        /// Tries to read a typed value from the owning brain blackboard.
+        /// </summary>
+        /// <typeparam name="T">The value type to read.</typeparam>
+        /// <param name="propertyName">The blackboard property name.</param>
+        /// <param name="value">The resolved value if found.</param>
+        /// <returns>True if the property exists and matches the requested type.</returns>
+        protected bool TryGetBlackboardValue<T>(string propertyName, out T value)
+        {
+            if (_brain == null)
+            {
+                value = default;
+                return false;
+            }
+
+            return _brain.TryGetBlackboardValue(propertyName, out value);
+        }
+
+        /// <summary>
+        /// Writes a typed value into the owning brain blackboard.
+        /// </summary>
+        /// <typeparam name="T">The value type to write.</typeparam>
+        /// <param name="propertyName">The blackboard property name.</param>
+        /// <param name="value">The value to store.</param>
+        /// <returns>True if the value was written successfully.</returns>
+        protected bool SetBlackboardValue<T>(string propertyName, T value)
+        {
+            return _brain != null && _brain.SetBlackboardValue(propertyName, value);
+        }
+
+        /// <summary>
+        /// Tries to read an untyped value from the owning brain blackboard.
+        /// </summary>
+        /// <param name="propertyName">The blackboard property name.</param>
+        /// <param name="value">The resolved value if found.</param>
+        /// <returns>True if the property exists.</returns>
+        protected bool TryGetBlackboardObject(string propertyName, out object value)
+        {
+            if (_brain == null)
+            {
+                value = null;
+                return false;
+            }
+
+            return _brain.TryGetBlackboardObject(propertyName, out value);
+        }
+
+        /// <summary>
+        /// Gets whether the owning brain blackboard contains a property.
+        /// </summary>
+        /// <param name="propertyName">The blackboard property name.</param>
+        /// <returns>True if the property exists.</returns>
+        protected bool HasBlackboardValue(string propertyName)
+        {
+            return _brain != null && _brain.HasBlackboardValue(propertyName);
+        }
+
+        /// <summary>
+        /// Completes the current state and performs a natural transition.
+        /// </summary>
+        /// <param name="target">The target state to activate.</param>
+        protected void CompleteState(IState target = null)
+        {
+            _brain?.CompleteState(target);
+        }
+
+        /// <summary>
+        /// Fails the current state and performs an error transition.
+        /// </summary>
+        /// <param name="target">The target state to activate.</param>
+        /// <param name="message">Optional message that should be shown in the history UI.</param>
+        protected void FailState(IState target = null, string message = null)
+        {
+            _brain?.FailState(target, message);
+        }
+
+        /// <summary>
+        /// Throws a state failure exception so the brain can move through its
+        /// error recovery path instead of crashing.
+        /// </summary>
+        /// <param name="message">Optional message that should be propagated to history.</param>
+        /// <param name="innerException">Optional inner exception that caused the failure.</param>
+        protected void ThrowStateFailure(
+            string message = null,
+            Exception innerException = null)
+        {
+            throw new StateFailureException(message, innerException);
+        }
 
         #endregion
 
@@ -45,21 +153,28 @@ namespace IndieGabo.HandyFSM
             SortTransitions();
             Type stateType = GetType();
             LoadActions(stateType);
-            OnInitAction?.Invoke();
+
+            try
+            {
+                OnInitAction?.Invoke();
+            }
+            catch (StateFailureException exception)
+            {
+                throw exception.WithState(this);
+            }
         }
 
         public virtual bool CanEnter(IState from) => true;
 
-        public virtual void Enter() { OnEnterAction?.Invoke(); }
-        public virtual void Exit() { OnExitAction?.Invoke(); }
-        public virtual void Tick() { OnTickAction?.Invoke(); }
-        public virtual void FixedTick() { OnFixedTickAction?.Invoke(); }
-        public virtual void LateTick() { OnLateTickAction?.Invoke(); }
+        public virtual void Enter() { InvokeLifecycleAction(OnEnterAction); }
+        public virtual void Exit() { InvokeLifecycleAction(OnExitAction); }
+        public virtual void Tick() { InvokeLifecycleAction(OnTickAction); }
+        public virtual void FixedTick() { InvokeLifecycleAction(OnFixedTickAction); }
+        public virtual void LateTick() { InvokeLifecycleAction(OnLateTickAction); }
 
         protected UnityAction OnInitAction { get; private set; }
         protected UnityAction OnEnterAction { get; private set; }
         protected UnityAction OnExitAction { get; private set; }
-        protected UnityAction OnInitializedAction { get; private set; }
         protected UnityAction OnTickAction { get; private set; }
         protected UnityAction OnLateTickAction { get; private set; }
         protected UnityAction OnFixedTickAction { get; private set; }
@@ -94,36 +209,54 @@ namespace IndieGabo.HandyFSM
         /// </summary>
         public virtual void SortTransitions()
         {
-            _transitions.OrderByDescending(transition => transition.Priority).ToList();
+            if (_transitions.Count <= 1)
+            {
+                return;
+            }
+
+            _transitions.Sort(s_transitionPriorityComparison);
         }
 
         /// <summary>
         /// Checks if there is a valid transition and sets the output parameter with the target state.
         /// </summary>
-        /// <param name="targets">A list of target states this state wants to transition into.</param>
+        /// <param name="target">The first valid target state this state wants to transition into.</param>
         /// <returns>True if a valid transition is found, otherwise false.</returns>
-        public bool WantsToTransition(out List<IState> targets)
+        public bool WantsToTransition(out IState target)
         {
-            _transitionTargets.Clear();
-
-            // Iterate through each transition
             for (int i = 0; i < _transitions.Count; i++)
             {
-                // Get the current transition
                 StateTransition transition = _transitions[i];
 
-                // Check if the condition for the transition is met
-                if (!transition.ConditionMet()) continue;
+                try
+                {
+                    if (!transition.ConditionMet())
+                    {
+                        continue;
+                    }
+                }
+                catch (StateFailureException exception)
+                {
+                    throw exception.WithState(this);
+                }
 
-                // Set the output parameter to the target state
-                _transitionTargets.Add(transition.TargetState);
+                target = transition.TargetState;
+
+                try
+                {
+                    if (target != null && target.CanEnter(this))
+                    {
+                        return true;
+                    }
+                }
+                catch (StateFailureException exception)
+                {
+                    throw exception.WithState(target);
+                }
             }
 
-            // Default to null if no valid transition was found
-            targets = _transitionTargets;
-
-            // No transition condition was met, return false
-            return _transitionTargets.Count > 0;
+            target = null;
+            return false;
         }
 
         /// <summary>
@@ -131,22 +264,104 @@ namespace IndieGabo.HandyFSM
         /// </summary>
         protected virtual void LoadActions(Type type)
         {
-            OnInitAction = GetDelegate<UnityAction>(type, "OnInit");
-            OnEnterAction = GetDelegate<UnityAction>(type, "OnEnter");
-            OnExitAction = GetDelegate<UnityAction>(type, "OnExit");
-            OnTickAction = GetDelegate<UnityAction>(type, "OnTick");
-            OnLateTickAction = GetDelegate<UnityAction>(type, "OnLateTick");
-            OnFixedTickAction = GetDelegate<UnityAction>(type, "OnFixedTick");
+            CachedLifecycleMethods lifecycleMethods =
+                GetCachedLifecycleMethods(type);
+
+            OnInitAction = CreateAction(lifecycleMethods.OnInitMethod);
+            OnEnterAction = CreateAction(lifecycleMethods.OnEnterMethod);
+            OnExitAction = CreateAction(lifecycleMethods.OnExitMethod);
+            OnTickAction = CreateAction(lifecycleMethods.OnTickMethod);
+            OnLateTickAction = CreateAction(lifecycleMethods.OnLateTickMethod);
+            OnFixedTickAction = CreateAction(lifecycleMethods.OnFixedTickMethod);
         }
 
-        protected virtual TDelegate GetDelegate<TDelegate>(Type type, string methodName) where TDelegate : class
+        private UnityAction CreateAction(MethodInfo method)
         {
-            MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-            if (method != null)
+            return method == null
+                ? null
+                : Delegate.CreateDelegate(typeof(UnityAction), this, method) as UnityAction;
+        }
+
+        private void InvokeLifecycleAction(UnityAction action)
+        {
+            try
             {
-                return Delegate.CreateDelegate(typeof(TDelegate), this, method) as TDelegate;
+                action?.Invoke();
             }
-            return null;
+            catch (StateFailureException exception)
+            {
+                throw exception.WithState(this);
+            }
+        }
+
+        /// <summary>
+        /// Resolves and binds a named instance method to the requested delegate type.
+        /// </summary>
+        /// <typeparam name="TDelegate">The delegate type to create.</typeparam>
+        /// <param name="type">The runtime type that owns the method.</param>
+        /// <param name="methodName">The lifecycle method name to resolve.</param>
+        /// <returns>The bound delegate instance, or null when the method is not present.</returns>
+        protected virtual TDelegate GetDelegate<TDelegate>(
+            Type type,
+            string methodName)
+            where TDelegate : class
+        {
+            MethodInfo method = type.GetMethod(
+                methodName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            return method == null
+                ? null
+                : Delegate.CreateDelegate(typeof(TDelegate), this, method) as TDelegate;
+        }
+
+        private static CachedLifecycleMethods GetCachedLifecycleMethods(Type type)
+        {
+            if (s_cachedLifecycleMethods.TryGetValue(type, out CachedLifecycleMethods methods))
+            {
+                return methods;
+            }
+
+            methods = new CachedLifecycleMethods(type);
+            s_cachedLifecycleMethods.Add(type, methods);
+            return methods;
+        }
+
+        private static int CompareTransitionsByPriority(
+            StateTransition left,
+            StateTransition right)
+        {
+            return right.Priority.CompareTo(left.Priority);
+        }
+
+        private sealed class CachedLifecycleMethods
+        {
+            public CachedLifecycleMethods(Type type)
+            {
+                OnInitMethod = GetMethod(type, "OnInit");
+                OnEnterMethod = GetMethod(type, "OnEnter");
+                OnExitMethod = GetMethod(type, "OnExit");
+                OnTickMethod = GetMethod(type, "OnTick");
+                OnLateTickMethod = GetMethod(type, "OnLateTick");
+                OnFixedTickMethod = GetMethod(type, "OnFixedTick");
+            }
+
+            public MethodInfo OnInitMethod { get; }
+            public MethodInfo OnEnterMethod { get; }
+            public MethodInfo OnExitMethod { get; }
+            public MethodInfo OnTickMethod { get; }
+            public MethodInfo OnLateTickMethod { get; }
+            public MethodInfo OnFixedTickMethod { get; }
+
+            private static MethodInfo GetMethod(Type type, string methodName)
+            {
+                return type.GetMethod(
+                    methodName,
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    null,
+                    Type.EmptyTypes,
+                    null);
+            }
         }
 
         #endregion

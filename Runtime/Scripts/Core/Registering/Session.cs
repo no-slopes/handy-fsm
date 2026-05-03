@@ -76,9 +76,23 @@ namespace IndieGabo.HandyFSM.Registering
 
         public Record Register(IState state)
         {
+            return Register(state, StateTransitionReport.Unknown);
+        }
+
+        public Record Register(
+            IState state,
+            StateTransitionReason transitionReason)
+        {
+            return Register(state, new StateTransitionReport(transitionReason));
+        }
+
+        public Record Register(
+            IState state,
+            StateTransitionReport transitionReport)
+        {
             IState previousState = _currentState;
             _currentState = state;
-            Record record = new(previousState, state);
+            Record record = new(previousState, state, transitionReport);
 
             if (_records.Count >= _size)
             {

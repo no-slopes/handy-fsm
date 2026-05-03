@@ -13,6 +13,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.zor.simple-blackboard",
+            "expression": "",
+            "define": "HANDYFSM_SIMPLE_BLACKBOARD"
+        }
+    ],
     "noEngineReferences": false
 }

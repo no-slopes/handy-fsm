@@ -19,55 +19,59 @@ namespace IndieGabo.HandyFSM
 
         public void Squeeze(string key)
         {
-            if (!_datalessTriggers.ContainsKey(key))
+            if (!_datalessTriggers.TryGetValue(key, out List<UnityAction> callbacks))
             {
                 return;
             }
 
             _datalessActions.Clear();
-            _datalessActions.AddRange(_datalessTriggers[key]);
+            _datalessActions.AddRange(callbacks);
 
-            foreach (UnityAction action in _datalessActions)
+            for (int index = 0; index < _datalessActions.Count; index++)
             {
-                action?.Invoke();
+                _datalessActions[index]?.Invoke();
             }
         }
 
         public void Squeeze(string key, TriggerData value)
         {
-            if (!_dataTriggers.ContainsKey(key))
+            if (!_dataTriggers.TryGetValue(
+                    key,
+                    out List<UnityAction<TriggerData>> callbacks))
             {
                 return;
             }
 
             _dataActions.Clear();
-            _dataActions.AddRange(_dataTriggers[key]);
+            _dataActions.AddRange(callbacks);
 
-            foreach (UnityAction<TriggerData> action in _dataActions)
+            for (int index = 0; index < _dataActions.Count; index++)
             {
-                action?.Invoke(value);
+                _dataActions[index]?.Invoke(value);
             }
         }
 
         public void RegisterCallback(string key, UnityAction action)
         {
-            if (!_datalessTriggers.ContainsKey(key))
+            if (!_datalessTriggers.TryGetValue(key, out List<UnityAction> callbacks))
             {
-                _datalessTriggers.Add(key, new List<UnityAction>());
+                callbacks = new List<UnityAction>();
+                _datalessTriggers.Add(key, callbacks);
             }
 
-            _datalessTriggers[key].Add(action);
+            callbacks.Add(action);
         }
 
         public void UnregisterCallback(string key, UnityAction action)
         {
-            if (!_datalessTriggers.ContainsKey(key)) return;
+            if (!_datalessTriggers.TryGetValue(key, out List<UnityAction> callbacks))
+            {
+                return;
+            }
 
-            var list = _datalessTriggers[key];
+            callbacks.Remove(action);
 
-            list.Remove(action);
-
-            if (list.Count == 0)
+            if (callbacks.Count == 0)
             {
                 _datalessTriggers.Remove(key);
             }
@@ -75,22 +79,29 @@ namespace IndieGabo.HandyFSM
 
         public void RegisterCallback(string key, UnityAction<TriggerData> action)
         {
-            if (!_dataTriggers.ContainsKey(key))
+            if (!_dataTriggers.TryGetValue(
+                    key,
+                    out List<UnityAction<TriggerData>> callbacks))
             {
-                _dataTriggers.Add(key, new List<UnityAction<TriggerData>>());
+                callbacks = new List<UnityAction<TriggerData>>();
+                _dataTriggers.Add(key, callbacks);
             }
 
-            _dataTriggers[key].Add(action);
+            callbacks.Add(action);
         }
 
         public void UnregisterCallback(string key, UnityAction<TriggerData> action)
         {
-            if (!_dataTriggers.ContainsKey(key)) return;
+            if (!_dataTriggers.TryGetValue(
+                    key,
+                    out List<UnityAction<TriggerData>> callbacks))
+            {
+                return;
+            }
 
-            var list = _dataTriggers[key];
-            list.Remove(action);
+            callbacks.Remove(action);
 
-            if (list.Count == 0)
+            if (callbacks.Count == 0)
             {
                 _dataTriggers.Remove(key);
             }

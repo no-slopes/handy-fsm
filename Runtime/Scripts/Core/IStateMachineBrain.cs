@@ -15,6 +15,12 @@ namespace IndieGabo.HandyFSM
         void EndState(State target = null);
         void EndState<T>() where T : State;
 
+        void CompleteState(State target = null);
+        void CompleteState<T>() where T : State;
+
+        void FailState(State target = null, string message = null);
+        void FailState<T>(string message = null) where T : State;
+
         T GetState<T>() where T : State;
         bool TryGetState<T>(out State state) where T : State;
 
