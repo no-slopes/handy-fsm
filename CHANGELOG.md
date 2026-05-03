@@ -1,3 +1,16 @@
+# [2.1.0](https://github.com/no-slopes/handy-fsm/compare/v2.0.0...v2.1.0) (2026-05-03)
+
+
+### Bug Fixes
+
+* **ccpro:** harden optional integration and brain inspector ([41e28ba](https://github.com/no-slopes/handy-fsm/commit/41e28ba63dd2c1d3e5c6d6ab1d5e530da328a31a))
+* **project:** restore Unity 6 editor compatibility ([c2334c9](https://github.com/no-slopes/handy-fsm/commit/c2334c9c704199c112f79f339f5768d94a3fb31b))
+
+
+### Features
+
+* **samples:** add dash and shared air resources to the CCPro starter kit ([1bb90ea](https://github.com/no-slopes/handy-fsm/commit/1bb90ea382e31a402d18bd3ee04547e85889650d))
+
 # [2.0.0](https://github.com/no-slopes/handy-fsm/compare/v1.14.4...v2.0.0) (2026-05-03)
 
 
