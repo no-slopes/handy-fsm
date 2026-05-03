@@ -2588,6 +2588,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 662017876}
+  - component: {fileID: 662017877}
+  - component: {fileID: 662017878}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -2611,6 +2613,107 @@ Transform:
   - {fileID: 684669767}
   m_Father: {fileID: 1407623434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &662017877
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662017875}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4c77323136b9524478f3a5c86ed70c71, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &662017878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662017875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45544f37268c53f45bc8a56015098479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: IndieGabo.HandyFSM.Runtime::IndieGabo.HandyFSM.AnimatorSyncer
+  _animator: {fileID: 662017877}
+  _blackboardContainer: {fileID: 1407623435}
+  _rebuildBindingsAutomatically: 1
+  _bindings:
+  - _parameterName: VerticalSpeed
+    _blackboardKey: VerticalSpeed
+    _parameterType: 1
+    _sourceTypeName: None
+    _status: Missing blackboard key.
+    _parameterHash: -1148172834
+    _sourceType: 0
+    _isMapped: 0
+    _previousTriggerValue: 0
+  - _parameterName: PlanarSpeed
+    _blackboardKey: PlanarSpeed
+    _parameterType: 1
+    _sourceTypeName: None
+    _status: Missing blackboard key.
+    _parameterHash: 896885292
+    _sourceType: 0
+    _isMapped: 0
+    _previousTriggerValue: 0
+  - _parameterName: Grounded
+    _blackboardKey: Grounded
+    _parameterType: 4
+    _sourceTypeName: None
+    _status: Missing blackboard key.
+    _parameterHash: 862969536
+    _sourceType: 0
+    _isMapped: 0
+    _previousTriggerValue: 0
+  - _parameterName: Stable
+    _blackboardKey: Stable
+    _parameterType: 4
+    _sourceTypeName: None
+    _status: Missing blackboard key.
+    _parameterHash: 198419361
+    _sourceType: 0
+    _isMapped: 0
+    _previousTriggerValue: 0
+  - _parameterName: HorizontalAxis
+    _blackboardKey: HorizontalAxis
+    _parameterType: 1
+    _sourceTypeName: None
+    _status: Missing blackboard key.
+    _parameterHash: 1305773379
+    _sourceType: 0
+    _isMapped: 0
+    _previousTriggerValue: 0
+  - _parameterName: VerticalAxis
+    _blackboardKey: VerticalAxis
+    _parameterType: 1
+    _sourceTypeName: None
+    _status: Missing blackboard key.
+    _parameterHash: 940218630
+    _sourceType: 0
+    _isMapped: 0
+    _previousTriggerValue: 0
+  - _parameterName: Height
+    _blackboardKey: Height
+    _parameterType: 1
+    _sourceTypeName: None
+    _status: Missing blackboard key.
+    _parameterHash: -220078023
+    _sourceType: 0
+    _isMapped: 0
+    _previousTriggerValue: 0
 --- !u!1 &684669766
 GameObject:
   m_ObjectHideFlags: 0
