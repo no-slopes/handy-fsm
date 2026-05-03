@@ -41,7 +41,7 @@ namespace IndieGabo.HandyFSM.CCPro
         public float wallClimbVerticalSpeed = 3f;
 
         [Condition("enableClimb", ConditionAttribute.ConditionType.IsTrue)]
-        public float wallClimbAcceleration = 10f;
+        public float wallClimbAcceleration = 100f;
 
 
 
@@ -60,7 +60,7 @@ namespace IndieGabo.HandyFSM.CCPro
         public float jumpNormalVelocity = 5f;
 
         [SerializeField]
-        public float jumpVerticalVelocity = 10f;
+        public float jumpVerticalVelocity = 5f;
 
         [Header("Animation")]
 

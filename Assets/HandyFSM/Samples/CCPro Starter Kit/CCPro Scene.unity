@@ -2667,6 +2667,9 @@ GameObject:
   m_Component:
   - component: {fileID: 697881671}
   - component: {fileID: 697881672}
+  - component: {fileID: 697881674}
+  - component: {fileID: 697881675}
+  - component: {fileID: 697881676}
   m_Layer: 0
   m_Name: FSM
   m_TagString: Untagged
@@ -2704,21 +2707,70 @@ MonoBehaviour:
   _status: 2
   _currentStateName: None
   _owner: {fileID: 1407623434}
-  _useSimpleBlackboard: 0
-  _blackboardContainer: {fileID: 0}
+  _useSimpleBlackboard: 1
+  _blackboardContainer: {fileID: 1407623435}
+  _useCharacterControllerPro: 1
+  _animator: {fileID: 0}
+  _characterActor: {fileID: 1407623432}
+  _materialController: {fileID: 1585700340}
+  _characterBrain: {fileID: 1709897350}
+  _movementReferenceMode: 1
+  _externalReference: {fileID: 1300449432}
   _initializationMode: 0
   _transitionsOnUpdate: 0
   _transitionsOnLateUpdate: 0
   _transitionsOnFixedUpdate: 1
   _saveHistory: 1
-  _defaultScriptableState: {fileID: 0}
-  _scriptableStates: []
+  _defaultScriptableState: {fileID: 11400000, guid: 884d20f4a07f4894f9d2396b148b8402, type: 2}
+  _scriptableStates:
+  - {fileID: 11400000, guid: 884d20f4a07f4894f9d2396b148b8402, type: 2}
+  - {fileID: 11400000, guid: ffce017f06e0490595b1e1f278d03c04, type: 2}
+  - {fileID: 11400000, guid: 662ed21ee6e26e84ca058e9f26070b75, type: 2}
   _statusChanged:
     m_PersistentCalls:
       m_Calls: []
   _stateChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &697881674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697881670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8557bc9e3f93c14bb703a43b977aa35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultStats: {fileID: 11400000, guid: 7d9bd57f221a74a4d8c87f4a8bff58dc, type: 2}
+--- !u!114 &697881675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697881670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b60424a1e6ca64c92f6e10bba35aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultStats: {fileID: 11400000, guid: b88f1f40beb77f246918df14a38b85b6, type: 2}
+--- !u!114 &697881676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697881670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba8e1be80b5042c8b7d1e97a626ac319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultStats: {fileID: 11400000, guid: 6a7a80897dca403faa0d72d717ea3365, type: 2}
 --- !u!1 &704863008
 GameObject:
   m_ObjectHideFlags: 0
@@ -5353,6 +5405,7 @@ GameObject:
   - component: {fileID: 1407623434}
   - component: {fileID: 1407623433}
   - component: {fileID: 1407623432}
+  - component: {fileID: 1407623435}
   m_Layer: 0
   m_Name: My Character
   m_TagString: Untagged
@@ -5390,12 +5443,12 @@ MonoBehaviour:
   allowCharactersAsStableSurfaces: 1
   preventUnstableClimbing: 1
   preventBadSteps: 1
-  stepUpDistance: 0.61
+  stepUpDistance: 0.5
   stepDownDistance: 0.5
   alwaysNotGrounded: 0
   forceGroundedAtStart: 1
   useGroundTrigger: 0
-  edgeCompensation: 1
+  edgeCompensation: 0
   useStableEdgeWhenLanding: 1
   detectGroundWhileAscending: 0
   supportDynamicGround: 1
@@ -5414,7 +5467,7 @@ MonoBehaviour:
   unstablePostSimulationVelocity: 2
   constraintRotation: 0
   upDirectionReference: {fileID: 118734900}
-  upDirectionReferenceMode: 0
+  upDirectionReferenceMode: 1
   constraintUpDirection: {x: 0, y: 1, z: 0}
   canPushDynamicRigidbodies: 1
   pushableRigidbodyLayerMask:
@@ -5438,7 +5491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   is2D: 1
-  bodySize: {x: 0.65, y: 1.18}
+  bodySize: {x: 0.68, y: 1.15}
   mass: 50
 --- !u!4 &1407623434
 Transform:
@@ -5459,6 +5512,20 @@ Transform:
   - {fileID: 697881671}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1407623435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407623431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27052f068f6efaa4b9da00b91fa69be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedContainers: []
+  m_ComponentReferences: []
 --- !u!1001 &1456961313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7665,7 +7732,7 @@ MonoBehaviour:
   isAI: 0
   inputHandlerSettings:
     humanInputType: 2
-    inputHandler: {fileID: 0}
+    inputHandler: {fileID: 1709897351}
   aiBehaviour: {fileID: 0}
   characterActions:
     jump:
@@ -7698,6 +7765,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5d21c3e0e17544aa64367a3202f012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerInput: {fileID: 141832107}
+  _movementActionRef: {fileID: 7220861436608173131, guid: f54a25f075159e24f98e2b3f16650a79, type: 3}
+  _jumpActionRef: {fileID: 11400000, guid: 0b9dee74ead24e5b9f9bc899b2621065, type: 2}
+  _crouchActionRef: {fileID: 11400000, guid: 703adc31b253470ca2d32e497f26583a, type: 2}
+  _runActionRef: {fileID: 11400000, guid: 723041ef36f94ab3b06190d0511bf680, type: 2}
+  _dashActionRef: {fileID: 11400000, guid: 85a754c8f86b4980bd842078c5d963eb, type: 2}
+  _interactActionRef: {fileID: 11400000, guid: ba4c84df7c1a4fb78613f11217e8e7bd, type: 2}
+  _jetPackActionRef: {fileID: 11400000, guid: dd2fdf063a174888b61006622251d9fd, type: 2}
+  _pitchActionRef: {fileID: 11400000, guid: 3373d17d93b244588d76d10c0a0b47c3, type: 2}
+  _rollActionRef: {fileID: 11400000, guid: 4ed1fbb61ae74b728b5b9edabeb13a95, type: 2}
 --- !u!1 &1726664143
 GameObject:
   m_ObjectHideFlags: 0
