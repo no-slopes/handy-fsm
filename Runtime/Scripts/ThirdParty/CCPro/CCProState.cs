@@ -25,7 +25,7 @@ namespace IndieGabo.HandyFSM.CCPro
         protected CharacterActor CharacterActor => _brain?.CharacterActor as CharacterActor;
         protected CharacterBrain CharacterBrain => _brain?.CharacterBrain as CharacterBrain;
         protected MaterialController MaterialController => _brain?.MaterialController as MaterialController;
-        protected CharacterActions CharacterActions => CharacterBrain?.CharacterActions;
+        protected CharacterActions CharacterActions => CharacterBrain?.CharacterActions ?? default;
         protected Vector3 InputMovementReference => _brain?.InputMovementReference ?? Vector3.zero;
         protected Vector3 MovementReferenceForward => _brain?.MovementReferenceForward ?? Vector3.forward;
         protected Vector3 MovementReferenceRight => _brain?.MovementReferenceRight ?? Vector3.right;

@@ -11,9 +11,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "HANDYFSM_CHARACTER_CONTROLLER_PRO"
-    ],
+    "defineConstraints": [],
     "versionDefines": [
         {
             "name": "com.lightbug.character-controller-pro",

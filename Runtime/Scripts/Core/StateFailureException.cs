@@ -48,7 +48,7 @@ namespace IndieGabo.HandyFSM
         /// </summary>
         /// <param name="state">The state that raised the failure.</param>
         /// <returns>The same exception instance so it can be rethrown.</returns>
-        internal StateFailureException WithState(IState state)
+        public StateFailureException WithState(IState state)
         {
             FailedState ??= state;
             return this;
