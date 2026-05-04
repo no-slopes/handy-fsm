@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/no-slopes/handy-fsm/compare/v2.2.0...v2.2.1) (2026-05-04)
+
+
+### Bug Fixes
+
+* **package:** harden handy fsm package metadata publishing ([79f317f](https://github.com/no-slopes/handy-fsm/commit/79f317fb3caccec8b65bfae029f87285a10634cd))
+
 # [2.2.0](https://github.com/no-slopes/handy-fsm/compare/v2.1.0...v2.2.0) (2026-05-03)
 
 
