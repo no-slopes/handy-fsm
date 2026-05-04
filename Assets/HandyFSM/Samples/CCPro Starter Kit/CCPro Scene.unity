@@ -2813,7 +2813,7 @@ MonoBehaviour:
   _useSimpleBlackboard: 1
   _blackboardContainer: {fileID: 1407623435}
   _useCharacterControllerPro: 1
-  _animator: {fileID: 0}
+  _animator: {fileID: 662017877}
   _characterActor: {fileID: 1407623432}
   _materialController: {fileID: 1585700340}
   _characterBrain: {fileID: 1709897350}
@@ -10996,11 +10996,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7217005884805380855, guid: feb66a07bdb8cc04d8a54a8639f5263e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 49.2
+      value: 68.29
       objectReference: {fileID: 0}
     - target: {fileID: 7217005884805380855, guid: feb66a07bdb8cc04d8a54a8639f5263e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.3
+      value: 12.69
       objectReference: {fileID: 0}
     - target: {fileID: 7217005884805380855, guid: feb66a07bdb8cc04d8a54a8639f5263e, type: 3}
       propertyPath: m_LocalPosition.z
