@@ -1,3 +1,11 @@
+# [2.2.0](https://github.com/no-slopes/handy-fsm/compare/v2.1.0...v2.2.0) (2026-05-03)
+
+
+### Features
+
+* **samples:** wire animator syncer into the CCPro starter scene ([3a65915](https://github.com/no-slopes/handy-fsm/commit/3a659158ca2043145ec84e44165ef7c3d3c7dbd2))
+* **simple-blackboard:** add animator syncer for automatic blackboard parameter sync ([e6c598e](https://github.com/no-slopes/handy-fsm/commit/e6c598e3bf66675b50b0993cffc8721474f277b7))
+
 # [2.1.0](https://github.com/no-slopes/handy-fsm/compare/v2.0.0...v2.1.0) (2026-05-03)
 
 
