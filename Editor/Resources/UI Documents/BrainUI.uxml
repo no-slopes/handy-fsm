@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/HandyFSM/Editor/Resources/Styles/handy-fsm-inspector-styles.uss?fileID=7433441132597879392&amp;guid=c8210e453a717ae4483df14a5730d992&amp;type=3#handy-fsm-inspector-styles"/>
+    <Style src="../Styles/handy-fsm-inspector-styles.uss"/>
     <uie:ObjectField label="Script" type="UnityEditor.MonoScript, UnityEditor.CoreModule" name="script-field" class="w-100 sa-field"/>
     <ui:VisualElement name="container-info" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
         <ui:VisualElement name="container-info-fields" style="flex-grow: 1;">
