@@ -5627,7 +5627,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27052f068f6efaa4b9da00b91fa69be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SerializedContainers: []
+  m_SerializedContainers:
+  - {fileID: 11400000, guid: 6e9869bae1c29a4438e15322f9d00cca, type: 2}
   m_ComponentReferences: []
 --- !u!1001 &1456961313
 PrefabInstance:
