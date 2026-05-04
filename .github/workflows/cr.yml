@@ -30,9 +30,100 @@ jobs:
           git config --global user.name 'github-bot'
           git config --global user.email 'github-bot@users.noreply.github.com'
 
+          validate_package_metadata() {
+            local package_root="$1"
+            local layout_name="$2"
+            local failed=0
+            local duplicate_guids
+            local legacy_references
+
+            duplicate_guids="$({
+              find "$package_root" -name '*.meta' -print0 | while IFS= read -r -d '' file; do
+                guid=$(grep -im1 '^guid:' "$file" | sed 's/^guid:[[:space:]]*//')
+
+                if [[ -n "$guid" ]]; then
+                  printf '%s\t%s\n' "$guid" "$file"
+                fi
+              done
+            } | sort | awk -F '\t' '
+              $1 == previous_guid {
+                if (!(previous_guid in printed)) {
+                  print previous_guid "\t" previous_path
+                  printed[previous_guid] = 1
+                }
+
+                print $1 "\t" $2
+              }
+
+              {
+                previous_guid = $1
+                previous_path = $2
+              }
+            ')"
+
+            if [[ -n "$duplicate_guids" ]]; then
+              echo "Duplicate GUIDs detected in $layout_name package layout:"
+              echo "$duplicate_guids"
+              failed=1
+            fi
+
+            while IFS= read -r -d '' file; do
+              if [[ ! -f "$file.meta" ]]; then
+                echo "Missing file meta in $layout_name package layout: $file"
+                failed=1
+              fi
+            done < <(find "$package_root" -type f ! -name '*.meta' -print0)
+
+            while IFS= read -r -d '' directory; do
+              directory_name="${directory##*/}"
+
+              if [[ "$directory_name" == *~ ]]; then
+                continue
+              fi
+
+              if [[ ! -f "$directory.meta" ]]; then
+                echo "Missing folder meta in $layout_name package layout: $directory"
+                failed=1
+              fi
+            done < <(find "$package_root" -mindepth 1 -type d -print0)
+
+            for required_meta in LICENSE.md.meta README.md.meta package.json.meta Runtime.meta; do
+              if [[ ! -f "$package_root/$required_meta" ]]; then
+                echo "Missing required meta in $layout_name package layout: $required_meta"
+                failed=1
+              fi
+            done
+
+            if [[ -d "$package_root/Samples~" && -f "$package_root/Samples~.meta" ]]; then
+              echo 'Samples~ folder must not ship with a folder meta file.'
+              failed=1
+            fi
+
+            legacy_references=$(grep -RInE \
+              'Assets/HandyFSM|project://database/Assets/HandyFSM|c8210e453a717ae4483df14a5730d992' \
+              "$package_root" \
+              --include='*.uxml' \
+              --include='*.uss' \
+              --include='*.asset' \
+              --include='*.prefab' \
+              --include='*.asmdef' || true)
+
+            if [[ -n "$legacy_references" ]]; then
+              echo "Legacy serialized references detected in $layout_name package layout:"
+              echo "$legacy_references"
+              failed=1
+            fi
+
+            if [[ "$failed" -ne 0 ]]; then
+              return 1
+            fi
+          }
+
           create_package_branch() {
             local branch_name="$1"
             local package_root="$2"
+
+            validate_package_metadata "$package_root" 'source'
 
             git branch -D "$branch_name" > /dev/null 2>&1 || echo "$branch_name branch not found"
             git subtree split -P "$package_root" -b "$branch_name"
@@ -43,7 +134,7 @@ jobs:
               rm -f Samples.meta Samples~.meta
             fi
 
-            rm -f package.json.meta README.md.meta
+            validate_package_metadata '.' 'published'
 
             git commit -am "fix: prepare package layout" || echo "No layout changes to commit for $branch_name"
             git push -f -u origin "$branch_name"
