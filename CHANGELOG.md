@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/no-slopes/handy-fsm/compare/v2.2.1...v2.2.2) (2026-05-05)
+
+
+### Bug Fixes
+
+* **ci:** refresh main before publishing upm branch ([3b182f0](https://github.com/no-slopes/handy-fsm/commit/3b182f0da61f185193a901d84789d8bf84f90142))
+
 ## [2.2.1](https://github.com/no-slopes/handy-fsm/compare/v2.2.0...v2.2.1) (2026-05-04)
 
 
