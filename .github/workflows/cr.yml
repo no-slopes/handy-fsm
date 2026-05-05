@@ -45,7 +45,7 @@ jobs:
             local legacy_references
 
             duplicate_guids="$({
-              find "$package_root" -name '*.meta' -print0 | while IFS= read -r -d '' file; do
+              find "$package_root" -name '.git' -prune -o -name '*.meta' -print0 | while IFS= read -r -d '' file; do
                 guid=$(grep -im1 '^guid:' "$file" | sed 's/^guid:[[:space:]]*//')
 
                 if [[ -n "$guid" ]]; then
@@ -79,7 +79,7 @@ jobs:
                 echo "Missing file meta in $layout_name package layout: $file"
                 failed=1
               fi
-            done < <(find "$package_root" -type f ! -name '*.meta' -print0)
+            done < <(find "$package_root" -name '.git' -prune -o -type f ! -name '*.meta' -print0)
 
             while IFS= read -r -d '' directory; do
               directory_name="${directory##*/}"
@@ -92,7 +92,7 @@ jobs:
                 echo "Missing folder meta in $layout_name package layout: $directory"
                 failed=1
               fi
-            done < <(find "$package_root" -mindepth 1 -type d -print0)
+            done < <(find "$package_root" -name '.git' -prune -o -mindepth 1 -type d -print0)
 
             for required_meta in LICENSE.md.meta README.md.meta package.json.meta Runtime.meta; do
               if [[ ! -f "$package_root/$required_meta" ]]; then
@@ -109,6 +109,7 @@ jobs:
             legacy_references=$(grep -RInE \
               'Assets/HandyFSM|project://database/Assets/HandyFSM|c8210e453a717ae4483df14a5730d992' \
               "$package_root" \
+              --exclude-dir='.git' \
               --include='*.uxml' \
               --include='*.uss' \
               --include='*.asset' \
