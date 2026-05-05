@@ -23,6 +23,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Refresh main after semantic release
+        run: |
+          set -e
+
+          git fetch origin main upm --prune
+          git checkout -B main origin/main
+
       - name: Create upm branches
         run: |
           set -e
