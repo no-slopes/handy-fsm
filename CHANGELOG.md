@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/no-slopes/handy-fsm/compare/v2.2.2...v2.2.3) (2026-05-05)
+
+
+### Bug Fixes
+
+* **ci:** ignore git metadata in upm validation ([cafa16b](https://github.com/no-slopes/handy-fsm/commit/cafa16b238c351276852f59d90be2e255171699f))
+
 ## [2.2.2](https://github.com/no-slopes/handy-fsm/compare/v2.2.1...v2.2.2) (2026-05-05)
 
 
