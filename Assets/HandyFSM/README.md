@@ -1,8 +1,16 @@
 # HandyFSM
 
+This package is deprecated.
+
 This is the main entry point for HandyFSM documentation inside the Unity package.
 
-The goal is not only to list APIs. The goal is to explain the full workflow for people who have never touched the package before, while also giving experienced users a solid reference they can come back to when they need to refresh a specific part of the system.
+HandyFSM is no longer maintained as a supported standalone package.
+The codebase remains in this repository as a project module, and some samples may
+still depend on external packages for project-specific use.
+
+The goal of this documentation is now archival and reference-oriented: it explains
+the workflow for teams maintaining existing integrations, while still serving as
+a technical reference for the core FSM surfaces.
 
 ## Recommended Reading Order
 
