@@ -1,6 +1,6 @@
 {
   "name": "com.no-slopes.handy-fsm",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "displayName": "Handy FSM",
   "private": true,
   "description": "Deprecated HandyFSM package kept as a project module and legacy reference for Unity finite state machines.",

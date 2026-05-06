@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/no-slopes/handy-fsm/compare/v3.0.0...v3.0.1) (2026-05-06)
+
+
+### Bug Fixes
+
+* **ci:** allow manual CR dispatch ([016c32a](https://github.com/no-slopes/handy-fsm/commit/016c32a27a1033b3ef66955b0ade3911139d4b8d))
+
 # [3.0.0](https://github.com/no-slopes/handy-fsm/compare/v2.2.3...v3.0.0) (2026-05-06)
 
 
