@@ -1,3 +1,21 @@
+# [3.0.0](https://github.com/no-slopes/handy-fsm/compare/v2.2.3...v3.0.0) (2026-05-06)
+
+
+* chore!: deprecate standalone handyfsm package ([b2e358c](https://github.com/no-slopes/handy-fsm/commit/b2e358cf385fa19fa3779de6462aaab23c5b9d74))
+* chore(package)!: mark handyfsm package as private ([7e0eafc](https://github.com/no-slopes/handy-fsm/commit/7e0eafc515396f88412f770ff82c2d8dfcfd0c3e))
+
+
+### Bug Fixes
+
+* **ci:** ignore git metadata in upm validation ([d8e5db3](https://github.com/no-slopes/handy-fsm/commit/d8e5db35a6916477034a57da72f149b633f57e10))
+* **ci:** refresh main before publishing upm branch ([84fc8ba](https://github.com/no-slopes/handy-fsm/commit/84fc8badef5478eafe6abd2c11ebc9a21dc741f4))
+
+
+### BREAKING CHANGES
+
+* com.no-slopes.handy-fsm is now marked as private and is no longer intended for OpenUPM publication.
+* HandyFSM is no longer maintained as a supported standalone package.
+
 ## [2.2.3](https://github.com/no-slopes/handy-fsm/compare/v2.2.2...v2.2.3) (2026-05-05)
 
 
